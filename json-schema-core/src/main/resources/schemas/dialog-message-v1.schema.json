@@ -1,0 +1,49 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "no.nav.helsemelding.jsonschema.core.model.DialogMessage",
+    "description": "A dialog message",
+    "type": "object",
+    "properties": {
+        "version": {
+            "type": "integer",
+            "description": "The current schema version"
+        },
+        "dialogId": {
+            "type": "string",
+            "description": "The id of the dialog message"
+        },
+        "createdAt": {
+            "type": "string",
+            "description": "When the dialog message was created"
+        },
+        "payload": {
+            "$ref": "#/$defs/no.nav.helsemelding.jsonschema.core.model.DialogPayload",
+            "description": "The payload of the dialog message"
+        }
+    },
+    "additionalProperties": false,
+    "required": [
+        "version",
+        "dialogId",
+        "createdAt",
+        "payload"
+    ],
+    "$defs": {
+        "no.nav.helsemelding.jsonschema.core.model.DialogPayload": {
+            "type": "object",
+            "properties": {
+                "messageText": {
+                    "type": "string"
+                },
+                "patientId": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "messageText",
+                "patientId"
+            ],
+            "additionalProperties": false
+        }
+    }
+}
