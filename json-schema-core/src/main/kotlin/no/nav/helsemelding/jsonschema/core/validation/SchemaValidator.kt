@@ -11,10 +11,10 @@ import kotlinx.serialization.json.intOrNull
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import no.nav.helsemelding.jsonschema.core.error.SchemaError
+import no.nav.helsemelding.jsonschema.core.loader.JsonSchemaLoader
+import no.nav.helsemelding.jsonschema.core.loader.SchemaLoader
 import no.nav.helsemelding.jsonschema.core.model.SchemaType
 import no.nav.helsemelding.jsonschema.core.repository.JsonSchemaDocumentRepository
-import no.nav.helsemelding.jsonschema.core.repository.JsonSchemaRepository
-import no.nav.helsemelding.jsonschema.core.repository.SchemaRepository
 import io.github.optimumcode.json.schema.ValidationError as SchemaValidationError
 
 interface SchemaValidator {
@@ -25,11 +25,11 @@ interface SchemaValidator {
 }
 
 class JsonSchemaValidator internal constructor(
-    private val schemaRepository: SchemaRepository
+    private val schemaLoader: SchemaLoader
 ) : SchemaValidator {
 
     constructor() : this(
-        schemaRepository = JsonSchemaRepository(
+        schemaLoader = JsonSchemaLoader(
             JsonSchemaDocumentRepository()
         )
     )
@@ -56,8 +56,8 @@ class JsonSchemaValidator internal constructor(
         messageType: SchemaType,
         version: Int
     ): Either<ValidationError, JsonSchema> =
-        schemaRepository
-            .get(messageType, version)
+        schemaLoader
+            .load(messageType, version)
             .mapLeft { schemaError ->
                 schemaError.toValidationError()
             }

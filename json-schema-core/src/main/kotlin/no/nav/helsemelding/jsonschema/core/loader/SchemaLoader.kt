@@ -1,4 +1,4 @@
-package no.nav.helsemelding.jsonschema.core.repository
+package no.nav.helsemelding.jsonschema.core.loader
 
 import arrow.core.Either
 import arrow.core.memoize
@@ -7,17 +7,18 @@ import arrow.core.raise.either
 import io.github.optimumcode.json.schema.JsonSchema
 import no.nav.helsemelding.jsonschema.core.error.SchemaError
 import no.nav.helsemelding.jsonschema.core.model.SchemaType
+import no.nav.helsemelding.jsonschema.core.repository.SchemaDocumentRepository
 
-interface SchemaRepository {
-    fun get(schemaType: SchemaType, version: Int): Either<SchemaError, JsonSchema>
+interface SchemaLoader {
+    fun load(schemaType: SchemaType, version: Int): Either<SchemaError, JsonSchema>
 }
 
-class JsonSchemaRepository(
+class JsonSchemaLoader(
     private val schemaDocumentRepository: SchemaDocumentRepository
-) : SchemaRepository {
+) : SchemaLoader {
     private val schema = ::loadSchema.memoize()
 
-    override fun get(
+    override fun load(
         schemaType: SchemaType,
         version: Int
     ): Either<SchemaError, JsonSchema> = schema(schemaType, version)
