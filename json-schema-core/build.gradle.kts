@@ -57,7 +57,7 @@ publishing {
         create<MavenPublication>("mavenJava") {
             groupId = "no.nav.helsemelding"
             artifactId = "json-schema-core"
-            version = "0.0.1"
+            version = "0.0.1-SNAPSHOT"
             from(components["java"])
         }
     }
