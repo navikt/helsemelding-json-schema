@@ -18,9 +18,9 @@ private const val SCHEMA_ROOT = "schemas"
 private val log = KotlinLogging.logger {}
 
 interface SchemaDocumentRepository {
-    fun list(): List<SchemaDocument>
+    fun getAll(): List<SchemaDocument>
     fun get(schemaType: SchemaType, version: Int): Either<SchemaError, SchemaDocument>
-    fun latest(schemaType: SchemaType): Either<SchemaError, SchemaDocument>
+    fun getLatest(schemaType: SchemaType): Either<SchemaError, SchemaDocument>
 }
 
 class JsonSchemaDocumentRepository : SchemaDocumentRepository {
@@ -36,7 +36,7 @@ class JsonSchemaDocumentRepository : SchemaDocumentRepository {
         documents.associateBy { it.schemaType to it.version }
     }
 
-    override fun list(): List<SchemaDocument> = documents
+    override fun getAll(): List<SchemaDocument> = documents
 
     override fun get(
         schemaType: SchemaType,
@@ -49,7 +49,7 @@ class JsonSchemaDocumentRepository : SchemaDocumentRepository {
             )
                 .left()
 
-    override fun latest(
+    override fun getLatest(
         schemaType: SchemaType
     ): Either<SchemaError, SchemaDocument> =
         documents
@@ -138,7 +138,7 @@ class FakeSchemaDocumentRepository(
     private val schemas: Map<Pair<SchemaType, Int>, SchemaDocument> =
         this.documents.associateBy { it.schemaType to it.version }
 
-    override fun list(): List<SchemaDocument> = documents
+    override fun getAll(): List<SchemaDocument> = documents
 
     override fun get(
         schemaType: SchemaType,
@@ -151,7 +151,7 @@ class FakeSchemaDocumentRepository(
             )
                 .left()
 
-    override fun latest(
+    override fun getLatest(
         schemaType: SchemaType
     ): Either<SchemaError, SchemaDocument> =
         documents

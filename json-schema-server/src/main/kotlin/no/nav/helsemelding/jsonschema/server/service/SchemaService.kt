@@ -20,12 +20,12 @@ class JsonSchemaService(
 ) : SchemaService {
 
     override fun listSchemas(): List<SchemaMetadata> =
-        documentRepository.list()
+        documentRepository.getAll()
             .map { SchemaMetadata(it.schemaType, it.version) }
             .sortedWith(schemaMetadataComparator)
 
     override fun listVersions(schemaType: SchemaType): List<Int> =
-        documentRepository.list()
+        documentRepository.getAll()
             .asSequence()
             .filter { it.schemaType == schemaType }
             .map { it.version }
@@ -44,7 +44,7 @@ class JsonSchemaService(
         schemaType: SchemaType
     ): SchemaDocument =
         withError({ SchemaServerError.Schema(it) }) {
-            documentRepository.latest(schemaType).bind()
+            documentRepository.getLatest(schemaType).bind()
         }
 
     private companion object {

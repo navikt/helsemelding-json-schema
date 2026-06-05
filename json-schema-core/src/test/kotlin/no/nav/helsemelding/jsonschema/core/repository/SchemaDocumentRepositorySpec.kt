@@ -14,7 +14,7 @@ import no.nav.helsemelding.jsonschema.core.model.SchemaType
 class SchemaDocumentRepositorySpec : StringSpec(
     {
         "should load schemas from resources" {
-            val documents = JsonSchemaDocumentRepository().list()
+            val documents = JsonSchemaDocumentRepository().getAll()
 
             documents shouldHaveSize 1
 
@@ -38,7 +38,7 @@ class SchemaDocumentRepositorySpec : StringSpec(
 
         "should get latest dialog-message schema" {
             val document = JsonSchemaDocumentRepository()
-                .latest(SchemaType.DIALOG_MESSAGE)
+                .getLatest(SchemaType.DIALOG_MESSAGE)
                 .shouldBeRight()
 
             document.schemaType shouldBe SchemaType.DIALOG_MESSAGE
@@ -59,7 +59,7 @@ class SchemaDocumentRepositorySpec : StringSpec(
 
         "should return error when no schemas exist for message type" {
             val error = FakeSchemaDocumentRepository(emptyList())
-                .latest(SchemaType.DIALOG_MESSAGE)
+                .getLatest(SchemaType.DIALOG_MESSAGE)
                 .shouldBeLeft()
 
             error.shouldBeInstanceOf<SchemaError.NoSchemasFound>()
@@ -67,7 +67,7 @@ class SchemaDocumentRepositorySpec : StringSpec(
         }
 
         "should sort schemas by message type and version" {
-            val documents = JsonSchemaDocumentRepository().list()
+            val documents = JsonSchemaDocumentRepository().getAll()
 
             documents shouldBe documents.sortedWith(
                 compareBy(
