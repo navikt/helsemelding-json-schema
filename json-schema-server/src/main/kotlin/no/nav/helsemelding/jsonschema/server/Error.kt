@@ -16,7 +16,7 @@ sealed interface RequestError {
     val message: String
 
     data object SchemaTypeMissing : RequestError {
-        override val message = "Missing required path parameter: messageType"
+        override val message = "Missing required path parameter: schemaType"
     }
 
     data object SchemaVersionMissing : RequestError {
