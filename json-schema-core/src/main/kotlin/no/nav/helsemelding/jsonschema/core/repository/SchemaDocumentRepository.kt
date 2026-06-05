@@ -40,7 +40,7 @@ class JsonSchemaDocumentRepository : SchemaDocumentRepository {
     ): Either<SchemaError, SchemaDocument> =
         schemas[messageType to version]?.right()
             ?: SchemaError.NotFound(
-                messageType = messageType,
+                schemaType = messageType,
                 version = version
             )
                 .left()
@@ -147,7 +147,7 @@ class FakeSchemaDocumentRepository(
     ): Either<SchemaError, SchemaDocument> =
         schemas[messageType to version]?.right()
             ?: SchemaError.NotFound(
-                messageType = messageType,
+                schemaType = messageType,
                 version = version
             )
                 .left()

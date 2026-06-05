@@ -32,7 +32,7 @@ class JsonSchemaRepository(
                 Either.catch { JsonSchema.fromDefinition(document.content) }
                     .mapLeft { throwable ->
                         SchemaError.InvalidSchema(
-                            messageType = messageType,
+                            schemaType = messageType,
                             version = version,
                             reason = throwable.message ?: "Failed to load schema"
                         )

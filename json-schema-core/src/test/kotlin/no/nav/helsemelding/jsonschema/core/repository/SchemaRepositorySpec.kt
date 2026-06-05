@@ -25,7 +25,7 @@ class SchemaRepositorySpec : StringSpec(
 
             repository.get(SchemaType.DIALOG_MESSAGE, 999) shouldBeLeft
                 SchemaError.NotFound(
-                    messageType = SchemaType.DIALOG_MESSAGE,
+                    schemaType = SchemaType.DIALOG_MESSAGE,
                     version = 999
                 )
         }

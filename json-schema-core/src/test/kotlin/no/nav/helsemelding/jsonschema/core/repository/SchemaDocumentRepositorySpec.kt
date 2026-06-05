@@ -53,7 +53,7 @@ class SchemaDocumentRepositorySpec : StringSpec(
                 .shouldBeLeft()
 
             error.shouldBeInstanceOf<SchemaError.NotFound>()
-            error.messageType shouldBe SchemaType.DIALOG_MESSAGE
+            error.schemaType shouldBe SchemaType.DIALOG_MESSAGE
             error.version shouldBe 999
         }
 
@@ -63,7 +63,7 @@ class SchemaDocumentRepositorySpec : StringSpec(
                 .shouldBeLeft()
 
             error.shouldBeInstanceOf<SchemaError.NoSchemasFound>()
-            error.messageType shouldBe SchemaType.DIALOG_MESSAGE
+            error.schemaType shouldBe SchemaType.DIALOG_MESSAGE
         }
 
         "should sort schemas by message type and version" {

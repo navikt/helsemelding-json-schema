@@ -66,20 +66,20 @@ class JsonSchemaValidator internal constructor(
         when (this) {
             is SchemaError.NotFound ->
                 validationError(
-                    messageType = messageType,
+                    messageType = schemaType,
                     version = version,
-                    "Schema resource not found: $messageType v$version"
+                    "Schema resource not found: $schemaType v$version"
                 )
 
             is SchemaError.NoSchemasFound ->
                 validationError(
-                    messageType = messageType,
-                    "No schemas found for message type: $messageType"
+                    messageType = schemaType,
+                    "No schemas found for message type: $schemaType"
                 )
 
             is SchemaError.InvalidSchema ->
                 validationError(
-                    messageType = messageType,
+                    messageType = schemaType,
                     version = version,
                     "Invalid schema: $reason"
                 )

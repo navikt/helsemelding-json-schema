@@ -67,7 +67,7 @@ class SchemaServiceSpec : StringSpec(
             val schemaError = error.shouldBeInstanceOf<SchemaServerError.Schema>().error
 
             schemaError.shouldBeInstanceOf<SchemaError.NotFound>()
-            schemaError.messageType shouldBe SchemaType.DIALOG_MESSAGE
+            schemaError.schemaType shouldBe SchemaType.DIALOG_MESSAGE
             schemaError.version shouldBe 999
         }
 
@@ -95,7 +95,7 @@ class SchemaServiceSpec : StringSpec(
             val schemaError = error.shouldBeInstanceOf<SchemaServerError.Schema>().error
 
             schemaError.shouldBeInstanceOf<SchemaError.NoSchemasFound>()
-            schemaError.messageType shouldBe SchemaType.DIALOG_MESSAGE
+            schemaError.schemaType shouldBe SchemaType.DIALOG_MESSAGE
         }
 
         "should expose schema content" {

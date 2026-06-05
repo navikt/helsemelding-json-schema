@@ -130,7 +130,7 @@ suspend fun ApplicationCall.respondSchemaError(error: SchemaError) {
             respond(
                 HttpStatusCode.NotFound,
                 ErrorResponse(
-                    "Schema not found: ${error.messageType} v${error.version}"
+                    "Schema not found: ${error.schemaType} v${error.version}"
                 )
             )
 
@@ -138,7 +138,7 @@ suspend fun ApplicationCall.respondSchemaError(error: SchemaError) {
             respond(
                 HttpStatusCode.NotFound,
                 ErrorResponse(
-                    "No schemas found for message type: ${error.messageType}"
+                    "No schemas found for message type: ${error.schemaType}"
                 )
             )
 
