@@ -17,13 +17,13 @@ import no.nav.helsemelding.jsonschema.server.SchemaServerError
 class SchemaServiceSpec : StringSpec(
     {
         val dialogMessageV1 = SchemaDocument(
-            messageType = SchemaType.DIALOG_MESSAGE,
+            schemaType = SchemaType.DIALOG_MESSAGE,
             version = 1,
             content = """{"title":"dialog-message-v1"}"""
         )
 
         val dialogMessageV2 = SchemaDocument(
-            messageType = SchemaType.DIALOG_MESSAGE,
+            schemaType = SchemaType.DIALOG_MESSAGE,
             version = 2,
             content = """{"title":"dialog-message-v2"}"""
         )

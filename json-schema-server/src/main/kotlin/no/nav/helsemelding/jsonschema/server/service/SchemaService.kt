@@ -10,9 +10,9 @@ import no.nav.helsemelding.jsonschema.server.SchemaServerError
 
 interface SchemaService {
     fun listSchemas(): List<SchemaMetadata>
-    fun listVersions(messageType: SchemaType): List<Int>
-    fun Raise<SchemaServerError>.get(messageType: SchemaType, version: Int): SchemaDocument
-    fun Raise<SchemaServerError>.latest(messageType: SchemaType): SchemaDocument
+    fun listVersions(schemaType: SchemaType): List<Int>
+    fun Raise<SchemaServerError>.get(schemaType: SchemaType, version: Int): SchemaDocument
+    fun Raise<SchemaServerError>.latest(schemaType: SchemaType): SchemaDocument
 }
 
 class JsonSchemaService(
@@ -21,30 +21,30 @@ class JsonSchemaService(
 
     override fun listSchemas(): List<SchemaMetadata> =
         documentRepository.list()
-            .map { SchemaMetadata(it.messageType, it.version) }
+            .map { SchemaMetadata(it.schemaType, it.version) }
             .sortedWith(schemaMetadataComparator)
 
-    override fun listVersions(messageType: SchemaType): List<Int> =
+    override fun listVersions(schemaType: SchemaType): List<Int> =
         documentRepository.list()
             .asSequence()
-            .filter { it.messageType == messageType }
+            .filter { it.schemaType == schemaType }
             .map { it.version }
             .sorted()
             .toList()
 
     override fun Raise<SchemaServerError>.get(
-        messageType: SchemaType,
+        schemaType: SchemaType,
         version: Int
     ): SchemaDocument =
         withError({ SchemaServerError.Schema(it) }) {
-            documentRepository.get(messageType, version).bind()
+            documentRepository.get(schemaType, version).bind()
         }
 
     override fun Raise<SchemaServerError>.latest(
-        messageType: SchemaType
+        schemaType: SchemaType
     ): SchemaDocument =
         withError({ SchemaServerError.Schema(it) }) {
-            documentRepository.latest(messageType).bind()
+            documentRepository.latest(schemaType).bind()
         }
 
     private companion object {

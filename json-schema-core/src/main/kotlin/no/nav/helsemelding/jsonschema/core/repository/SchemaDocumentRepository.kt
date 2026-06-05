@@ -29,11 +29,11 @@ class JsonSchemaDocumentRepository : SchemaDocumentRepository {
     private val documents: List<SchemaDocument> by lazy {
         schemaResourcePaths()
             .map(::toSchemaDocument)
-            .sortedWith(compareBy({ it.messageType }, { it.version }))
+            .sortedWith(compareBy({ it.schemaType }, { it.version }))
     }
 
     private val schemas: Map<Pair<SchemaType, Int>, SchemaDocument> by lazy {
-        documents.associateBy { it.messageType to it.version }
+        documents.associateBy { it.schemaType to it.version }
     }
 
     override fun list(): List<SchemaDocument> = documents
@@ -54,7 +54,7 @@ class JsonSchemaDocumentRepository : SchemaDocumentRepository {
     ): Either<SchemaError, SchemaDocument> =
         documents
             .asSequence()
-            .filter { it.messageType == schemaType }
+            .filter { it.schemaType == schemaType }
             .maxByOrNull { it.version }
             ?.right()
             ?: SchemaError.NoSchemasFound(schemaType).left()
@@ -72,7 +72,7 @@ class JsonSchemaDocumentRepository : SchemaDocumentRepository {
         val version = match.groupValues[2].toInt()
 
         return SchemaDocument(
-            messageType = messageType,
+            schemaType = messageType,
             version = version,
             content = readResource(path)
         )
@@ -133,10 +133,10 @@ class FakeSchemaDocumentRepository(
     documents: List<SchemaDocument>
 ) : SchemaDocumentRepository {
     private val documents: List<SchemaDocument> =
-        documents.sortedWith(compareBy({ it.messageType }, { it.version }))
+        documents.sortedWith(compareBy({ it.schemaType }, { it.version }))
 
     private val schemas: Map<Pair<SchemaType, Int>, SchemaDocument> =
-        this.documents.associateBy { it.messageType to it.version }
+        this.documents.associateBy { it.schemaType to it.version }
 
     override fun list(): List<SchemaDocument> = documents
 
@@ -156,7 +156,7 @@ class FakeSchemaDocumentRepository(
     ): Either<SchemaError, SchemaDocument> =
         documents
             .asSequence()
-            .filter { it.messageType == schemaType }
+            .filter { it.schemaType == schemaType }
             .maxByOrNull { it.version }
             ?.right()
             ?: SchemaError.NoSchemasFound(schemaType).left()

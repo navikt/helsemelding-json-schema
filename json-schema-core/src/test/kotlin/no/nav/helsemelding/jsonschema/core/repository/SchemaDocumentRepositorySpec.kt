@@ -19,7 +19,7 @@ class SchemaDocumentRepositorySpec : StringSpec(
             documents shouldHaveSize 1
 
             documents shouldContain SchemaDocument(
-                messageType = SchemaType.DIALOG_MESSAGE,
+                schemaType = SchemaType.DIALOG_MESSAGE,
                 version = 1,
                 content = documents.first().content
             )
@@ -30,7 +30,7 @@ class SchemaDocumentRepositorySpec : StringSpec(
                 .get(SchemaType.DIALOG_MESSAGE, 1)
                 .shouldBeRight()
 
-            document.messageType shouldBe SchemaType.DIALOG_MESSAGE
+            document.schemaType shouldBe SchemaType.DIALOG_MESSAGE
             document.version shouldBe 1
             document.content.contains("\"${'$'}schema\"") shouldBe true
             document.content.contains("\"type\": \"object\"") shouldBe true
@@ -41,7 +41,7 @@ class SchemaDocumentRepositorySpec : StringSpec(
                 .latest(SchemaType.DIALOG_MESSAGE)
                 .shouldBeRight()
 
-            document.messageType shouldBe SchemaType.DIALOG_MESSAGE
+            document.schemaType shouldBe SchemaType.DIALOG_MESSAGE
             document.version shouldBe 1
             document.content.contains("\"${'$'}schema\"") shouldBe true
             document.content.contains("\"type\": \"object\"") shouldBe true
@@ -71,7 +71,7 @@ class SchemaDocumentRepositorySpec : StringSpec(
 
             documents shouldBe documents.sortedWith(
                 compareBy(
-                    { it.messageType },
+                    { it.schemaType },
                     { it.version }
                 )
             )

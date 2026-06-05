@@ -49,7 +49,7 @@ private fun schemaRepository(documents: List<SchemaDocument>) =
     )
 
 private val dialogMessageV1 = SchemaDocument(
-    messageType = SchemaType.DIALOG_MESSAGE,
+    schemaType = SchemaType.DIALOG_MESSAGE,
     version = 1,
     content = """
     {

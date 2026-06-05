@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class SchemaDocument(
-    val messageType: SchemaType,
+    val schemaType: SchemaType,
     val version: Int,
     val content: String
 )
