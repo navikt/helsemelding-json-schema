@@ -17,8 +17,8 @@ private val log = KotlinLogging.logger {}
 
 interface SchemaDocumentRepository {
     fun list(): List<SchemaDocument>
-    fun get(messageType: SchemaType, version: Int): Either<SchemaError, SchemaDocument>
-    fun latest(messageType: SchemaType): Either<SchemaError, SchemaDocument>
+    fun get(schemaType: SchemaType, version: Int): Either<SchemaError, SchemaDocument>
+    fun latest(schemaType: SchemaType): Either<SchemaError, SchemaDocument>
 }
 
 class JsonSchemaDocumentRepository : SchemaDocumentRepository {
@@ -35,25 +35,25 @@ class JsonSchemaDocumentRepository : SchemaDocumentRepository {
     override fun list(): List<SchemaDocument> = documents
 
     override fun get(
-        messageType: SchemaType,
+        schemaType: SchemaType,
         version: Int
     ): Either<SchemaError, SchemaDocument> =
-        schemas[messageType to version]?.right()
+        schemas[schemaType to version]?.right()
             ?: SchemaError.NotFound(
-                schemaType = messageType,
+                schemaType = schemaType,
                 version = version
             )
                 .left()
 
     override fun latest(
-        messageType: SchemaType
+        schemaType: SchemaType
     ): Either<SchemaError, SchemaDocument> =
         documents
             .asSequence()
-            .filter { it.messageType == messageType }
+            .filter { it.messageType == schemaType }
             .maxByOrNull { it.version }
             ?.right()
-            ?: SchemaError.NoSchemasFound(messageType).left()
+            ?: SchemaError.NoSchemasFound(schemaType).left()
 
     private fun toSchemaDocument(path: String): SchemaDocument {
         val filename = path.substringAfterLast('/')
@@ -142,23 +142,23 @@ class FakeSchemaDocumentRepository(
     override fun list(): List<SchemaDocument> = documents
 
     override fun get(
-        messageType: SchemaType,
+        schemaType: SchemaType,
         version: Int
     ): Either<SchemaError, SchemaDocument> =
-        schemas[messageType to version]?.right()
+        schemas[schemaType to version]?.right()
             ?: SchemaError.NotFound(
-                schemaType = messageType,
+                schemaType = schemaType,
                 version = version
             )
                 .left()
 
     override fun latest(
-        messageType: SchemaType
+        schemaType: SchemaType
     ): Either<SchemaError, SchemaDocument> =
         documents
             .asSequence()
-            .filter { it.messageType == messageType }
+            .filter { it.messageType == schemaType }
             .maxByOrNull { it.version }
             ?.right()
-            ?: SchemaError.NoSchemasFound(messageType).left()
+            ?: SchemaError.NoSchemasFound(schemaType).left()
 }
