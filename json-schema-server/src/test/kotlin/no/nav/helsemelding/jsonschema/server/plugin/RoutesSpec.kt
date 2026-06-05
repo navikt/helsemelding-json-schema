@@ -2,6 +2,8 @@ package no.nav.helsemelding.jsonschema.server.plugin
 
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.string.shouldContain
+import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.http.ContentType
@@ -15,7 +17,9 @@ import io.ktor.server.testing.testApplication
 import no.nav.helsemelding.jsonschema.core.model.SchemaDocument
 import no.nav.helsemelding.jsonschema.core.model.SchemaType
 import no.nav.helsemelding.jsonschema.core.repository.FakeSchemaDocumentRepository
+import no.nav.helsemelding.jsonschema.server.model.ErrorResponse
 import no.nav.helsemelding.jsonschema.server.service.JsonSchemaService
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation as ClientContentNegotiation
 
 class RoutesSpec : StringSpec(
     {
@@ -24,6 +28,8 @@ class RoutesSpec : StringSpec(
                 val response = client.get("/api/v1/schemas")
 
                 response.status shouldBe HttpStatusCode.OK
+                response.body<String>() shouldContain "DIALOG_MESSAGE"
+                response.contentType()?.withoutParameters() shouldBe ContentType.Application.Json
             }
         }
 
@@ -33,6 +39,7 @@ class RoutesSpec : StringSpec(
 
                 response.status shouldBe HttpStatusCode.OK
                 response.body<String>() shouldBe "[1,2]"
+                response.contentType()?.withoutParameters() shouldBe ContentType.Application.Json
             }
         }
 
@@ -58,44 +65,82 @@ class RoutesSpec : StringSpec(
 
         "should return 404 for unknown version" {
             withSchemaRoutes {
-                client.get("/api/v1/schemas/dialog-message/v999").status shouldBe HttpStatusCode.NotFound
+                client = createJsonEnabledClient()
+                val response = client.get("/api/v1/schemas/dialog-message/v999")
+
+                response.status shouldBe HttpStatusCode.NotFound
+                response.body<ErrorResponse>() shouldBe ErrorResponse(
+                    "Schema not found: dialog-message v999"
+                )
             }
         }
 
         "should return 400 for unknown schema type" {
             withSchemaRoutes {
-                client.get("/api/v1/schemas/unknown-message/v1").status shouldBe HttpStatusCode.BadRequest
+                client = createJsonEnabledClient()
+                val response = client.get("/api/v1/schemas/unknown-message/v1")
+
+                response.status shouldBe HttpStatusCode.BadRequest
+                response.body<ErrorResponse>() shouldBe ErrorResponse(
+                    "Unknown schema type: unknown-message"
+                )
             }
         }
 
         "should return 400 for invalid version" {
             withSchemaRoutes {
-                client.get("/api/v1/schemas/dialog-message/vabc").status shouldBe HttpStatusCode.BadRequest
+                client = createJsonEnabledClient()
+                val response = client.get("/api/v1/schemas/dialog-message/vabc")
+
+                response.status shouldBe HttpStatusCode.BadRequest
+                response.body<ErrorResponse>() shouldBe ErrorResponse(
+                    "Invalid path parameter 'version': 'abc'. Expected integer."
+                )
+            }
+        }
+
+        "should return 404 when latest schema does not exist" {
+            withSchemaRoutes(repository = FakeSchemaDocumentRepository(emptyList())) {
+                client = createJsonEnabledClient()
+                val response = client.get("/api/v1/schemas/dialog-message/latest")
+
+                response.status shouldBe HttpStatusCode.NotFound
+                response.body<ErrorResponse>() shouldBe ErrorResponse(
+                    "No schemas found for schema type: dialog-message"
+                )
             }
         }
     }
 )
 
+private fun ApplicationTestBuilder.createJsonEnabledClient(): HttpClient =
+    createClient {
+        install(ClientContentNegotiation) {
+            json()
+        }
+    }
+
 private fun withSchemaRoutes(
+    repository: FakeSchemaDocumentRepository = FakeSchemaDocumentRepository(
+        listOf(
+            schemaDocument(1),
+            schemaDocument(2)
+        )
+    ),
     testBuilder: suspend ApplicationTestBuilder.() -> Unit
 ) = testApplication {
     install(ContentNegotiation) {
         json()
     }
+
     application {
-        routing { externalRoutes(jsonSchemaService()) }
+        routing {
+            externalRoutes(JsonSchemaService(repository))
+        }
     }
+
     testBuilder()
 }
-
-private fun jsonSchemaService() = JsonSchemaService(
-    FakeSchemaDocumentRepository(
-        listOf(
-            schemaDocument(1),
-            schemaDocument(2)
-        )
-    )
-)
 
 private fun schemaDocument(version: Int) = SchemaDocument(
     SchemaType.DIALOG_MESSAGE,
