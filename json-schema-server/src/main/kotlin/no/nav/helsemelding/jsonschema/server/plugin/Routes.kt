@@ -16,9 +16,9 @@ import io.ktor.server.routing.route
 import io.ktor.server.routing.routing
 import io.micrometer.prometheus.PrometheusMeterRegistry
 import no.nav.helsemelding.jsonschema.core.error.SchemaError
-import no.nav.helsemelding.jsonschema.server.ErrorResponse
 import no.nav.helsemelding.jsonschema.server.RequestError
 import no.nav.helsemelding.jsonschema.server.SchemaServerError
+import no.nav.helsemelding.jsonschema.server.model.ErrorResponse
 import no.nav.helsemelding.jsonschema.server.plugin.SchemaApi.GET_LATEST_SCHEMA
 import no.nav.helsemelding.jsonschema.server.plugin.SchemaApi.GET_SCHEMAS
 import no.nav.helsemelding.jsonschema.server.plugin.SchemaApi.GET_SCHEMA_VERSION

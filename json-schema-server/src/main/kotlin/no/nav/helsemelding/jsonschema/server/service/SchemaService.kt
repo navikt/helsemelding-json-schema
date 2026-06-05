@@ -3,10 +3,10 @@ package no.nav.helsemelding.jsonschema.server.service
 import arrow.core.raise.Raise
 import arrow.core.raise.withError
 import no.nav.helsemelding.jsonschema.core.model.SchemaDocument
-import no.nav.helsemelding.jsonschema.core.model.SchemaMetadata
 import no.nav.helsemelding.jsonschema.core.model.SchemaType
 import no.nav.helsemelding.jsonschema.core.repository.SchemaDocumentRepository
 import no.nav.helsemelding.jsonschema.server.SchemaServerError
+import no.nav.helsemelding.jsonschema.server.model.SchemaMetadata
 
 interface SchemaService {
     fun listSchemas(): List<SchemaMetadata>

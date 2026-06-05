@@ -1,6 +1,7 @@
-package no.nav.helsemelding.jsonschema.core.model
+package no.nav.helsemelding.jsonschema.server.model
 
 import kotlinx.serialization.Serializable
+import no.nav.helsemelding.jsonschema.core.model.SchemaType
 
 @Serializable
 data class SchemaMetadata(

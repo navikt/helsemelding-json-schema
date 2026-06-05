@@ -9,10 +9,10 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
 import no.nav.helsemelding.jsonschema.core.error.SchemaError
 import no.nav.helsemelding.jsonschema.core.model.SchemaDocument
-import no.nav.helsemelding.jsonschema.core.model.SchemaMetadata
 import no.nav.helsemelding.jsonschema.core.model.SchemaType
 import no.nav.helsemelding.jsonschema.core.repository.FakeSchemaDocumentRepository
 import no.nav.helsemelding.jsonschema.server.SchemaServerError
+import no.nav.helsemelding.jsonschema.server.model.SchemaMetadata
 
 class SchemaServiceSpec : StringSpec(
     {

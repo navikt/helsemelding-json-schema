@@ -1,4 +1,4 @@
-package no.nav.helsemelding.jsonschema.server
+package no.nav.helsemelding.jsonschema.server.model
 
 import kotlinx.serialization.Serializable
 
