@@ -138,7 +138,7 @@ suspend fun ApplicationCall.respondSchemaError(error: SchemaError) {
             respond(
                 HttpStatusCode.NotFound,
                 ErrorResponse(
-                    "No schemas found for message type: ${error.schemaType}"
+                    "No schemas found for schema type: ${error.schemaType}"
                 )
             )
 
