@@ -9,7 +9,7 @@ import no.nav.helsemelding.jsonschema.core.error.SchemaError
 import no.nav.helsemelding.jsonschema.core.model.SchemaType
 
 interface SchemaRepository {
-    fun get(messageType: SchemaType, version: Int): Either<SchemaError, JsonSchema>
+    fun get(schemaType: SchemaType, version: Int): Either<SchemaError, JsonSchema>
 }
 
 class JsonSchemaRepository(
@@ -18,9 +18,9 @@ class JsonSchemaRepository(
     private val schema = ::loadSchema.memoize()
 
     override fun get(
-        messageType: SchemaType,
+        schemaType: SchemaType,
         version: Int
-    ): Either<SchemaError, JsonSchema> = schema(messageType, version)
+    ): Either<SchemaError, JsonSchema> = schema(schemaType, version)
 
     private fun loadSchema(
         schemaType: SchemaType,
