@@ -19,13 +19,13 @@ class SchemaServiceSpec : StringSpec(
         val dialogMessageV1 = SchemaDocument(
             schemaType = SchemaType.DIALOG_MESSAGE,
             version = 1,
-            content = """{"title":"dialog-message-v1"}"""
+            schema = """{"title":"dialog-message-v1"}"""
         )
 
         val dialogMessageV2 = SchemaDocument(
             schemaType = SchemaType.DIALOG_MESSAGE,
             version = 2,
-            content = """{"title":"dialog-message-v2"}"""
+            schema = """{"title":"dialog-message-v2"}"""
         )
 
         val schemaRepository = FakeSchemaDocumentRepository(
@@ -106,7 +106,7 @@ class SchemaServiceSpec : StringSpec(
             }
                 .shouldBeRight()
 
-            schema.content shouldBe """{"title":"dialog-message-v2"}"""
+            schema.schema shouldBe """{"title":"dialog-message-v2"}"""
         }
     }
 )

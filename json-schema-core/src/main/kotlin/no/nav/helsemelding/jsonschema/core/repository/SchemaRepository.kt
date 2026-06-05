@@ -31,7 +31,7 @@ class JsonSchemaRepository(
             .bind()
 
         catch(
-            { JsonSchema.fromDefinition(document.content) },
+            { JsonSchema.fromDefinition(document.schema) },
             { t ->
                 raise(
                     SchemaError.InvalidSchema(

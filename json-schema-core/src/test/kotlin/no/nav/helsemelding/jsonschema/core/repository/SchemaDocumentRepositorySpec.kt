@@ -21,7 +21,7 @@ class SchemaDocumentRepositorySpec : StringSpec(
             documents shouldContain SchemaDocument(
                 schemaType = SchemaType.DIALOG_MESSAGE,
                 version = 1,
-                content = documents.first().content
+                schema = documents.first().schema
             )
         }
 
@@ -32,8 +32,8 @@ class SchemaDocumentRepositorySpec : StringSpec(
 
             document.schemaType shouldBe SchemaType.DIALOG_MESSAGE
             document.version shouldBe 1
-            document.content.contains("\"${'$'}schema\"") shouldBe true
-            document.content.contains("\"type\": \"object\"") shouldBe true
+            document.schema.contains("\"${'$'}schema\"") shouldBe true
+            document.schema.contains("\"type\": \"object\"") shouldBe true
         }
 
         "should get latest dialog-message schema" {
@@ -43,8 +43,8 @@ class SchemaDocumentRepositorySpec : StringSpec(
 
             document.schemaType shouldBe SchemaType.DIALOG_MESSAGE
             document.version shouldBe 1
-            document.content.contains("\"${'$'}schema\"") shouldBe true
-            document.content.contains("\"type\": \"object\"") shouldBe true
+            document.schema.contains("\"${'$'}schema\"") shouldBe true
+            document.schema.contains("\"type\": \"object\"") shouldBe true
         }
 
         "should return error when schema does not exist" {

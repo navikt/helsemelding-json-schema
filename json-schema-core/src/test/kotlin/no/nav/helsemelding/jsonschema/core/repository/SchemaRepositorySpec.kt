@@ -51,7 +51,7 @@ private fun schemaRepository(documents: List<SchemaDocument>) =
 private val dialogMessageV1 = SchemaDocument(
     schemaType = SchemaType.DIALOG_MESSAGE,
     version = 1,
-    content = """
+    schema = """
     {
       "${'$'}schema": "https://json-schema.org/draft/2020-12/schema",
       "type": "object"

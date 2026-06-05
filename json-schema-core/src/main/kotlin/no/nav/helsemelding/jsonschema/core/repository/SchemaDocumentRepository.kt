@@ -74,7 +74,7 @@ class JsonSchemaDocumentRepository : SchemaDocumentRepository {
         return SchemaDocument(
             schemaType = messageType,
             version = version,
-            content = readResource(path)
+            schema = readResource(path)
         )
     }
 

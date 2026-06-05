@@ -86,7 +86,7 @@ fun Route.externalRoutes(schemaService: SchemaService) {
                     val schema = latest(schemaType)
 
                     call.respondText(
-                        text = schema.content,
+                        text = schema.schema,
                         contentType = ContentType.Application.Json
                     )
                 }
@@ -101,7 +101,7 @@ fun Route.externalRoutes(schemaService: SchemaService) {
                     val schema = get(schemaType, version)
 
                     call.respondText(
-                        text = schema.content,
+                        text = schema.schema,
                         contentType = ContentType.Application.Json
                     )
                 }
