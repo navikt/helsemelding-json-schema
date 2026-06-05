@@ -6,13 +6,13 @@ import arrow.core.raise.ensureNotNull
 import io.ktor.server.application.ApplicationCall
 import no.nav.helsemelding.jsonschema.core.model.SchemaType
 
-private const val MESSAGE_TYPE = "messageType"
+private const val SCHEMA_TYPE = "schemaType"
 private const val VERSION = "version"
 
-fun Raise<SchemaServerError>.messageType(call: ApplicationCall): SchemaType {
+fun Raise<SchemaServerError>.schemaType(call: ApplicationCall): SchemaType {
     val value = requiredPathParam(
         call = call,
-        name = MESSAGE_TYPE,
+        name = SCHEMA_TYPE,
         missingError = RequestError.SchemaTypeMissing
     )
 

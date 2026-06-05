@@ -27,7 +27,7 @@ class RoutesSpec : StringSpec(
             }
         }
 
-        "should list versions for message type" {
+        "should list versions for schema type" {
             withSchemaRoutes {
                 val response = client.get("/api/v1/schemas/dialog-message")
 
@@ -62,7 +62,7 @@ class RoutesSpec : StringSpec(
             }
         }
 
-        "should return 400 for unknown message type" {
+        "should return 400 for unknown schema type" {
             withSchemaRoutes {
                 client.get("/api/v1/schemas/unknown-message/v1").status shouldBe HttpStatusCode.BadRequest
             }

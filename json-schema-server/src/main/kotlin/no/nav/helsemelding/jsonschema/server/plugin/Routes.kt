@@ -19,7 +19,6 @@ import no.nav.helsemelding.jsonschema.core.error.SchemaError
 import no.nav.helsemelding.jsonschema.server.ErrorResponse
 import no.nav.helsemelding.jsonschema.server.RequestError
 import no.nav.helsemelding.jsonschema.server.SchemaServerError
-import no.nav.helsemelding.jsonschema.server.messageType
 import no.nav.helsemelding.jsonschema.server.plugin.SchemaApi.GET_LATEST_SCHEMA
 import no.nav.helsemelding.jsonschema.server.plugin.SchemaApi.GET_SCHEMAS
 import no.nav.helsemelding.jsonschema.server.plugin.SchemaApi.GET_SCHEMA_VERSION
@@ -28,6 +27,7 @@ import no.nav.helsemelding.jsonschema.server.plugin.SchemaApi.getLatestSchemaDoc
 import no.nav.helsemelding.jsonschema.server.plugin.SchemaApi.getSchemaVersionDocs
 import no.nav.helsemelding.jsonschema.server.plugin.SchemaApi.getSchemaVersionsDocs
 import no.nav.helsemelding.jsonschema.server.plugin.SchemaApi.getSchemasDocs
+import no.nav.helsemelding.jsonschema.server.schemaType
 import no.nav.helsemelding.jsonschema.server.service.SchemaService
 import no.nav.helsemelding.jsonschema.server.version
 
@@ -74,16 +74,16 @@ fun Route.externalRoutes(schemaService: SchemaService) {
 
         get(GET_SCHEMA_VERSIONS, getSchemaVersionsDocs) {
             recover({
-                val messageType = messageType(call)
-                call.respond(schemaService.listVersions(messageType))
+                val schemaType = schemaType(call)
+                call.respond(schemaService.listVersions(schemaType))
             }) { e: SchemaServerError -> call.respondSchemaServerError(e) }
         }
 
         get(GET_LATEST_SCHEMA, getLatestSchemaDocs) {
             recover({
                 with(schemaService) {
-                    val messageType = messageType(call)
-                    val schema = latest(messageType)
+                    val schemaType = schemaType(call)
+                    val schema = latest(schemaType)
 
                     call.respondText(
                         text = schema.content,
@@ -96,9 +96,9 @@ fun Route.externalRoutes(schemaService: SchemaService) {
         get(GET_SCHEMA_VERSION, getSchemaVersionDocs) {
             recover({
                 with(schemaService) {
-                    val messageType = messageType(call)
+                    val schemaType = schemaType(call)
                     val version = version(call)
-                    val schema = get(messageType, version)
+                    val schema = get(schemaType, version)
 
                     call.respondText(
                         text = schema.content,

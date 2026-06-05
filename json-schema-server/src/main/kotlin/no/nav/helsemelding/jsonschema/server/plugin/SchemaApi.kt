@@ -18,48 +18,48 @@ object SchemaApi {
 
         response {
             code(HttpStatusCode.OK) {
-                description = "Available schema message types"
+                description = "Available schema types"
             }
         }
     }
 
     /* =============================================================
-     * GET /schemas/{messageType}
+     * GET /schemas/{schemaType}
      * ============================================================= */
 
-    const val GET_SCHEMA_VERSIONS = "/schemas/{messageType}"
+    const val GET_SCHEMA_VERSIONS = "/schemas/{schemaType}"
 
     val getSchemaVersionsDocs: RouteConfig.() -> Unit = {
         tags = listOf("schemas")
         summary = "List schema versions"
 
         request {
-            pathParameter<String>("messageType") {
-                description = "Schema message type"
+            pathParameter<String>("schemaType") {
+                description = "Schema type"
                 required = true
             }
         }
 
         response {
             code(HttpStatusCode.OK) {
-                description = "Available versions for the message type"
+                description = "Available versions for the schema type"
             }
         }
     }
 
     /* =============================================================
-     * GET /schemas/{messageType}/latest
+     * GET /schemas/{schemaType}/latest
      * ============================================================= */
 
-    const val GET_LATEST_SCHEMA = "/schemas/{messageType}/latest"
+    const val GET_LATEST_SCHEMA = "/schemas/{schemaType}/latest"
 
     val getLatestSchemaDocs: RouteConfig.() -> Unit = {
         tags = listOf("schemas")
         summary = "Get latest schema"
 
         request {
-            pathParameter<String>("messageType") {
-                description = "Schema message type"
+            pathParameter<String>("schemaType") {
+                description = "Schema type"
                 required = true
             }
         }
@@ -75,10 +75,10 @@ object SchemaApi {
     }
 
     /* =============================================================
-     * GET /schemas/{messageType}/v{version}
+     * GET /schemas/{schemaType}/v{version}
      * ============================================================= */
 
-    const val GET_SCHEMA_VERSION = "/schemas/{messageType}/v{version}"
+    const val GET_SCHEMA_VERSION = "/schemas/{schemaType}/v{version}"
 
     val getSchemaVersionDocs: RouteConfig.() -> Unit = {
         tags = listOf("schemas")
@@ -86,7 +86,7 @@ object SchemaApi {
 
         request {
             pathParameter<String>("messageType") {
-                description = "Schema message type"
+                description = "Schema type"
                 required = true
             }
 
