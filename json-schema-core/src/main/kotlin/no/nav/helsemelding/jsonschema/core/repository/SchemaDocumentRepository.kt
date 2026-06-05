@@ -13,6 +13,8 @@ import java.net.URL
 import java.nio.file.Files
 import java.nio.file.Paths
 
+private const val SCHEMA_ROOT = "schemas"
+
 private val log = KotlinLogging.logger {}
 
 interface SchemaDocumentRepository {
@@ -22,6 +24,8 @@ interface SchemaDocumentRepository {
 }
 
 class JsonSchemaDocumentRepository : SchemaDocumentRepository {
+    private val schemaFileRegex = Regex("""([a-z0-9-]+)-v(\d+)\.schema\.json""")
+
     private val documents: List<SchemaDocument> by lazy {
         schemaResourcePaths()
             .map(::toSchemaDocument)
@@ -123,11 +127,6 @@ class JsonSchemaDocumentRepository : SchemaDocumentRepository {
         }
             .bufferedReader()
             .use { it.readText() }
-
-    private companion object {
-        const val SCHEMA_ROOT = "schemas"
-        val schemaFileRegex = Regex("""([a-z0-9-]+)-v(\d+)\.schema\.json""")
-    }
 }
 
 class FakeSchemaDocumentRepository(
