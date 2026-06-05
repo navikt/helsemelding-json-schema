@@ -69,13 +69,13 @@ fun Route.internalRoutes(registry: PrometheusMeterRegistry) {
 fun Route.externalRoutes(schemaService: SchemaService) {
     route("/api/v1") {
         get(GET_SCHEMAS, getSchemasDocs) {
-            call.respond(schemaService.listSchemas())
+            call.respond(schemaService.getSchemas())
         }
 
         get(GET_SCHEMA_VERSIONS, getSchemaVersionsDocs) {
             recover({
                 val schemaType = schemaType(call)
-                call.respond(schemaService.listVersions(schemaType))
+                call.respond(schemaService.getVersions(schemaType))
             }) { e: SchemaServerError -> call.respondSchemaServerError(e) }
         }
 
@@ -83,7 +83,7 @@ fun Route.externalRoutes(schemaService: SchemaService) {
             recover({
                 with(schemaService) {
                     val schemaType = schemaType(call)
-                    val schema = latest(schemaType)
+                    val schema = getLatest(schemaType)
 
                     call.respondText(
                         text = schema.schema,

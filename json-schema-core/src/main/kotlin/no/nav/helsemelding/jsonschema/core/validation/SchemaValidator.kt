@@ -43,7 +43,7 @@ class JsonSchemaValidator internal constructor(
         val schema = resolveSchema(schemaType, version).bind()
 
         validateAgainstSchema(
-            messageType = schemaType,
+            schemaType = schemaType,
             version = version,
             schema = schema,
             jsonElement = jsonElement
@@ -53,11 +53,11 @@ class JsonSchemaValidator internal constructor(
     }
 
     private fun resolveSchema(
-        messageType: SchemaType,
+        schemaType: SchemaType,
         version: Int
     ): Either<ValidationError, JsonSchema> =
         schemaLoader
-            .load(messageType, version)
+            .load(schemaType, version)
             .mapLeft { schemaError ->
                 schemaError.toValidationError()
             }
@@ -66,39 +66,39 @@ class JsonSchemaValidator internal constructor(
         when (this) {
             is SchemaError.NotFound ->
                 validationError(
-                    messageType = schemaType,
+                    schemaType = schemaType,
                     version = version,
                     "Schema resource not found: $schemaType v$version"
                 )
 
             is SchemaError.NoSchemasFound ->
                 validationError(
-                    messageType = schemaType,
+                    schemaType = schemaType,
                     "No schemas found for message type: $schemaType"
                 )
 
             is SchemaError.InvalidSchema ->
                 validationError(
-                    messageType = schemaType,
+                    schemaType = schemaType,
                     version = version,
                     "Invalid schema: $reason"
                 )
         }
 
     private fun parseJson(
-        messageType: SchemaType,
+        schemaType: SchemaType,
         payload: String
     ): Either<ValidationError, JsonElement> =
         Either.catch { Json.parseToJsonElement(payload) }
             .mapLeft { t ->
                 validationError(
-                    messageType = messageType,
+                    schemaType = schemaType,
                     "Invalid JSON: ${t.message}"
                 )
             }
 
     private fun extractVersion(
-        messageType: SchemaType,
+        schemaType: SchemaType,
         jsonElement: JsonElement
     ): Either<ValidationError, Int> = either {
         val version = jsonElement
@@ -108,14 +108,14 @@ class JsonSchemaValidator internal constructor(
 
         ensureNotNull(version) {
             validationError(
-                messageType = messageType,
+                schemaType = schemaType,
                 "Missing or invalid version field"
             )
         }
     }
 
     private fun validateAgainstSchema(
-        messageType: SchemaType,
+        schemaType: SchemaType,
         version: Int,
         schema: JsonSchema,
         jsonElement: JsonElement
@@ -124,7 +124,7 @@ class JsonSchemaValidator internal constructor(
 
         ensure(schema.validate(jsonElement, schemaErrors::add)) {
             ValidationError(
-                messageType = messageType,
+                schemaType = schemaType,
                 version = version,
                 errors = schemaErrors.map { it.message }
             )
@@ -132,20 +132,20 @@ class JsonSchemaValidator internal constructor(
     }
 
     private fun validationError(
-        messageType: SchemaType,
+        schemaType: SchemaType,
         version: Int,
         vararg errors: String
     ) = ValidationError(
-        messageType = messageType,
+        schemaType = schemaType,
         version = version,
         errors = errors.toList()
     )
 
     private fun validationError(
-        messageType: SchemaType,
+        schemaType: SchemaType,
         vararg errors: String
     ) = ValidationError(
-        messageType = messageType,
+        schemaType = schemaType,
         version = null,
         errors = errors.toList()
     )

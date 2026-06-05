@@ -1,4 +1,4 @@
-package no.nav.helsemelding.jsonschema.core.repository
+package no.nav.helsemelding.jsonschema.core.loader
 
 import io.github.optimumcode.json.schema.JsonSchema
 import io.kotest.assertions.arrow.core.shouldBeLeft
@@ -7,22 +7,22 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
 import no.nav.helsemelding.jsonschema.core.error.SchemaError
-import no.nav.helsemelding.jsonschema.core.loader.JsonSchemaLoader
 import no.nav.helsemelding.jsonschema.core.model.SchemaDocument
 import no.nav.helsemelding.jsonschema.core.model.SchemaType
+import no.nav.helsemelding.jsonschema.core.repository.FakeSchemaDocumentRepository
 
-class SchemaRepositorySpec : StringSpec(
+class SchemaLoaderSpec : StringSpec(
     {
-        "should load existing schema from document repository" {
-            val repository = schemaRepository(listOf(dialogMessageV1))
+        "should load existing schema" {
+            val loader = schemaLoader(listOf(dialogMessageV1))
 
-            repository.load(SchemaType.DIALOG_MESSAGE, 1)
+            loader.load(SchemaType.DIALOG_MESSAGE, 1)
                 .shouldBeRight()
                 .shouldBeInstanceOf<JsonSchema>()
         }
 
         "should return left when schema document does not exist" {
-            val repository = schemaRepository(emptyList())
+            val repository = schemaLoader(emptyList())
 
             repository.load(SchemaType.DIALOG_MESSAGE, 999) shouldBeLeft
                 SchemaError.NotFound(
@@ -32,7 +32,7 @@ class SchemaRepositorySpec : StringSpec(
         }
 
         "should memoize loaded schemas" {
-            val repository = schemaRepository(listOf(dialogMessageV1))
+            val repository = schemaLoader(listOf(dialogMessageV1))
 
             val first = repository.load(SchemaType.DIALOG_MESSAGE, 1).shouldBeRight()
             val second = repository.load(SchemaType.DIALOG_MESSAGE, 1).shouldBeRight()
@@ -42,7 +42,7 @@ class SchemaRepositorySpec : StringSpec(
     }
 )
 
-private fun schemaRepository(documents: List<SchemaDocument>) =
+private fun schemaLoader(documents: List<SchemaDocument>) =
     JsonSchemaLoader(
         schemaDocumentRepository = FakeSchemaDocumentRepository(
             documents = documents

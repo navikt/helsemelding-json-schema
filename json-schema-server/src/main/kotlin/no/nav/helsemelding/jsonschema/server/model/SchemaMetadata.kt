@@ -5,6 +5,6 @@ import no.nav.helsemelding.jsonschema.core.model.SchemaType
 
 @Serializable
 data class SchemaMetadata(
-    val messageType: SchemaType,
+    val schemaType: SchemaType,
     val version: Int
 )

@@ -36,18 +36,18 @@ class SchemaServiceSpec : StringSpec(
         )
         val schemaService = JsonSchemaService(schemaRepository)
 
-        "should list schemas sorted by message type and version" {
-            schemaService.listSchemas() shouldContainExactly listOf(
+        "should get schemas sorted by schema type and version" {
+            schemaService.getSchemas() shouldContainExactly listOf(
                 SchemaMetadata(SchemaType.DIALOG_MESSAGE, 1),
                 SchemaMetadata(SchemaType.DIALOG_MESSAGE, 2)
             )
         }
 
-        "should list versions for message type sorted ascending" {
-            schemaService.listVersions(SchemaType.DIALOG_MESSAGE) shouldBe listOf(1, 2)
+        "should get versions for schema type sorted ascending" {
+            schemaService.getVersions(SchemaType.DIALOG_MESSAGE) shouldBe listOf(1, 2)
         }
 
-        "should get schema by message type and version" {
+        "should get schema by schema type and version" {
             either {
                 with(schemaService) {
                     get(SchemaType.DIALOG_MESSAGE, 1)
@@ -74,7 +74,7 @@ class SchemaServiceSpec : StringSpec(
         "should return latest schema by highest version" {
             either {
                 with(schemaService) {
-                    latest(SchemaType.DIALOG_MESSAGE)
+                    getLatest(SchemaType.DIALOG_MESSAGE)
                 }
             }
                 .shouldBeRight(dialogMessageV2)
@@ -87,7 +87,7 @@ class SchemaServiceSpec : StringSpec(
 
             val error = either {
                 with(emptyService) {
-                    latest(SchemaType.DIALOG_MESSAGE)
+                    getLatest(SchemaType.DIALOG_MESSAGE)
                 }
             }
                 .shouldBeLeft()
@@ -101,7 +101,7 @@ class SchemaServiceSpec : StringSpec(
         "should expose schema content" {
             val schema = either {
                 with(schemaService) {
-                    latest(SchemaType.DIALOG_MESSAGE)
+                    getLatest(SchemaType.DIALOG_MESSAGE)
                 }
             }
                 .shouldBeRight()

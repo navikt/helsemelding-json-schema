@@ -23,7 +23,7 @@ import io.ktor.client.plugins.contentnegotiation.ContentNegotiation as ClientCon
 
 class RoutesSpec : StringSpec(
     {
-        "should list all schemas" {
+        "should get all schemas" {
             withSchemaRoutes {
                 val response = client.get("/api/v1/schemas")
 
@@ -33,7 +33,7 @@ class RoutesSpec : StringSpec(
             }
         }
 
-        "should list versions for schema type" {
+        "should get versions for schema type" {
             withSchemaRoutes {
                 val response = client.get("/api/v1/schemas/dialog-message")
 

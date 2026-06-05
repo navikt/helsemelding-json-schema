@@ -85,7 +85,7 @@ object SchemaApi {
         summary = "Get schema by version"
 
         request {
-            pathParameter<String>("messageType") {
+            pathParameter<String>("schemaType") {
                 description = "Schema type"
                 required = true
             }

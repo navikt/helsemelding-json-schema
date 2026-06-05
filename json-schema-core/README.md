@@ -44,7 +44,7 @@ schemas/dialog-message-v2.schema.json
 val validator = JsonSchemaValidator()
 
 validator.validate(
-    messageType = SchemaType.DIALOG_MESSAGE,
+    schemaType = SchemaType.DIALOG_MESSAGE,
     payload = json
 )
 ```

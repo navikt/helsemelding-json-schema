@@ -9,22 +9,22 @@ import no.nav.helsemelding.jsonschema.server.SchemaServerError
 import no.nav.helsemelding.jsonschema.server.model.SchemaMetadata
 
 interface SchemaService {
-    fun listSchemas(): List<SchemaMetadata>
-    fun listVersions(schemaType: SchemaType): List<Int>
+    fun getSchemas(): List<SchemaMetadata>
+    fun getVersions(schemaType: SchemaType): List<Int>
     fun Raise<SchemaServerError>.get(schemaType: SchemaType, version: Int): SchemaDocument
-    fun Raise<SchemaServerError>.latest(schemaType: SchemaType): SchemaDocument
+    fun Raise<SchemaServerError>.getLatest(schemaType: SchemaType): SchemaDocument
 }
 
 class JsonSchemaService(
     private val documentRepository: SchemaDocumentRepository
 ) : SchemaService {
 
-    override fun listSchemas(): List<SchemaMetadata> =
+    override fun getSchemas(): List<SchemaMetadata> =
         documentRepository.getAll()
             .map { SchemaMetadata(it.schemaType, it.version) }
             .sortedWith(schemaMetadataComparator)
 
-    override fun listVersions(schemaType: SchemaType): List<Int> =
+    override fun getVersions(schemaType: SchemaType): List<Int> =
         documentRepository.getAll()
             .asSequence()
             .filter { it.schemaType == schemaType }
@@ -40,7 +40,7 @@ class JsonSchemaService(
             documentRepository.get(schemaType, version).bind()
         }
 
-    override fun Raise<SchemaServerError>.latest(
+    override fun Raise<SchemaServerError>.getLatest(
         schemaType: SchemaType
     ): SchemaDocument =
         withError({ SchemaServerError.Schema(it) }) {
@@ -49,6 +49,6 @@ class JsonSchemaService(
 
     private companion object {
         val schemaMetadataComparator =
-            compareBy<SchemaMetadata>({ it.messageType.toString() }, { it.version })
+            compareBy<SchemaMetadata>({ it.schemaType.toString() }, { it.version })
     }
 }

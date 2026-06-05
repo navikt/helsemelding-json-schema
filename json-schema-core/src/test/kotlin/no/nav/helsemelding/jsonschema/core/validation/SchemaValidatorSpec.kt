@@ -36,7 +36,7 @@ class SchemaValidatorSpec : StringSpec(
 
             val error = validator.validate(SchemaType.DIALOG_MESSAGE, json).shouldBeLeft()
 
-            error.messageType shouldBe SchemaType.DIALOG_MESSAGE
+            error.schemaType shouldBe SchemaType.DIALOG_MESSAGE
             error.version shouldBe null
             error.errors.first().startsWith("Invalid JSON") shouldBe true
         }
@@ -87,7 +87,7 @@ class SchemaValidatorSpec : StringSpec(
 
             val error = validator.validate(SchemaType.DIALOG_MESSAGE, json).shouldBeLeft()
 
-            error.messageType shouldBe SchemaType.DIALOG_MESSAGE
+            error.schemaType shouldBe SchemaType.DIALOG_MESSAGE
             error.version shouldBe 999
             error.errors shouldContain "Schema resource not found: dialog-message v999"
         }
@@ -106,7 +106,7 @@ class SchemaValidatorSpec : StringSpec(
 
             val error = validator.validate(SchemaType.DIALOG_MESSAGE, json).shouldBeLeft()
 
-            error.messageType shouldBe SchemaType.DIALOG_MESSAGE
+            error.schemaType shouldBe SchemaType.DIALOG_MESSAGE
             error.version shouldBe null
             error.errors shouldContain "Missing or invalid version field"
         }

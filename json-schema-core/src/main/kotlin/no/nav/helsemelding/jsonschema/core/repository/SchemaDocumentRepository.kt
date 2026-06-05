@@ -66,13 +66,13 @@ class JsonSchemaDocumentRepository : SchemaDocumentRepository {
             "Invalid schema filename: $path"
         }
 
-        val messageType = SchemaType.from(match.groupValues[1])
+        val schemaType = SchemaType.from(match.groupValues[1])
             ?: error("Unknown schema type: ${match.groupValues[1]}")
 
         val version = match.groupValues[2].toInt()
 
         return SchemaDocument(
-            schemaType = messageType,
+            schemaType = schemaType,
             version = version,
             schema = readResource(path)
         )
