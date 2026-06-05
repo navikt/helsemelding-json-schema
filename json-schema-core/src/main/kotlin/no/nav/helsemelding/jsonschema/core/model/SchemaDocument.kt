@@ -1,8 +1,5 @@
 package no.nav.helsemelding.jsonschema.core.model
 
-import kotlinx.serialization.Serializable
-
-@Serializable
 data class SchemaDocument(
     val schemaType: SchemaType,
     val version: Int,
