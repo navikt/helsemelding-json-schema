@@ -118,10 +118,8 @@ class JsonSchemaDocumentRepository : SchemaDocumentRepository {
 }
 
 class FakeSchemaDocumentRepository(
-    documents: List<SchemaDocument>
+    private val documents: List<SchemaDocument>
 ) : SchemaDocumentRepository {
-    private val documents: List<SchemaDocument> = documents
-
     private val schemas: Map<Pair<SchemaType, Int>, SchemaDocument> =
         this.documents.associateBy { it.schemaType to it.version }
 
