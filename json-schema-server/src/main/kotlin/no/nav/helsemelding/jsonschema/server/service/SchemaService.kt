@@ -22,8 +22,8 @@ class JsonSchemaService(
 
     override fun getSchemas(): List<SchemaMetadata> =
         documentRepository.getAll()
-            .map { SchemaMetadata(it.schemaType, it.version) }
-            .sortedWith(schemaMetadataComparator)
+            .map { SchemaMetadata(it.schemaType.toString(), it.version) }
+            .sortedWith(compareBy(SchemaMetadata::schemaType, SchemaMetadata::version))
 
     override fun getVersions(schemaType: SchemaType): List<Int> =
         documentRepository.getAll()
@@ -53,9 +53,4 @@ class JsonSchemaService(
                     SchemaServerError.NoSchemasFound(schemaType)
                 }
             }
-
-    private companion object {
-        val schemaMetadataComparator =
-            compareBy<SchemaMetadata>({ it.schemaType.toString() }, { it.version })
-    }
 }

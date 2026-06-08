@@ -38,8 +38,8 @@ class SchemaServiceSpec : StringSpec(
 
         "should get schemas sorted by schema type and version" {
             schemaService.getSchemas() shouldContainExactly listOf(
-                SchemaMetadata(SchemaType.DIALOG_MESSAGE, 1),
-                SchemaMetadata(SchemaType.DIALOG_MESSAGE, 2)
+                SchemaMetadata(SchemaType.DIALOG_MESSAGE.toString(), 1),
+                SchemaMetadata(SchemaType.DIALOG_MESSAGE.toString(), 2)
             )
         }
 
