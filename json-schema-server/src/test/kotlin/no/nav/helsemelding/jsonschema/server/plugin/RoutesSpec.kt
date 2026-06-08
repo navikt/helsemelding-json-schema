@@ -28,7 +28,7 @@ class RoutesSpec : StringSpec(
                 val response = client.get("/api/v1/schemas")
 
                 response.status shouldBe HttpStatusCode.OK
-                response.body<String>() shouldContain "DIALOG_MESSAGE"
+                response.body<String>() shouldContain SchemaType.DIALOG_MESSAGE.toString()
                 response.contentType()?.withoutParameters() shouldBe ContentType.Application.Json
             }
         }
