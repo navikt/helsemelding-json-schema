@@ -114,6 +114,7 @@ suspend fun ApplicationCall.respondSchemaServerError(error: SchemaServerError) {
     when (error) {
         is SchemaServerError.Request -> respondRequestError(error.error)
         is SchemaServerError.Schema -> respondSchemaError(error.error)
+        is SchemaServerError.NoSchemasFound -> respondNoSchemasFound(error)
     }
 }
 
@@ -134,14 +135,6 @@ suspend fun ApplicationCall.respondSchemaError(error: SchemaError) {
                 )
             )
 
-        is SchemaError.NoSchemasFound ->
-            respond(
-                HttpStatusCode.NotFound,
-                ErrorResponse(
-                    "No schemas found for schema type: ${error.schemaType}"
-                )
-            )
-
         is SchemaError.InvalidSchema ->
             respond(
                 HttpStatusCode.UnprocessableEntity,
@@ -150,4 +143,15 @@ suspend fun ApplicationCall.respondSchemaError(error: SchemaError) {
                 )
             )
     }
+}
+
+private suspend fun ApplicationCall.respondNoSchemasFound(
+    error: SchemaServerError.NoSchemasFound
+) {
+    respond(
+        HttpStatusCode.NotFound,
+        ErrorResponse(
+            "No schemas found for schema type: ${error.schemaType}"
+        )
+    )
 }

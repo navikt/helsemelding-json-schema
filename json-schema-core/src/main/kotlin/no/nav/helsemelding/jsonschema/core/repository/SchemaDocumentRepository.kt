@@ -20,7 +20,6 @@ private val log = KotlinLogging.logger {}
 interface SchemaDocumentRepository {
     fun getAll(): List<SchemaDocument>
     fun get(schemaType: SchemaType, version: Int): Either<SchemaError, SchemaDocument>
-    fun getLatest(schemaType: SchemaType): Either<SchemaError, SchemaDocument>
 }
 
 class JsonSchemaDocumentRepository : SchemaDocumentRepository {
@@ -29,7 +28,6 @@ class JsonSchemaDocumentRepository : SchemaDocumentRepository {
     private val documents: List<SchemaDocument> by lazy {
         schemaResourcePaths()
             .map(::toSchemaDocument)
-            .sortedWith(compareBy({ it.schemaType }, { it.version }))
     }
 
     private val schemas: Map<Pair<SchemaType, Int>, SchemaDocument> by lazy {
@@ -48,16 +46,6 @@ class JsonSchemaDocumentRepository : SchemaDocumentRepository {
                 version = version
             )
                 .left()
-
-    override fun getLatest(
-        schemaType: SchemaType
-    ): Either<SchemaError, SchemaDocument> =
-        documents
-            .asSequence()
-            .filter { it.schemaType == schemaType }
-            .maxByOrNull { it.version }
-            ?.right()
-            ?: SchemaError.NoSchemasFound(schemaType).left()
 
     private fun toSchemaDocument(path: String): SchemaDocument {
         val filename = path.substringAfterLast('/')
@@ -132,8 +120,7 @@ class JsonSchemaDocumentRepository : SchemaDocumentRepository {
 class FakeSchemaDocumentRepository(
     documents: List<SchemaDocument>
 ) : SchemaDocumentRepository {
-    private val documents: List<SchemaDocument> =
-        documents.sortedWith(compareBy({ it.schemaType }, { it.version }))
+    private val documents: List<SchemaDocument> = documents
 
     private val schemas: Map<Pair<SchemaType, Int>, SchemaDocument> =
         this.documents.associateBy { it.schemaType to it.version }
@@ -150,14 +137,4 @@ class FakeSchemaDocumentRepository(
                 version = version
             )
                 .left()
-
-    override fun getLatest(
-        schemaType: SchemaType
-    ): Either<SchemaError, SchemaDocument> =
-        documents
-            .asSequence()
-            .filter { it.schemaType == schemaType }
-            .maxByOrNull { it.version }
-            ?.right()
-            ?: SchemaError.NoSchemasFound(schemaType).left()
 }

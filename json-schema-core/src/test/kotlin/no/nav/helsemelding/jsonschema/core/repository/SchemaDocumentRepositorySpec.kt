@@ -36,17 +36,6 @@ class SchemaDocumentRepositorySpec : StringSpec(
             document.schema.contains("\"type\": \"object\"") shouldBe true
         }
 
-        "should get latest dialog-message schema" {
-            val document = JsonSchemaDocumentRepository()
-                .getLatest(SchemaType.DIALOG_MESSAGE)
-                .shouldBeRight()
-
-            document.schemaType shouldBe SchemaType.DIALOG_MESSAGE
-            document.version shouldBe 1
-            document.schema.contains("\"${'$'}schema\"") shouldBe true
-            document.schema.contains("\"type\": \"object\"") shouldBe true
-        }
-
         "should return error when schema does not exist" {
             val error = JsonSchemaDocumentRepository()
                 .get(SchemaType.DIALOG_MESSAGE, 999)
@@ -55,26 +44,6 @@ class SchemaDocumentRepositorySpec : StringSpec(
             error.shouldBeInstanceOf<SchemaError.NotFound>()
             error.schemaType shouldBe SchemaType.DIALOG_MESSAGE
             error.version shouldBe 999
-        }
-
-        "should return error when no schemas exist for message type" {
-            val error = FakeSchemaDocumentRepository(emptyList())
-                .getLatest(SchemaType.DIALOG_MESSAGE)
-                .shouldBeLeft()
-
-            error.shouldBeInstanceOf<SchemaError.NoSchemasFound>()
-            error.schemaType shouldBe SchemaType.DIALOG_MESSAGE
-        }
-
-        "should sort schemas by message type and version" {
-            val documents = JsonSchemaDocumentRepository().getAll()
-
-            documents shouldBe documents.sortedWith(
-                compareBy(
-                    { it.schemaType },
-                    { it.version }
-                )
-            )
         }
     }
 )

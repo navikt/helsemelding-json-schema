@@ -71,12 +71,6 @@ class JsonSchemaValidator internal constructor(
                     "Schema resource not found: $schemaType v$version"
                 )
 
-            is SchemaError.NoSchemasFound ->
-                validationError(
-                    schemaType = schemaType,
-                    "No schemas found for message type: $schemaType"
-                )
-
             is SchemaError.InvalidSchema ->
                 validationError(
                     schemaType = schemaType,

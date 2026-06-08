@@ -1,6 +1,7 @@
 package no.nav.helsemelding.jsonschema.server
 
 import no.nav.helsemelding.jsonschema.core.error.SchemaError
+import no.nav.helsemelding.jsonschema.core.model.SchemaType
 
 sealed interface SchemaServerError {
     data class Request(
@@ -9,6 +10,10 @@ sealed interface SchemaServerError {
 
     data class Schema(
         val error: SchemaError
+    ) : SchemaServerError
+
+    data class NoSchemasFound(
+        val schemaType: SchemaType
     ) : SchemaServerError
 }
 

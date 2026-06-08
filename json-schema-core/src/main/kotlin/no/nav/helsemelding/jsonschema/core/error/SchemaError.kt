@@ -8,10 +8,6 @@ sealed interface SchemaError {
         val version: Int
     ) : SchemaError
 
-    data class NoSchemasFound(
-        val schemaType: SchemaType
-    ) : SchemaError
-
     data class InvalidSchema(
         val schemaType: SchemaType,
         val version: Int,

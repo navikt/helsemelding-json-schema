@@ -1,6 +1,7 @@
 package no.nav.helsemelding.jsonschema.server.service
 
 import arrow.core.raise.Raise
+import arrow.core.raise.ensureNotNull
 import arrow.core.raise.withError
 import no.nav.helsemelding.jsonschema.core.model.SchemaDocument
 import no.nav.helsemelding.jsonschema.core.model.SchemaType
@@ -43,9 +44,15 @@ class JsonSchemaService(
     override fun Raise<SchemaServerError>.getLatest(
         schemaType: SchemaType
     ): SchemaDocument =
-        withError({ SchemaServerError.Schema(it) }) {
-            documentRepository.getLatest(schemaType).bind()
-        }
+        documentRepository.getAll()
+            .asSequence()
+            .filter { it.schemaType == schemaType }
+            .maxByOrNull { it.version }
+            .let { document ->
+                ensureNotNull(document) {
+                    SchemaServerError.NoSchemasFound(schemaType)
+                }
+            }
 
     private companion object {
         val schemaMetadataComparator =

@@ -92,9 +92,8 @@ class SchemaServiceSpec : StringSpec(
             }
                 .shouldBeLeft()
 
-            val schemaError = error.shouldBeInstanceOf<SchemaServerError.Schema>().error
+            val schemaError = error.shouldBeInstanceOf<SchemaServerError.NoSchemasFound>()
 
-            schemaError.shouldBeInstanceOf<SchemaError.NoSchemasFound>()
             schemaError.schemaType shouldBe SchemaType.DIALOG_MESSAGE
         }
 
