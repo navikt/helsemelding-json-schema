@@ -14,9 +14,9 @@ import no.nav.helsemelding.jsonschema.core.repository.FakeSchemaDocumentReposito
 class SchemaLoaderSpec : StringSpec(
     {
         "should load existing schema" {
-            val loader = schemaLoader(listOf(dialogMessageV1))
+            val loader = schemaLoader(listOf(outgoingDialogMessageV1))
 
-            loader.load(SchemaType.DIALOG_MESSAGE, 1)
+            loader.load(SchemaType.OUTGOING_DIALOG_MESSAGE, 1)
                 .shouldBeRight()
                 .shouldBeInstanceOf<JsonSchema>()
         }
@@ -24,18 +24,18 @@ class SchemaLoaderSpec : StringSpec(
         "should return left when schema document does not exist" {
             val repository = schemaLoader(emptyList())
 
-            repository.load(SchemaType.DIALOG_MESSAGE, 999) shouldBeLeft
+            repository.load(SchemaType.OUTGOING_DIALOG_MESSAGE, 999) shouldBeLeft
                 SchemaError.NotFound(
-                    schemaType = SchemaType.DIALOG_MESSAGE,
+                    schemaType = SchemaType.OUTGOING_DIALOG_MESSAGE,
                     version = 999
                 )
         }
 
         "should memoize loaded schemas" {
-            val repository = schemaLoader(listOf(dialogMessageV1))
+            val repository = schemaLoader(listOf(outgoingDialogMessageV1))
 
-            val first = repository.load(SchemaType.DIALOG_MESSAGE, 1).shouldBeRight()
-            val second = repository.load(SchemaType.DIALOG_MESSAGE, 1).shouldBeRight()
+            val first = repository.load(SchemaType.OUTGOING_DIALOG_MESSAGE, 1).shouldBeRight()
+            val second = repository.load(SchemaType.OUTGOING_DIALOG_MESSAGE, 1).shouldBeRight()
 
             first shouldBe second
         }
@@ -49,8 +49,8 @@ private fun schemaLoader(documents: List<SchemaDocument>) =
         )
     )
 
-private val dialogMessageV1 = SchemaDocument(
-    schemaType = SchemaType.DIALOG_MESSAGE,
+private val outgoingDialogMessageV1 = SchemaDocument(
+    schemaType = SchemaType.OUTGOING_DIALOG_MESSAGE,
     version = 1,
     schema = """
     {

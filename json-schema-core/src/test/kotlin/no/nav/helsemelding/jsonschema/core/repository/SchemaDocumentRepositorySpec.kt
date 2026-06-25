@@ -16,33 +16,46 @@ class SchemaDocumentRepositorySpec : StringSpec(
         "should load schemas from resources" {
             val documents = JsonSchemaDocumentRepository().getAll()
 
-            documents shouldHaveSize 1
+            documents shouldHaveSize 2
 
             documents shouldContain SchemaDocument(
-                schemaType = SchemaType.DIALOG_MESSAGE,
+                schemaType = SchemaType.INCOMING_DIALOG_MESSAGE,
                 version = 1,
                 schema = documents.first().schema
             )
         }
 
-        "should get dialog-message v1 schema" {
+        "should get outgoing-dialog-message v1 schema" {
             val document = JsonSchemaDocumentRepository()
-                .get(SchemaType.DIALOG_MESSAGE, 1)
+                .get(SchemaType.OUTGOING_DIALOG_MESSAGE, 1)
                 .shouldBeRight()
 
-            document.schemaType shouldBe SchemaType.DIALOG_MESSAGE
+            document.schemaType shouldBe SchemaType.OUTGOING_DIALOG_MESSAGE
             document.version shouldBe 1
             document.schema.contains("\"${'$'}schema\"") shouldBe true
+            document.schema.contains("OutgoingDialogMessage") shouldBe true
+            document.schema.contains("\"type\": \"object\"") shouldBe true
+        }
+
+        "should get incoming-dialog-message v1 schema" {
+            val document = JsonSchemaDocumentRepository()
+                .get(SchemaType.INCOMING_DIALOG_MESSAGE, 1)
+                .shouldBeRight()
+
+            document.schemaType shouldBe SchemaType.INCOMING_DIALOG_MESSAGE
+            document.version shouldBe 1
+            document.schema.contains("\"${'$'}schema\"") shouldBe true
+            document.schema.contains("IncomingDialogMessage") shouldBe true
             document.schema.contains("\"type\": \"object\"") shouldBe true
         }
 
         "should return error when schema does not exist" {
             val error = JsonSchemaDocumentRepository()
-                .get(SchemaType.DIALOG_MESSAGE, 999)
+                .get(SchemaType.OUTGOING_DIALOG_MESSAGE, 999)
                 .shouldBeLeft()
 
             error.shouldBeInstanceOf<SchemaError.NotFound>()
-            error.schemaType shouldBe SchemaType.DIALOG_MESSAGE
+            error.schemaType shouldBe SchemaType.OUTGOING_DIALOG_MESSAGE
             error.version shouldBe 999
         }
     }

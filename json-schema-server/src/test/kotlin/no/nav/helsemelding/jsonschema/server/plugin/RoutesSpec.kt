@@ -28,14 +28,14 @@ class RoutesSpec : StringSpec(
                 val response = client.get("/api/v1/schemas")
 
                 response.status shouldBe HttpStatusCode.OK
-                response.body<String>() shouldContain SchemaType.DIALOG_MESSAGE.toString()
+                response.body<String>() shouldContain SchemaType.OUTGOING_DIALOG_MESSAGE.toString()
                 response.contentType()?.withoutParameters() shouldBe ContentType.Application.Json
             }
         }
 
         "should get versions for schema type" {
             withSchemaRoutes {
-                val response = client.get("/api/v1/schemas/dialog-message")
+                val response = client.get("/api/v1/schemas/outgoing-dialog-message")
 
                 response.status shouldBe HttpStatusCode.OK
                 response.body<String>() shouldBe "[1,2]"
@@ -45,20 +45,20 @@ class RoutesSpec : StringSpec(
 
         "should return latest schema" {
             withSchemaRoutes {
-                val response = client.get("/api/v1/schemas/dialog-message/latest")
+                val response = client.get("/api/v1/schemas/outgoing-dialog-message/latest")
 
                 response.status shouldBe HttpStatusCode.OK
-                response.body<String>() shouldBe """{"title":"dialog-message-v2"}"""
+                response.body<String>() shouldBe """{"title":"outgoing-dialog-message-v2"}"""
                 response.contentType()?.withoutParameters() shouldBe ContentType.Application.Json
             }
         }
 
         "should return schema by version" {
             withSchemaRoutes {
-                val response = client.get("/api/v1/schemas/dialog-message/v1")
+                val response = client.get("/api/v1/schemas/outgoing-dialog-message/v1")
 
                 response.status shouldBe HttpStatusCode.OK
-                response.body<String>() shouldBe """{"title":"dialog-message-v1"}"""
+                response.body<String>() shouldBe """{"title":"outgoing-dialog-message-v1"}"""
                 response.contentType()?.withoutParameters() shouldBe ContentType.Application.Json
             }
         }
@@ -66,11 +66,11 @@ class RoutesSpec : StringSpec(
         "should return 404 for unknown version" {
             withSchemaRoutes {
                 client = createJsonEnabledClient()
-                val response = client.get("/api/v1/schemas/dialog-message/v999")
+                val response = client.get("/api/v1/schemas/outgoing-dialog-message/v999")
 
                 response.status shouldBe HttpStatusCode.NotFound
                 response.body<ErrorResponse>() shouldBe ErrorResponse(
-                    "Schema not found: dialog-message v999"
+                    "Schema not found: outgoing-dialog-message v999"
                 )
             }
         }
@@ -90,7 +90,7 @@ class RoutesSpec : StringSpec(
         "should return 400 for invalid version" {
             withSchemaRoutes {
                 client = createJsonEnabledClient()
-                val response = client.get("/api/v1/schemas/dialog-message/vabc")
+                val response = client.get("/api/v1/schemas/outgoing-dialog-message/vabc")
 
                 response.status shouldBe HttpStatusCode.BadRequest
                 response.body<ErrorResponse>() shouldBe ErrorResponse(
@@ -102,11 +102,11 @@ class RoutesSpec : StringSpec(
         "should return 404 when latest schema does not exist" {
             withSchemaRoutes(repository = FakeSchemaDocumentRepository(emptyList())) {
                 client = createJsonEnabledClient()
-                val response = client.get("/api/v1/schemas/dialog-message/latest")
+                val response = client.get("/api/v1/schemas/outgoing-dialog-message/latest")
 
                 response.status shouldBe HttpStatusCode.NotFound
                 response.body<ErrorResponse>() shouldBe ErrorResponse(
-                    "No schemas found for schema type: dialog-message"
+                    "No schemas found for schema type: outgoing-dialog-message"
                 )
             }
         }
@@ -143,7 +143,7 @@ private fun withSchemaRoutes(
 }
 
 private fun schemaDocument(version: Int) = SchemaDocument(
-    SchemaType.DIALOG_MESSAGE,
+    SchemaType.OUTGOING_DIALOG_MESSAGE,
     version,
-    """{"title":"dialog-message-v$version"}"""
+    """{"title":"outgoing-dialog-message-v$version"}"""
 )

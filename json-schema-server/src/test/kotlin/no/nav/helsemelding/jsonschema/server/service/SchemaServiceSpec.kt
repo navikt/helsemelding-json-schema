@@ -16,50 +16,58 @@ import no.nav.helsemelding.jsonschema.server.model.SchemaMetadata
 
 class SchemaServiceSpec : StringSpec(
     {
-        val dialogMessageV1 = SchemaDocument(
-            schemaType = SchemaType.DIALOG_MESSAGE,
+        val outgoingDialogMessageV1 = SchemaDocument(
+            schemaType = SchemaType.OUTGOING_DIALOG_MESSAGE,
             version = 1,
-            schema = """{"title":"dialog-message-v1"}"""
+            schema = """{"title":"outgoing-dialog-message-v1"}"""
         )
 
-        val dialogMessageV2 = SchemaDocument(
-            schemaType = SchemaType.DIALOG_MESSAGE,
+        val outgoingDialogMessageV2 = SchemaDocument(
+            schemaType = SchemaType.OUTGOING_DIALOG_MESSAGE,
             version = 2,
-            schema = """{"title":"dialog-message-v2"}"""
+            schema = """{"title":"outgoing-dialog-message-v2"}"""
+        )
+
+        val incomingDialogMessageV1 = SchemaDocument(
+            schemaType = SchemaType.INCOMING_DIALOG_MESSAGE,
+            version = 1,
+            schema = """{"title":"incoming-dialog-message-v1"}"""
         )
 
         val schemaRepository = FakeSchemaDocumentRepository(
             listOf(
-                dialogMessageV2,
-                dialogMessageV1
+                outgoingDialogMessageV2,
+                outgoingDialogMessageV1,
+                incomingDialogMessageV1
             )
         )
         val schemaService = JsonSchemaService(schemaRepository)
 
         "should get schemas sorted by schema type and version" {
             schemaService.getSchemas() shouldContainExactly listOf(
-                SchemaMetadata(SchemaType.DIALOG_MESSAGE.toString(), 1),
-                SchemaMetadata(SchemaType.DIALOG_MESSAGE.toString(), 2)
+                SchemaMetadata(SchemaType.INCOMING_DIALOG_MESSAGE.toString(), 1),
+                SchemaMetadata(SchemaType.OUTGOING_DIALOG_MESSAGE.toString(), 1),
+                SchemaMetadata(SchemaType.OUTGOING_DIALOG_MESSAGE.toString(), 2)
             )
         }
 
         "should get versions for schema type sorted ascending" {
-            schemaService.getVersions(SchemaType.DIALOG_MESSAGE) shouldBe listOf(1, 2)
+            schemaService.getVersions(SchemaType.OUTGOING_DIALOG_MESSAGE) shouldBe listOf(1, 2)
         }
 
         "should get schema by schema type and version" {
             either {
                 with(schemaService) {
-                    get(SchemaType.DIALOG_MESSAGE, 1)
+                    get(SchemaType.OUTGOING_DIALOG_MESSAGE, 1)
                 }
             }
-                .shouldBeRight(dialogMessageV1)
+                .shouldBeRight(outgoingDialogMessageV1)
         }
 
         "should return error when schema version does not exist" {
             val error = either {
                 with(schemaService) {
-                    get(SchemaType.DIALOG_MESSAGE, 999)
+                    get(SchemaType.OUTGOING_DIALOG_MESSAGE, 999)
                 }
             }
                 .shouldBeLeft()
@@ -67,17 +75,17 @@ class SchemaServiceSpec : StringSpec(
             val schemaError = error.shouldBeInstanceOf<SchemaServerError.Schema>().error
 
             schemaError.shouldBeInstanceOf<SchemaError.NotFound>()
-            schemaError.schemaType shouldBe SchemaType.DIALOG_MESSAGE
+            schemaError.schemaType shouldBe SchemaType.OUTGOING_DIALOG_MESSAGE
             schemaError.version shouldBe 999
         }
 
         "should return latest schema by highest version" {
             either {
                 with(schemaService) {
-                    getLatest(SchemaType.DIALOG_MESSAGE)
+                    getLatest(SchemaType.OUTGOING_DIALOG_MESSAGE)
                 }
             }
-                .shouldBeRight(dialogMessageV2)
+                .shouldBeRight(outgoingDialogMessageV2)
         }
 
         "should return error when latest schema does not exist" {
@@ -87,25 +95,25 @@ class SchemaServiceSpec : StringSpec(
 
             val error = either {
                 with(emptyService) {
-                    getLatest(SchemaType.DIALOG_MESSAGE)
+                    getLatest(SchemaType.OUTGOING_DIALOG_MESSAGE)
                 }
             }
                 .shouldBeLeft()
 
             val schemaError = error.shouldBeInstanceOf<SchemaServerError.NoSchemasFound>()
 
-            schemaError.schemaType shouldBe SchemaType.DIALOG_MESSAGE
+            schemaError.schemaType shouldBe SchemaType.OUTGOING_DIALOG_MESSAGE
         }
 
         "should expose schema content" {
             val schema = either {
                 with(schemaService) {
-                    getLatest(SchemaType.DIALOG_MESSAGE)
+                    getLatest(SchemaType.OUTGOING_DIALOG_MESSAGE)
                 }
             }
                 .shouldBeRight()
 
-            schema.schema shouldBe """{"title":"dialog-message-v2"}"""
+            schema.schema shouldBe """{"title":"outgoing-dialog-message-v2"}"""
         }
     }
 )

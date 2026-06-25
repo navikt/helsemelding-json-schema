@@ -1,0 +1,116 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "no.nav.helsemelding.jsonschema.core.model.IncomingDialogMessage",
+    "description": "An incoming dialog message",
+    "type": "object",
+    "properties": {
+        "version": {
+            "type": "integer",
+            "description": "The current schema version"
+        },
+        "id": {
+            "type": "string",
+            "description": "The id of the dialog message"
+        },
+        "type": {
+            "$ref": "#/$defs/no.nav.helsemelding.jsonschema.core.model.IncomingDialogMessageType",
+            "description": "Type of message that was received"
+        },
+        "receivedAt": {
+            "type": "string",
+            "description": "When the dialog message was received (UTC)"
+        },
+        "patientIdent": {
+            "type": "string",
+            "description": "National identity number (11 digits) of patient"
+        },
+        "sender": {
+            "$ref": "#/$defs/no.nav.helsemelding.jsonschema.core.model.Sender",
+            "description": "Who the dialog message is from"
+        },
+        "conversationRef": {
+            "oneOf": [
+                {
+                    "type": "null"
+                },
+                {
+                    "$ref": "#/$defs/no.nav.helsemelding.jsonschema.core.model.ConversationRef"
+                }
+            ]
+        },
+        "message": {
+            "type": [
+                "string",
+                "null"
+            ],
+            "description": "The actual dialog message"
+        },
+        "numberOfAttachments": {
+            "type": "integer",
+            "description": "Number of attachment in message"
+        }
+    },
+    "additionalProperties": false,
+    "required": [
+        "version",
+        "id",
+        "type",
+        "receivedAt",
+        "patientIdent",
+        "sender",
+        "conversationRef",
+        "message",
+        "numberOfAttachments"
+    ],
+    "$defs": {
+        "no.nav.helsemelding.jsonschema.core.model.IncomingDialogMessageType": {
+            "type": "string",
+            "enum": [
+                "INNKALLING_DIALOGMOTE_DIALOG_SVAR_JA_JEG_KOMMER",
+                "INNKALLING_DIALOGMOTE_DIALOG_SVAR_JEG_ONSKER_NYTT_MOTETIDSPUNKT",
+                "INNKALLING_DIALOGMOTE_DIALOG_SVAR_JEG_KAN_IKKE_KOMME_BEGRENNELSE_FOR_MANGLEDE_OPPMOTE",
+                "FORESPOERSEL_OM_PASIENT_DIALOG_SVAR_SVAR_PA_FORESPORSEL",
+                "HENVENDELSE_LEGE_TIL_NAV_DIALOG_NOTAT_HENVENDELSE_OM_SYKEFRAVARSOPPFOLGING",
+                "HENVENDELSE_LEGE_TIL_NAV_DIALOG_NOTAT_HENVENDELSE_OM_PASIENT"
+            ]
+        },
+        "no.nav.helsemelding.jsonschema.core.model.Sender": {
+            "type": "object",
+            "description": "Information about the sender",
+            "properties": {
+                "behandlerRef": {
+                    "type": "string",
+                    "description": "Reference id in behandlerregisteret to behandler"
+                },
+                "legeSignaturRef": {
+                    "type": "string",
+                    "description": "Reference id in behandlerregisteret to behandler who signed the dialog message"
+                }
+            },
+            "required": [
+                "behandlerRef",
+                "legeSignaturRef"
+            ],
+            "additionalProperties": false
+        },
+        "no.nav.helsemelding.jsonschema.core.model.ConversationRef": {
+            "type": "object",
+            "description": "Information about the conversation",
+            "properties": {
+                "refToParent": {
+                    "type": "string",
+                    "description": "Reference to previous dialog message in conversation"
+                },
+                "refToConversation": {
+                    "type": "string",
+                    "description": "Reference to conversation (typically the same id as initial dialog message)"
+                }
+            },
+            "required": [
+                "refToParent",
+                "refToConversation"
+            ],
+            "additionalProperties": false
+        }
+    }
+}

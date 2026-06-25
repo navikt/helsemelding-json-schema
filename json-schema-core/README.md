@@ -29,13 +29,13 @@ Published schemas are committed to source control and represent the official con
 
 1. Update the schema model
 2. Increment `@SchemaVersion`
-3. Generate schema artifact
+3. Generate schema artifact with `./gradlew publishJsonSchemas`
 4. Commit generated `.schema.json`
 
 Example:
 
 ```text
-schemas/dialog-message-v2.schema.json
+schemas/outgoing-dialog-message-v2.schema.json
 ```
 
 ## Validation

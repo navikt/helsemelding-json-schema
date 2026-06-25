@@ -1,0 +1,103 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "no.nav.helsemelding.jsonschema.core.model.OutgoingDialogMessage",
+    "description": "An outgoing dialog message",
+    "type": "object",
+    "properties": {
+        "version": {
+            "type": "integer",
+            "description": "The current schema version"
+        },
+        "id": {
+            "type": "string",
+            "description": "The id of the dialog message"
+        },
+        "patientIdent": {
+            "type": "string",
+            "description": "National identity number (11 digits) of patient"
+        },
+        "behandlerRef": {
+            "type": "string",
+            "description": "Reference id to behandler or behandlerkontor in behandlerregisteret"
+        },
+        "conversationRef": {
+            "oneOf": [
+                {
+                    "type": "null"
+                },
+                {
+                    "$ref": "#/$defs/no.nav.helsemelding.jsonschema.core.model.ConversationRef"
+                }
+            ]
+        },
+        "type": {
+            "$ref": "#/$defs/no.nav.helsemelding.jsonschema.core.model.OutgoingDialogMessageType",
+            "description": "Type of message to send"
+        },
+        "message": {
+            "type": [
+                "string",
+                "null"
+            ],
+            "description": "The actual dialog message"
+        },
+        "attachment": {
+            "type": [
+                "string",
+                "null"
+            ],
+            "description": "Attachment as base64 encoded string?"
+        }
+    },
+    "additionalProperties": false,
+    "required": [
+        "version",
+        "id",
+        "patientIdent",
+        "behandlerRef",
+        "conversationRef",
+        "type",
+        "message",
+        "attachment"
+    ],
+    "$defs": {
+        "no.nav.helsemelding.jsonschema.core.model.ConversationRef": {
+            "type": "object",
+            "description": "Information about the conversation",
+            "properties": {
+                "refToParent": {
+                    "type": "string",
+                    "description": "Reference to previous dialog message in conversation"
+                },
+                "refToConversation": {
+                    "type": "string",
+                    "description": "Reference to conversation (typically the same id as initial dialog message)"
+                }
+            },
+            "required": [
+                "refToParent",
+                "refToConversation"
+            ],
+            "additionalProperties": false
+        },
+        "no.nav.helsemelding.jsonschema.core.model.OutgoingDialogMessageType": {
+            "type": "string",
+            "enum": [
+                "INNKALLING_DIALOGMOTE_DIALOG_FORESPORSEL_INNKALLING_DIALOGMOTE_2",
+                "INNKALLING_DIALOGMOTE_DIALOG_FORESPORSEL_ENDRING_DIALOGMOTE_2",
+                "INNKALLING_DIALOGMOTE_DIALOG_FORESPORSEL_INNKALLING_DIALOGMOTE_3",
+                "INNKALLING_DIALOGMOTE_DIALOG_FORESPORSEL_ENDRING_DIALOGMOTE_3",
+                "FORESPOERSEL_OM_PASIENT_DIALOG_FORESPORSEL_FORESPORSEL_OM_PASIENT",
+                "FORESPOERSEL_OM_PASIENT_DIALOG_FORESPORSEL_PAMINNELSE_FORESPORSEL_OM_PASIENT",
+                "OPPFOLGINGSPLAN_DIALOG_NOTAT_OPPFOLGINGSPLAN",
+                "HENVENDELSE_NAV_TIL_LEGE_DIALOG_NOTAT_FRISKMELDING_TIL_ARBEIDSFORMIDLING",
+                "HENVENDELSE_NAV_TIL_LEGE_DIALOG_NOTAT_RETUR_AV_LEGEERKLARING",
+                "HENVENDELSE_NAV_TIL_LEGE_DIALOG_NOTAT_AVLYSNING_DIALOGMOTE",
+                "HENVENDELSE_NAV_TIL_LEGE_DIALOG_NOTAT_UNNTAK_DIALOGMOTE",
+                "HENVENDELSE_NAV_TIL_LEGE_DIALOG_NOTAT_TILBAKEMELDING_FRA_NAV",
+                "HENVENDELSE_NAV_TIL_LEGE_DIALOG_NOTAT_MELDING_FRA_NAV",
+                "HENVENDELSE_NAV_TIL_LEGE_DIALOG_NOTAT_INFORMASJON_FRA_NAV"
+            ]
+        }
+    }
+}
