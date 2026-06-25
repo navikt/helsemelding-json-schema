@@ -19,7 +19,7 @@ data class OutgoingDialogMessage(
     @Description("The id of the dialog message") val id: String,
     @Description("National identity number (11 digits) of patient") val patientIdent: String,
     @Description("Reference id to behandler or behandlerkontor in behandlerregisteret") val behandlerRef: String,
-    @Description("") val conversationRef: ConversationRef?,
+    @Description("Which conversation this message is part of") val conversationRef: ConversationRef?,
     @Description("Type of message to send") val type: OutgoingDialogMessageType,
     @Description("The actual dialog message") val message: String?,
     @Description("Attachment as base64 encoded string?") val attachment: String?

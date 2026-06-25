@@ -13,7 +13,7 @@ data class IncomingDialogMessage(
     @Description("When the dialog message was received (UTC)") val receivedAt: String,
     @Description("National identity number (11 digits) of patient") val patientIdent: String,
     @Description("Who the dialog message is from") val sender: Sender,
-    @Description("") val conversationRef: ConversationRef?,
+    @Description("Which conversation this message is part of") val conversationRef: ConversationRef?,
     @Description("The actual dialog message") val message: String?,
     @Description("Number of attachment in message") val numberOfAttachments: Int
 )

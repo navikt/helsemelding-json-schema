@@ -28,7 +28,8 @@
                 {
                     "$ref": "#/$defs/no.nav.helsemelding.jsonschema.core.model.ConversationRef"
                 }
-            ]
+            ],
+            "description": "Which conversation this message is part of"
         },
         "type": {
             "$ref": "#/$defs/no.nav.helsemelding.jsonschema.core.model.OutgoingDialogMessageType",
