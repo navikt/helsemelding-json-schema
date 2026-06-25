@@ -104,7 +104,7 @@ class SchemaValidatorSpec : StringSpec(
             error.errors shouldContain "Schema resource not found: outgoing-dialog-message v999"
         }
 
-        "should reject missing version field outgoing-dialog-message" {
+        "should reject missing version field for outgoing-dialog-message" {
             val json = """
             {
                 "id": "uuid",
