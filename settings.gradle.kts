@@ -11,9 +11,8 @@ dependencyResolutionManagement {
 
     versionCatalogs {
         create("libs") {
-            version("arrow", "2.0.1")
-            version("suspendapp", "0.5.0")
-            version("ktor", "3.3.1")
+            version("arrow", "2.2.3")
+            version("ktor", "3.5.0")
             version("ktor-swagger-ui", "5.4.0")
             version("ktor-openapi", "5.4.0")
             version("schema-kenerator-serialization", "2.5.0")
@@ -28,8 +27,8 @@ dependencyResolutionManagement {
 
             library("arrow-core", "io.arrow-kt", "arrow-core").versionRef("arrow")
             library("arrow-functions", "io.arrow-kt", "arrow-functions").versionRef("arrow")
-            library("arrow-suspendapp", "io.arrow-kt", "suspendapp").versionRef("suspendapp")
-            library("arrow-suspendapp-ktor", "io.arrow-kt", "suspendapp-ktor").versionRef("suspendapp")
+            library("arrow-suspendapp", "io.arrow-kt", "suspendapp").versionRef("arrow")
+            library("arrow-suspendapp-ktor", "io.arrow-kt", "suspendapp-ktor").versionRef("arrow")
 
             library("hoplite-core", "com.sksamuel.hoplite", "hoplite-core").versionRef("hoplite")
             library("hoplite-hocon", "com.sksamuel.hoplite", "hoplite-hocon").versionRef("hoplite")
@@ -68,8 +67,8 @@ dependencyResolutionManagement {
 
         create("testLibs") {
             version("arrow", "2.0.0")
-            version("ktor", "3.3.1")
-            version("ktor-server-test", "3.3.1")
+            version("ktor", "3.5.0")
+            version("ktor-server-test", "3.5.0")
             version("kotest", "5.9.1")
             version("testcontainers", "1.18.1")
             version("kotest-extensions", "2.0.2")

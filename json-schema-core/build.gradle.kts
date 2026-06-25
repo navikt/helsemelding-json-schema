@@ -24,14 +24,6 @@ dependencies {
     testImplementation(kotlin("test"))
 }
 
-kotlin {
-    compilerOptions {
-        freeCompilerArgs.add(
-            "-Xannotation-default-target=param-property"
-        )
-    }
-}
-
 tasks.register<JavaExec>("publishJsonSchemas") {
     dependsOn("compileKotlin")
 
