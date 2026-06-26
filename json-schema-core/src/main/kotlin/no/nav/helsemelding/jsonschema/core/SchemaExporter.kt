@@ -1,5 +1,6 @@
 package no.nav.helsemelding.jsonschema.core
 
+import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.helsemelding.jsonschema.core.model.IncomingDialogMessage
 import no.nav.helsemelding.jsonschema.core.model.OutgoingDialogMessage
 import no.nav.helsemelding.jsonschema.core.model.SchemaDefinition
@@ -10,6 +11,8 @@ import kotlin.io.path.createDirectories
 import kotlin.io.path.exists
 import kotlin.io.path.writeText
 import kotlin.reflect.full.findAnnotation
+
+private val log = KotlinLogging.logger {}
 
 fun main(args: Array<String>) {
     require(args.size == 1) { "Expected output directory as first argument" }
@@ -26,7 +29,7 @@ fun main(args: Array<String>) {
         val file = outputDir.resolve("${schema.fileName}-v${schema.version}.schema.json")
 
         if (file.exists()) {
-            println("Schema already exists: $file. Bump version or delete intentionally.")
+            log.warn { "Schema already exists: $file. Bump version or delete intentionally." }
         } else {
             file.writeText(schema.schema)
         }
