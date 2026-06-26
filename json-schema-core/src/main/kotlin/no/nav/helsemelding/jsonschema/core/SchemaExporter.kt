@@ -25,11 +25,11 @@ fun main(args: Array<String>) {
     schemas.forEach { schema ->
         val file = outputDir.resolve("${schema.fileName}-v${schema.version}.schema.json")
 
-        require(!file.exists()) {
-            "Schema already exists: $file. Bump version or delete intentionally."
+        if (file.exists()) {
+            println("Schema already exists: $file. Bump version or delete intentionally.")
+        } else {
+            file.writeText(schema.schema)
         }
-
-        file.writeText(schema.schema)
     }
 }
 

@@ -8,19 +8,19 @@ import kotlinx.schema.Schema
 @SchemaVersion(1)
 data class IncomingDialogMessage(
     @Description("The current schema version") val version: Int,
-    @Description("The id of the dialog message") val id: String,
-    @Description("Type of message that was received") val type: IncomingDialogMessageType,
-    @Description("When the dialog message was received (UTC)") val receivedAt: String,
-    @Description("National identity number (11 digits) of patient") val patientIdent: String,
-    @Description("Who the dialog message is from") val sender: Sender,
-    @Description("Which conversation this message is part of") val conversationRef: ConversationRef?,
-    @Description("The actual dialog message") val message: String?,
-    @Description("Number of attachment in message") val numberOfAttachments: Int
+    @Description("Unique identifier of the dialog message") val id: String,
+    @Description("Type of dialog message") val type: IncomingDialogMessageType,
+    @Description("Date and time the dialog message was received (UTC)") val receivedAt: String,
+    @Description("National identity number (11 digits) of the patient") val patientIdent: String,
+    @Description("Sender of the dialog message") val sender: Sender,
+    @Description("Conversation this message belongs to") val conversationReference: ConversationReference?,
+    @Description("Message text") val message: String?,
+    @Description("Number of attachments") val numberOfAttachments: Int
 )
 
 @Description("Information about the sender")
 @Schema
 data class Sender(
-    @Description("Reference id in behandlerregisteret to behandler") val behandlerRef: String,
-    @Description("Reference id in behandlerregisteret to behandler who signed the dialog message") val legeSignaturRef: String
+    @Description("Reference id in the provider registry for the healthcare provider") val providerId: String,
+    @Description("Reference id in the provider registry for the healthcare provider who signed the message") val signingProviderId: String
 )

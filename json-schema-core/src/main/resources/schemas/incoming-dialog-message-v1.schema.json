@@ -10,45 +10,45 @@
         },
         "id": {
             "type": "string",
-            "description": "The id of the dialog message"
+            "description": "Unique identifier of the dialog message"
         },
         "type": {
             "$ref": "#/$defs/no.nav.helsemelding.jsonschema.core.model.IncomingDialogMessageType",
-            "description": "Type of message that was received"
+            "description": "Type of dialog message"
         },
         "receivedAt": {
             "type": "string",
-            "description": "When the dialog message was received (UTC)"
+            "description": "Date and time the dialog message was received (UTC)"
         },
         "patientIdent": {
             "type": "string",
-            "description": "National identity number (11 digits) of patient"
+            "description": "National identity number (11 digits) of the patient"
         },
         "sender": {
             "$ref": "#/$defs/no.nav.helsemelding.jsonschema.core.model.Sender",
-            "description": "Who the dialog message is from"
+            "description": "Sender of the dialog message"
         },
-        "conversationRef": {
+        "conversationReference": {
             "oneOf": [
                 {
                     "type": "null"
                 },
                 {
-                    "$ref": "#/$defs/no.nav.helsemelding.jsonschema.core.model.ConversationRef"
+                    "$ref": "#/$defs/no.nav.helsemelding.jsonschema.core.model.ConversationReference"
                 }
             ],
-            "description": "Which conversation this message is part of"
+            "description": "Conversation this message belongs to"
         },
         "message": {
             "type": [
                 "string",
                 "null"
             ],
-            "description": "The actual dialog message"
+            "description": "Message text"
         },
         "numberOfAttachments": {
             "type": "integer",
-            "description": "Number of attachment in message"
+            "description": "Number of attachments"
         }
     },
     "additionalProperties": false,
@@ -59,7 +59,7 @@
         "receivedAt",
         "patientIdent",
         "sender",
-        "conversationRef",
+        "conversationReference",
         "message",
         "numberOfAttachments"
     ],
@@ -67,49 +67,49 @@
         "no.nav.helsemelding.jsonschema.core.model.IncomingDialogMessageType": {
             "type": "string",
             "enum": [
-                "INNKALLING_DIALOGMOTE_DIALOG_SVAR_JA_JEG_KOMMER",
-                "INNKALLING_DIALOGMOTE_DIALOG_SVAR_JEG_ONSKER_NYTT_MOTETIDSPUNKT",
-                "INNKALLING_DIALOGMOTE_DIALOG_SVAR_JEG_KAN_IKKE_KOMME_BEGRENNELSE_FOR_MANGLEDE_OPPMOTE",
-                "FORESPOERSEL_OM_PASIENT_DIALOG_SVAR_SVAR_PA_FORESPORSEL",
-                "HENVENDELSE_LEGE_TIL_NAV_DIALOG_NOTAT_HENVENDELSE_OM_SYKEFRAVARSOPPFOLGING",
-                "HENVENDELSE_LEGE_TIL_NAV_DIALOG_NOTAT_HENVENDELSE_OM_PASIENT"
+                "ACCEPTS_MEETING_INVITATION",
+                "REQUESTS_NEW_MEETING_TIME",
+                "DECLINES_MEETING_WITH_REASON",
+                "PATIENT_REQUEST_RESPONSE",
+                "SICK_LEAVE_FOLLOW_UP_INQUIRY",
+                "PATIENT_INQUIRY"
             ]
         },
         "no.nav.helsemelding.jsonschema.core.model.Sender": {
             "type": "object",
             "description": "Information about the sender",
             "properties": {
-                "behandlerRef": {
+                "providerId": {
                     "type": "string",
-                    "description": "Reference id in behandlerregisteret to behandler"
+                    "description": "Reference id in the provider registry for the healthcare provider"
                 },
-                "legeSignaturRef": {
+                "signingProviderId": {
                     "type": "string",
-                    "description": "Reference id in behandlerregisteret to behandler who signed the dialog message"
+                    "description": "Reference id in the provider registry for the healthcare provider who signed the message"
                 }
             },
             "required": [
-                "behandlerRef",
-                "legeSignaturRef"
+                "providerId",
+                "signingProviderId"
             ],
             "additionalProperties": false
         },
-        "no.nav.helsemelding.jsonschema.core.model.ConversationRef": {
+        "no.nav.helsemelding.jsonschema.core.model.ConversationReference": {
             "type": "object",
             "description": "Information about the conversation",
             "properties": {
-                "refToParent": {
+                "parentMessageId": {
                     "type": "string",
                     "description": "Reference to previous dialog message in conversation"
                 },
-                "refToConversation": {
+                "conversationId": {
                     "type": "string",
                     "description": "Reference to conversation (typically the same id as initial dialog message)"
                 }
             },
             "required": [
-                "refToParent",
-                "refToConversation"
+                "parentMessageId",
+                "conversationId"
             ],
             "additionalProperties": false
         }

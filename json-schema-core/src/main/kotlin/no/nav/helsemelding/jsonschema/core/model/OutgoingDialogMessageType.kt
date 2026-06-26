@@ -2,12 +2,12 @@ package no.nav.helsemelding.jsonschema.core.model
 
 enum class OutgoingDialogMessageType(
     val process: String,
-    val type: String,
-    val kodeverk: Int,
-    val kode: Int,
-    val anvendelse: String
+    val messageType: String,
+    val codeSystem: Int,
+    val code: Int,
+    val application: String
 ) {
-    INNKALLING_DIALOGMOTE_DIALOG_FORESPORSEL_INNKALLING_DIALOGMOTE_2(
+    MEETING_INVITATION_2(
         "Innkalling dialogmøte",
         "DIALOG_FORESPØRSEL",
         8125,
@@ -15,7 +15,7 @@ enum class OutgoingDialogMessageType(
         "Innkalling dialogmøte 2"
     ),
 
-    INNKALLING_DIALOGMOTE_DIALOG_FORESPORSEL_ENDRING_DIALOGMOTE_2(
+    MEETING_RESCHEDULE_2(
         "Innkalling dialogmøte",
         "DIALOG_FORESPØRSEL",
         8125,
@@ -23,7 +23,7 @@ enum class OutgoingDialogMessageType(
         "Endring dialogmøte 2"
     ),
 
-    INNKALLING_DIALOGMOTE_DIALOG_FORESPORSEL_INNKALLING_DIALOGMOTE_3(
+    MEETING_INVITATION_3(
         "Innkalling dialogmøte",
         "DIALOG_FORESPØRSEL",
         8125,
@@ -31,7 +31,7 @@ enum class OutgoingDialogMessageType(
         "Innkalling dialogmøte 3"
     ),
 
-    INNKALLING_DIALOGMOTE_DIALOG_FORESPORSEL_ENDRING_DIALOGMOTE_3(
+    MEETING_RESCHEDULE_3(
         "Innkalling dialogmøte",
         "DIALOG_FORESPØRSEL",
         8125,
@@ -39,7 +39,7 @@ enum class OutgoingDialogMessageType(
         "Endring dialogmøte 3"
     ),
 
-    FORESPOERSEL_OM_PASIENT_DIALOG_FORESPORSEL_FORESPORSEL_OM_PASIENT(
+    PATIENT_REQUEST(
         "Forespørsel om pasient",
         "DIALOG_FORESPØRSEL",
         8129,
@@ -47,7 +47,7 @@ enum class OutgoingDialogMessageType(
         "Forespørsel om pasient"
     ),
 
-    FORESPOERSEL_OM_PASIENT_DIALOG_FORESPORSEL_PAMINNELSE_FORESPORSEL_OM_PASIENT(
+    PATIENT_REQUEST_REMINDER(
         "Forespørsel om pasient",
         "DIALOG_FORESPØRSEL",
         8129,
@@ -55,7 +55,7 @@ enum class OutgoingDialogMessageType(
         "Påminnelse forespørsel om pasient"
     ),
 
-    OPPFOLGINGSPLAN_DIALOG_NOTAT_OPPFOLGINGSPLAN(
+    FOLLOW_UP_PLAN(
         "Oppfølgingsplan",
         "DIALOG_NOTAT",
         8127,
@@ -63,7 +63,7 @@ enum class OutgoingDialogMessageType(
         "Oppfølgingsplan"
     ),
 
-    HENVENDELSE_NAV_TIL_LEGE_DIALOG_NOTAT_FRISKMELDING_TIL_ARBEIDSFORMIDLING(
+    RETURN_TO_WORK_NOTIFICATION(
         "Henvendelse fra NAV til lege",
         "DIALOG_NOTAT",
         8127,
@@ -71,7 +71,7 @@ enum class OutgoingDialogMessageType(
         "Friskmelding til arbeidsformidling"
     ),
 
-    HENVENDELSE_NAV_TIL_LEGE_DIALOG_NOTAT_RETUR_AV_LEGEERKLARING(
+    MEDICAL_CERTIFICATE_RETURN(
         "Henvendelse fra NAV til lege",
         "DIALOG_NOTAT",
         8127,
@@ -79,7 +79,7 @@ enum class OutgoingDialogMessageType(
         "Retur av legeerklæring"
     ),
 
-    HENVENDELSE_NAV_TIL_LEGE_DIALOG_NOTAT_AVLYSNING_DIALOGMOTE(
+    MEETING_CANCELLATION(
         "Henvendelse fra NAV til lege",
         "DIALOG_NOTAT",
         8127,
@@ -87,7 +87,7 @@ enum class OutgoingDialogMessageType(
         "Avlysning dialogmøte"
     ),
 
-    HENVENDELSE_NAV_TIL_LEGE_DIALOG_NOTAT_UNNTAK_DIALOGMOTE(
+    MEETING_EXEMPTION(
         "Henvendelse fra NAV til lege",
         "DIALOG_NOTAT",
         8127,
@@ -95,7 +95,7 @@ enum class OutgoingDialogMessageType(
         "Unntak dialogmøte"
     ),
 
-    HENVENDELSE_NAV_TIL_LEGE_DIALOG_NOTAT_TILBAKEMELDING_FRA_NAV(
+    NAV_FEEDBACK(
         "Henvendelse fra NAV til lege",
         "DIALOG_NOTAT",
         8127,
@@ -103,7 +103,7 @@ enum class OutgoingDialogMessageType(
         "Tilbakemelding fra NAV"
     ),
 
-    HENVENDELSE_NAV_TIL_LEGE_DIALOG_NOTAT_MELDING_FRA_NAV(
+    NAV_MESSAGE(
         "Henvendelse fra NAV til lege",
         "DIALOG_NOTAT",
         8127,
@@ -111,7 +111,7 @@ enum class OutgoingDialogMessageType(
         "Melding fra NAV"
     ),
 
-    HENVENDELSE_NAV_TIL_LEGE_DIALOG_NOTAT_INFORMASJON_FRA_NAV(
+    NAV_INFORMATION(
         "Henvendelse fra NAV til lege",
         "DIALOG_NOTAT",
         8127,

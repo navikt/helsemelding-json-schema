@@ -16,18 +16,11 @@ annotation class SchemaVersion(
 @SchemaVersion(1)
 data class OutgoingDialogMessage(
     @Description("The current schema version") val version: Int,
-    @Description("The id of the dialog message") val id: String,
-    @Description("National identity number (11 digits) of patient") val patientIdent: String,
-    @Description("Reference id to behandler or behandlerkontor in behandlerregisteret") val behandlerRef: String,
-    @Description("Which conversation this message is part of") val conversationRef: ConversationRef?,
-    @Description("Type of message to send") val type: OutgoingDialogMessageType,
-    @Description("The actual dialog message") val message: String?,
-    @Description("Attachment as base64 encoded string?") val attachment: String?
-)
-
-@Description("Information about the conversation")
-@Schema
-data class ConversationRef(
-    @Description("Reference to previous dialog message in conversation") val refToParent: String,
-    @Description("Reference to conversation (typically the same id as initial dialog message)") val refToConversation: String
+    @Description("Unique identifier of the dialog message") val id: String,
+    @Description("National identity number (11 digits) of the patient") val patientIdent: String,
+    @Description("Reference id to a healthcare provider or provider office in the provider registry") val providerRef: String,
+    @Description("Conversation this message belongs to") val conversationReference: ConversationReference?,
+    @Description("Type of dialog message") val type: OutgoingDialogMessageType,
+    @Description("Message text") val message: String?,
+    @Description("Attachment encoded as a Base64 string") val attachment: String?
 )

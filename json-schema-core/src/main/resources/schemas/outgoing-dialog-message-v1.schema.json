@@ -10,44 +10,44 @@
         },
         "id": {
             "type": "string",
-            "description": "The id of the dialog message"
+            "description": "Unique identifier of the dialog message"
         },
         "patientIdent": {
             "type": "string",
-            "description": "National identity number (11 digits) of patient"
+            "description": "National identity number (11 digits) of the patient"
         },
-        "behandlerRef": {
+        "providerRef": {
             "type": "string",
-            "description": "Reference id to behandler or behandlerkontor in behandlerregisteret"
+            "description": "Reference id to a healthcare provider or provider office in the provider registry"
         },
-        "conversationRef": {
+        "conversationReference": {
             "oneOf": [
                 {
                     "type": "null"
                 },
                 {
-                    "$ref": "#/$defs/no.nav.helsemelding.jsonschema.core.model.ConversationRef"
+                    "$ref": "#/$defs/no.nav.helsemelding.jsonschema.core.model.ConversationReference"
                 }
             ],
-            "description": "Which conversation this message is part of"
+            "description": "Conversation this message belongs to"
         },
         "type": {
             "$ref": "#/$defs/no.nav.helsemelding.jsonschema.core.model.OutgoingDialogMessageType",
-            "description": "Type of message to send"
+            "description": "Type of dialog message"
         },
         "message": {
             "type": [
                 "string",
                 "null"
             ],
-            "description": "The actual dialog message"
+            "description": "Message text"
         },
         "attachment": {
             "type": [
                 "string",
                 "null"
             ],
-            "description": "Attachment as base64 encoded string?"
+            "description": "Attachment encoded as a Base64 string"
         }
     },
     "additionalProperties": false,
@@ -55,49 +55,49 @@
         "version",
         "id",
         "patientIdent",
-        "behandlerRef",
-        "conversationRef",
+        "providerRef",
+        "conversationReference",
         "type",
         "message",
         "attachment"
     ],
     "$defs": {
-        "no.nav.helsemelding.jsonschema.core.model.ConversationRef": {
+        "no.nav.helsemelding.jsonschema.core.model.ConversationReference": {
             "type": "object",
             "description": "Information about the conversation",
             "properties": {
-                "refToParent": {
+                "parentMessageId": {
                     "type": "string",
                     "description": "Reference to previous dialog message in conversation"
                 },
-                "refToConversation": {
+                "conversationId": {
                     "type": "string",
                     "description": "Reference to conversation (typically the same id as initial dialog message)"
                 }
             },
             "required": [
-                "refToParent",
-                "refToConversation"
+                "parentMessageId",
+                "conversationId"
             ],
             "additionalProperties": false
         },
         "no.nav.helsemelding.jsonschema.core.model.OutgoingDialogMessageType": {
             "type": "string",
             "enum": [
-                "INNKALLING_DIALOGMOTE_DIALOG_FORESPORSEL_INNKALLING_DIALOGMOTE_2",
-                "INNKALLING_DIALOGMOTE_DIALOG_FORESPORSEL_ENDRING_DIALOGMOTE_2",
-                "INNKALLING_DIALOGMOTE_DIALOG_FORESPORSEL_INNKALLING_DIALOGMOTE_3",
-                "INNKALLING_DIALOGMOTE_DIALOG_FORESPORSEL_ENDRING_DIALOGMOTE_3",
-                "FORESPOERSEL_OM_PASIENT_DIALOG_FORESPORSEL_FORESPORSEL_OM_PASIENT",
-                "FORESPOERSEL_OM_PASIENT_DIALOG_FORESPORSEL_PAMINNELSE_FORESPORSEL_OM_PASIENT",
-                "OPPFOLGINGSPLAN_DIALOG_NOTAT_OPPFOLGINGSPLAN",
-                "HENVENDELSE_NAV_TIL_LEGE_DIALOG_NOTAT_FRISKMELDING_TIL_ARBEIDSFORMIDLING",
-                "HENVENDELSE_NAV_TIL_LEGE_DIALOG_NOTAT_RETUR_AV_LEGEERKLARING",
-                "HENVENDELSE_NAV_TIL_LEGE_DIALOG_NOTAT_AVLYSNING_DIALOGMOTE",
-                "HENVENDELSE_NAV_TIL_LEGE_DIALOG_NOTAT_UNNTAK_DIALOGMOTE",
-                "HENVENDELSE_NAV_TIL_LEGE_DIALOG_NOTAT_TILBAKEMELDING_FRA_NAV",
-                "HENVENDELSE_NAV_TIL_LEGE_DIALOG_NOTAT_MELDING_FRA_NAV",
-                "HENVENDELSE_NAV_TIL_LEGE_DIALOG_NOTAT_INFORMASJON_FRA_NAV"
+                "MEETING_INVITATION_2",
+                "MEETING_RESCHEDULE_2",
+                "MEETING_INVITATION_3",
+                "MEETING_RESCHEDULE_3",
+                "PATIENT_REQUEST",
+                "PATIENT_REQUEST_REMINDER",
+                "FOLLOW_UP_PLAN",
+                "RETURN_TO_WORK_NOTIFICATION",
+                "MEDICAL_CERTIFICATE_RETURN",
+                "MEETING_CANCELLATION",
+                "MEETING_EXEMPTION",
+                "NAV_FEEDBACK",
+                "NAV_MESSAGE",
+                "NAV_INFORMATION"
             ]
         }
     }

@@ -2,12 +2,12 @@ package no.nav.helsemelding.jsonschema.core.model
 
 enum class IncomingDialogMessageType(
     val process: String,
-    val type: String,
-    val kodeverk: Int,
-    val kode: Int,
-    val anvendelse: String
+    val messageType: String,
+    val codeSystem: Int,
+    val code: Int,
+    val application: String
 ) {
-    INNKALLING_DIALOGMOTE_DIALOG_SVAR_JA_JEG_KOMMER(
+    ACCEPTS_MEETING_INVITATION(
         "Innkalling dialogmøte",
         "DIALOG_SVAR",
         8126,
@@ -15,7 +15,7 @@ enum class IncomingDialogMessageType(
         "Ja, jeg kommer"
     ),
 
-    INNKALLING_DIALOGMOTE_DIALOG_SVAR_JEG_ONSKER_NYTT_MOTETIDSPUNKT(
+    REQUESTS_NEW_MEETING_TIME(
         "Innkalling dialogmøte",
         "DIALOG_SVAR",
         8126,
@@ -23,7 +23,7 @@ enum class IncomingDialogMessageType(
         "Jeg ønsker nytt møtetidspunkt"
     ),
 
-    INNKALLING_DIALOGMOTE_DIALOG_SVAR_JEG_KAN_IKKE_KOMME_BEGRENNELSE_FOR_MANGLEDE_OPPMOTE(
+    DECLINES_MEETING_WITH_REASON(
         "Innkalling dialogmøte",
         "DIALOG_SVAR",
         8126,
@@ -31,7 +31,7 @@ enum class IncomingDialogMessageType(
         "Jeg kan ikke komme / begrunnelse for manglende oppmøte"
     ),
 
-    FORESPOERSEL_OM_PASIENT_DIALOG_SVAR_SVAR_PA_FORESPORSEL(
+    PATIENT_REQUEST_RESPONSE(
         "Forespørsel om pasient",
         "DIALOG_SVAR",
         9069,
@@ -39,7 +39,7 @@ enum class IncomingDialogMessageType(
         "Svar på forespørsel"
     ),
 
-    HENVENDELSE_LEGE_TIL_NAV_DIALOG_NOTAT_HENVENDELSE_OM_SYKEFRAVARSOPPFOLGING(
+    SICK_LEAVE_FOLLOW_UP_INQUIRY(
         "Henvendelse fra lege til NAV",
         "DIALOG_NOTAT",
         8128,
@@ -47,7 +47,7 @@ enum class IncomingDialogMessageType(
         "Henvendelse om sykefraværsoppfølging"
     ),
 
-    HENVENDELSE_LEGE_TIL_NAV_DIALOG_NOTAT_HENVENDELSE_OM_PASIENT(
+    PATIENT_INQUIRY(
         "Henvendelse fra lege til NAV",
         "DIALOG_NOTAT",
         8128,
