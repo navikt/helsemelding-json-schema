@@ -12,7 +12,7 @@ dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
             version("arrow", "2.2.3")
-            version("ktor", "3.5.0")
+            version("ktor", "3.5.1")
             version("ktor-swagger-ui", "5.4.0")
             version("ktor-openapi", "5.4.0")
             version("schema-kenerator-serialization", "2.5.0")
