@@ -67,8 +67,8 @@ dependencyResolutionManagement {
 
         create("testLibs") {
             version("arrow", "2.0.0")
-            version("ktor", "3.5.0")
-            version("ktor-server-test", "3.5.0")
+            version("ktor", "3.5.1")
+            version("ktor-server-test", "3.5.1")
             version("kotest", "5.9.1")
             version("testcontainers", "1.18.1")
             version("kotest-extensions", "2.0.2")
