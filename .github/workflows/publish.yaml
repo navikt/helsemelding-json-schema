@@ -1,0 +1,45 @@
+name: "Publish json-schema-core library"
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+jobs:
+  build:
+    name: "build-and-publish"
+    runs-on: "ubuntu-24.04"
+    permissions: 
+        packages: write
+        repository-projects: write
+        contents: write
+    steps:
+    - uses: "actions/checkout@v6"
+    - uses: "actions/setup-java@v5"
+      with:
+        "java-version": "21"
+        "distribution": "temurin"
+    - name: Cache Gradle
+      uses: actions/cache@v5
+      with:
+        path: |
+          ~/.gradle/wrapper
+          ~/.gradle/caches
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/gradle.properties') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+
+    - name: "Build and tests json-schema-core"
+      run: ./gradlew :json-schema-core:test  :json-schema-core:build
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_USERNAME: x-access-token
+
+    - name: "Show json-schema-core version"
+      run: |
+        VERSION=$(grep 'version =' json-schema-core/build.gradle.kts | awk -F'"' '{print $2}')
+        echo "Publishing json-schema-core version: $VERSION"
+    - name: "Publish json-schema-core to GitHub Packages"
+      run: ./gradlew --stacktrace :json-schema-core:publish
+      continue-on-error: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_USERNAME: x-access-token
