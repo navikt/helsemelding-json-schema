@@ -18,7 +18,7 @@ data class OutgoingDialogMessage(
     @Description("The current schema version") val version: Int,
     @Description("Unique identifier of the dialog message") val id: String,
     @Description("National identity number (11 digits) of the patient") val patientIdent: String,
-    @Description("Reference id to a healthcare provider or provider office in the provider registry") val providerRef: String,
+    @Description("Reference id to a healthcare provider or provider office in the provider registry") val providerId: String,
     @Description("Conversation this message belongs to") val conversationReference: ConversationReference?,
     @Description("Type of dialog message") val type: OutgoingDialogMessageType,
     @Description("Message text") val message: String?,

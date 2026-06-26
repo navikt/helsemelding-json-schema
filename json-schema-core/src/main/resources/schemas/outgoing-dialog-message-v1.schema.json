@@ -16,7 +16,7 @@
             "type": "string",
             "description": "National identity number (11 digits) of the patient"
         },
-        "providerRef": {
+        "providerId": {
             "type": "string",
             "description": "Reference id to a healthcare provider or provider office in the provider registry"
         },
@@ -55,7 +55,7 @@
         "version",
         "id",
         "patientIdent",
-        "providerRef",
+        "providerId",
         "conversationReference",
         "type",
         "message",

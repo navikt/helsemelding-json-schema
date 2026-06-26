@@ -17,12 +17,12 @@ class SchemaValidatorSpec : StringSpec(
                 "version": 1,
                 "id": "uuid",
                 "patientIdent": "12345678910",
-                "behandlerRef": "uuid2",
-                "conversationRef": {
-                    "refToParent": "uuid3",
-                    "refToConversation": "uuid4"
+                "providerId": "uuid2",
+                "conversationReference": {
+                    "parentMessageId": "uuid3",
+                    "conversationId": "uuid4"
                 },
-                "type": "INNKALLING_DIALOGMOTE_DIALOG_FORESPORSEL_INNKALLING_DIALOGMOTE_2",
+                "type": "MEETING_INVITATION_2",
                 "message": "Hei",
                 "attachment": "attachment"
             }
@@ -50,12 +50,12 @@ class SchemaValidatorSpec : StringSpec(
             {
                 "version": 1,
                 "patientIdent": "12345678910",
-                "behandlerRef": "uuid2",
-                "conversationRef": {
-                    "refToParent": "uuid3",
-                    "refToConversation": "uuid4"
+                "providerId": "uuid2",
+                "conversationReference": {
+                    "parentMessageId": "uuid3",
+                    "conversationId": "uuid4"
                 },
-                "type": "INNKALLING_DIALOGMOTE_DIALOG_FORESPORSEL_INNKALLING_DIALOGMOTE_2",
+                "type": "MEETING_INVITATION_2",
                 "message": "Hei",
                 "attachment": "attachment"
             }
@@ -73,12 +73,12 @@ class SchemaValidatorSpec : StringSpec(
                 "version": 1,
                 "id": "uuid",
                 "patientIdent": "12345678910",
-                "behandlerRef": "uuid2",
-                "conversationRef": {
-                    "refToParent": "uuid3",
-                    "refToConversation": "uuid4"
+                "providerId": "uuid2",
+                "conversationReference": {
+                    "parentMessageId": "uuid3",
+                    "conversationId": "uuid4"
                 },
-                "type": "INNKALLING_DIALOGMOTE_DIALOG_FORESPORSEL_INNKALLING_DIALOGMOTE_2",
+                "type": "MEETING_INVITATION_2",
                 "message": "Hei",
                 "unexpected": "not allowed",
                 "attachment": "attachment"
@@ -109,12 +109,12 @@ class SchemaValidatorSpec : StringSpec(
             {
                 "id": "uuid",
                 "patientIdent": "12345678910",
-                "behandlerRef": "uuid2",
-                "conversationRef": {
-                    "refToParent": "uuid3",
-                    "refToConversation": "uuid4"
+                "providerId": "uuid2",
+                "conversationReference": {
+                    "parentMessageId": "uuid3",
+                    "conversationId": "uuid4"
                 },
-                "type": "INNKALLING_DIALOGMOTE_DIALOG_FORESPORSEL_INNKALLING_DIALOGMOTE_2",
+                "type": "MEETING_INVITATION_2",
                 "message": "Hei",
                 "attachment": "attachment"
             }
@@ -132,16 +132,16 @@ class SchemaValidatorSpec : StringSpec(
             {
                 "version": 1,
                 "id": "uuid",
-                "type": "FORESPOERSEL_OM_PASIENT_DIALOG_SVAR_SVAR_PA_FORESPORSEL",
+                "type": "PATIENT_REQUEST_RESPONSE",
                 "receivedAt": "2026-06-03T12:00:00Z",
                 "patientIdent": "12345678910",
                 "sender": {
-                    "behandlerRef": "uuid2",
-                    "legeSignaturRef": "uuid3"
+                    "providerId": "uuid2",
+                    "signingProviderId": "uuid3"
                 },
-                "conversationRef": {
-                    "refToParent": "uuid4",
-                    "refToConversation": "uuid5"
+                "conversationReference": {
+                    "parentMessageId": "uuid4",
+                    "conversationId": "uuid5"
                 },
                 "message": "Hei",
                 "numberOfAttachments": 1
@@ -155,16 +155,16 @@ class SchemaValidatorSpec : StringSpec(
             val json = """
             {
                 "version": 1,
-                "type": "FORESPOERSEL_OM_PASIENT_DIALOG_SVAR_SVAR_PA_FORESPORSEL",
+                "type": "PATIENT_REQUEST_RESPONSE",
                 "receivedAt": "2026-06-03T12:00:00Z",
                 "patientIdent": "12345678910",
                 "sender": {
-                    "behandlerRef": "uuid",
-                    "legeSignaturRef": "uuid2"
+                    "providerId": "uuid",
+                    "signingProviderId": "uuid2"
                 },
-                "conversationRef": {
-                    "refToParent": "uuid3",
-                    "refToConversation": "uuid4"
+                "conversationReference": {
+                    "parentMessageId": "uuid3",
+                    "conversationId": "uuid4"
                 },
                 "message": "Hei",
                 "numberOfAttachments": 1
@@ -181,16 +181,16 @@ class SchemaValidatorSpec : StringSpec(
             val json = """
             {
                 "version": 1,
-                "type": "FORESPOERSEL_OM_PASIENT_DIALOG_SVAR_SVAR_PA_FORESPORSEL",
+                "type": "PATIENT_REQUEST_RESPONSE",
                 "receivedAt": "2026-06-03T12:00:00Z",
                 "patientIdent": "12345678910",
                 "sender": {
-                    "behandlerRef": "uuid",
-                    "legeSignaturRef": "uuid2"
+                    "providerId": "uuid",
+                    "signingProviderId": "uuid2"
                 },
-                "conversationRef": {
-                    "refToParent": "uuid3",
-                    "refToConversation": "uuid4"
+                "conversationReference": {
+                    "parentMessageId": "uuid3",
+                    "conversationId": "uuid4"
                 },
                 "message": "Hei",
                 "unexpected": "not allowed",
@@ -206,16 +206,16 @@ class SchemaValidatorSpec : StringSpec(
         "should reject missing version field for incoming-dialog-message" {
             val json = """
             {
-                "type": "FORESPOERSEL_OM_PASIENT_DIALOG_SVAR_SVAR_PA_FORESPORSEL",
+                "type": "PATIENT_REQUEST_RESPONSE",
                 "receivedAt": "2026-06-03T12:00:00Z",
                 "patientIdent": "12345678910",
                 "sender": {
-                    "behandlerRef": "uuid",
-                    "legeSignaturRef": "uuid2"
+                    "providerId": "uuid",
+                    "signingProviderId": "uuid2"
                 },
-                "conversationRef": {
-                    "refToParent": "uuid3",
-                    "refToConversation": "uuid4"
+                "conversationReference": {
+                    "parentMessageId": "uuid3",
+                    "conversationId": "uuid4"
                 },
                 "message": "Hei",
                 "numberOfAttachments": 1
