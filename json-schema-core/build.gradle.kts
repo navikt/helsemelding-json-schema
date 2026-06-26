@@ -11,6 +11,7 @@ dependencies {
     ksp(libs.kotlinx.schema.ksp)
     implementation(libs.arrow.core)
     implementation(libs.arrow.functions)
+    implementation(libs.bundles.logging)
     implementation(libs.hoplite.core)
     implementation(libs.hoplite.hocon)
     implementation(libs.ktor.serialization.kotlinx.json)

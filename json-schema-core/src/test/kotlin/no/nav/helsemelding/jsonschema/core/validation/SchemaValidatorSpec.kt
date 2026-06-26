@@ -11,20 +11,24 @@ class SchemaValidatorSpec : StringSpec(
     {
         val validator = JsonSchemaValidator()
 
-        "should accept valid dialog-message json" {
+        "should accept valid outgoing-dialog-message json" {
             val json = """
             {
-              "version": 1,
-              "dialogId": "dialog-123",
-              "createdAt": "2026-06-03T12:00:00Z",
-              "payload": {
-                "messageText": "Hei",
-                "patientId": "12345678910"
-              }
+                "version": 1,
+                "id": "uuid",
+                "patientIdent": "12345678910",
+                "providerId": "uuid2",
+                "conversationReference": {
+                    "parentMessageId": "uuid3",
+                    "conversationId": "uuid4"
+                },
+                "type": "MEETING_INVITATION_2",
+                "message": "Hei",
+                "attachment": "attachment"
             }
             """.trimIndent()
 
-            validator.validate(SchemaType.DIALOG_MESSAGE, json).shouldBeRight(json)
+            validator.validate(SchemaType.OUTGOING_DIALOG_MESSAGE, json).shouldBeRight(json)
         }
 
         "should reject invalid json syntax" {
@@ -34,46 +38,54 @@ class SchemaValidatorSpec : StringSpec(
             }
             """.trimIndent()
 
-            val error = validator.validate(SchemaType.DIALOG_MESSAGE, json).shouldBeLeft()
+            val error = validator.validate(SchemaType.OUTGOING_DIALOG_MESSAGE, json).shouldBeLeft()
 
-            error.schemaType shouldBe SchemaType.DIALOG_MESSAGE
+            error.schemaType shouldBe SchemaType.OUTGOING_DIALOG_MESSAGE
             error.version shouldBe null
             error.errors.first().startsWith("Invalid JSON") shouldBe true
         }
 
-        "should reject missing required field" {
+        "should reject missing required field for outgoing-dialog-message" {
             val json = """
             {
-              "version": 1,
-              "createdAt": "2026-06-03T12:00:00Z",
-              "payload": {
-                "messageText": "Hei",
-                "patientId": "12345678910"
-              }
+                "version": 1,
+                "patientIdent": "12345678910",
+                "providerId": "uuid2",
+                "conversationReference": {
+                    "parentMessageId": "uuid3",
+                    "conversationId": "uuid4"
+                },
+                "type": "MEETING_INVITATION_2",
+                "message": "Hei",
+                "attachment": "attachment"
             }
             """.trimIndent()
 
-            val error = validator.validate(SchemaType.DIALOG_MESSAGE, json).shouldBeLeft()
+            val error = validator.validate(SchemaType.OUTGOING_DIALOG_MESSAGE, json).shouldBeLeft()
 
             error.version shouldBe 1
-            error.errors.any { it.contains("dialogId") } shouldBe true
+            error.errors.any { it.contains("id") } shouldBe true
         }
 
-        "should reject additional properties" {
+        "should reject additional properties for outgoing-dialog-message" {
             val json = """
             {
-              "version": 1,
-              "dialogId": "dialog-123",
-              "createdAt": "2026-06-03T12:00:00Z",
-              "unexpected": "not allowed",
-              "payload": {
-                "messageText": "Hei",
-                "patientId": "12345678910"
-              }
+                "version": 1,
+                "id": "uuid",
+                "patientIdent": "12345678910",
+                "providerId": "uuid2",
+                "conversationReference": {
+                    "parentMessageId": "uuid3",
+                    "conversationId": "uuid4"
+                },
+                "type": "MEETING_INVITATION_2",
+                "message": "Hei",
+                "unexpected": "not allowed",
+                "attachment": "attachment"
             }
             """.trimIndent()
 
-            val error = validator.validate(SchemaType.DIALOG_MESSAGE, json).shouldBeLeft()
+            val error = validator.validate(SchemaType.OUTGOING_DIALOG_MESSAGE, json).shouldBeLeft()
 
             error.version shouldBe 1
         }
@@ -85,28 +97,134 @@ class SchemaValidatorSpec : StringSpec(
             }
             """.trimIndent()
 
-            val error = validator.validate(SchemaType.DIALOG_MESSAGE, json).shouldBeLeft()
+            val error = validator.validate(SchemaType.OUTGOING_DIALOG_MESSAGE, json).shouldBeLeft()
 
-            error.schemaType shouldBe SchemaType.DIALOG_MESSAGE
+            error.schemaType shouldBe SchemaType.OUTGOING_DIALOG_MESSAGE
             error.version shouldBe 999
-            error.errors shouldContain "Schema resource not found: dialog-message v999"
+            error.errors shouldContain "Schema resource not found: outgoing-dialog-message v999"
         }
 
-        "should reject missing version field" {
+        "should reject missing version field for outgoing-dialog-message" {
             val json = """
             {
-              "dialogId": "dialog-123",
-              "createdAt": "2026-06-03T12:00:00Z",
-              "payload": {
-                "messageText": "Hei",
-                "patientId": "12345678910"
-              }
+                "id": "uuid",
+                "patientIdent": "12345678910",
+                "providerId": "uuid2",
+                "conversationReference": {
+                    "parentMessageId": "uuid3",
+                    "conversationId": "uuid4"
+                },
+                "type": "MEETING_INVITATION_2",
+                "message": "Hei",
+                "attachment": "attachment"
             }
             """.trimIndent()
 
-            val error = validator.validate(SchemaType.DIALOG_MESSAGE, json).shouldBeLeft()
+            val error = validator.validate(SchemaType.OUTGOING_DIALOG_MESSAGE, json).shouldBeLeft()
 
-            error.schemaType shouldBe SchemaType.DIALOG_MESSAGE
+            error.schemaType shouldBe SchemaType.OUTGOING_DIALOG_MESSAGE
+            error.version shouldBe null
+            error.errors shouldContain "Missing or invalid version field"
+        }
+
+        "should accept valid incoming-dialog-message json" {
+            val json = """
+            {
+                "version": 1,
+                "id": "uuid",
+                "type": "PATIENT_REQUEST_RESPONSE",
+                "receivedAt": "2026-06-03T12:00:00Z",
+                "patientIdent": "12345678910",
+                "sender": {
+                    "providerId": "uuid2",
+                    "signingProviderId": "uuid3"
+                },
+                "conversationReference": {
+                    "parentMessageId": "uuid4",
+                    "conversationId": "uuid5"
+                },
+                "message": "Hei",
+                "numberOfAttachments": 1
+            }
+            """.trimIndent()
+
+            validator.validate(SchemaType.INCOMING_DIALOG_MESSAGE, json).shouldBeRight(json)
+        }
+
+        "should reject missing required field for incoming-dialog-message" {
+            val json = """
+            {
+                "version": 1,
+                "type": "PATIENT_REQUEST_RESPONSE",
+                "receivedAt": "2026-06-03T12:00:00Z",
+                "patientIdent": "12345678910",
+                "sender": {
+                    "providerId": "uuid",
+                    "signingProviderId": "uuid2"
+                },
+                "conversationReference": {
+                    "parentMessageId": "uuid3",
+                    "conversationId": "uuid4"
+                },
+                "message": "Hei",
+                "numberOfAttachments": 1
+            }
+            """.trimIndent()
+
+            val error = validator.validate(SchemaType.INCOMING_DIALOG_MESSAGE, json).shouldBeLeft()
+
+            error.version shouldBe 1
+            error.errors.any { it.contains("id") } shouldBe true
+        }
+
+        "should reject additional properties for incoming-dialog-message" {
+            val json = """
+            {
+                "version": 1,
+                "type": "PATIENT_REQUEST_RESPONSE",
+                "receivedAt": "2026-06-03T12:00:00Z",
+                "patientIdent": "12345678910",
+                "sender": {
+                    "providerId": "uuid",
+                    "signingProviderId": "uuid2"
+                },
+                "conversationReference": {
+                    "parentMessageId": "uuid3",
+                    "conversationId": "uuid4"
+                },
+                "message": "Hei",
+                "unexpected": "not allowed",
+                "numberOfAttachments": 1
+            }
+            """.trimIndent()
+
+            val error = validator.validate(SchemaType.INCOMING_DIALOG_MESSAGE, json).shouldBeLeft()
+
+            error.version shouldBe 1
+        }
+
+        "should reject missing version field for incoming-dialog-message" {
+            val json = """
+            {
+                "type": "PATIENT_REQUEST_RESPONSE",
+                "receivedAt": "2026-06-03T12:00:00Z",
+                "patientIdent": "12345678910",
+                "sender": {
+                    "providerId": "uuid",
+                    "signingProviderId": "uuid2"
+                },
+                "conversationReference": {
+                    "parentMessageId": "uuid3",
+                    "conversationId": "uuid4"
+                },
+                "message": "Hei",
+                "numberOfAttachments": 1
+            }
+            """.trimIndent()
+
+            val error = validator.validate(SchemaType.INCOMING_DIALOG_MESSAGE, json).shouldBeLeft()
+
+            error.schemaType shouldBe SchemaType.INCOMING_DIALOG_MESSAGE
             error.version shouldBe null
             error.errors shouldContain "Missing or invalid version field"
         }

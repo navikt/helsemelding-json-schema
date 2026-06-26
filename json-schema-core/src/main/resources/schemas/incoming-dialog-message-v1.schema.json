@@ -1,0 +1,117 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "no.nav.helsemelding.jsonschema.core.model.IncomingDialogMessage",
+    "description": "An incoming dialog message",
+    "type": "object",
+    "properties": {
+        "version": {
+            "type": "integer",
+            "description": "The current schema version"
+        },
+        "id": {
+            "type": "string",
+            "description": "Unique identifier of the dialog message"
+        },
+        "type": {
+            "$ref": "#/$defs/no.nav.helsemelding.jsonschema.core.model.IncomingDialogMessageType",
+            "description": "Type of dialog message"
+        },
+        "receivedAt": {
+            "type": "string",
+            "description": "Date and time the dialog message was received (UTC)"
+        },
+        "patientIdent": {
+            "type": "string",
+            "description": "National identity number (11 digits) of the patient"
+        },
+        "sender": {
+            "$ref": "#/$defs/no.nav.helsemelding.jsonschema.core.model.Sender",
+            "description": "Sender of the dialog message"
+        },
+        "conversationReference": {
+            "oneOf": [
+                {
+                    "type": "null"
+                },
+                {
+                    "$ref": "#/$defs/no.nav.helsemelding.jsonschema.core.model.ConversationReference"
+                }
+            ],
+            "description": "Conversation this message belongs to"
+        },
+        "message": {
+            "type": [
+                "string",
+                "null"
+            ],
+            "description": "Message text"
+        },
+        "numberOfAttachments": {
+            "type": "integer",
+            "description": "Number of attachments"
+        }
+    },
+    "additionalProperties": false,
+    "required": [
+        "version",
+        "id",
+        "type",
+        "receivedAt",
+        "patientIdent",
+        "sender",
+        "conversationReference",
+        "message",
+        "numberOfAttachments"
+    ],
+    "$defs": {
+        "no.nav.helsemelding.jsonschema.core.model.IncomingDialogMessageType": {
+            "type": "string",
+            "enum": [
+                "ACCEPTS_MEETING_INVITATION",
+                "REQUESTS_NEW_MEETING_TIME",
+                "DECLINES_MEETING_WITH_REASON",
+                "PATIENT_REQUEST_RESPONSE",
+                "SICK_LEAVE_FOLLOW_UP_INQUIRY",
+                "PATIENT_INQUIRY"
+            ]
+        },
+        "no.nav.helsemelding.jsonschema.core.model.Sender": {
+            "type": "object",
+            "description": "Information about the sender",
+            "properties": {
+                "providerId": {
+                    "type": "string",
+                    "description": "Reference id in the provider registry for the healthcare provider"
+                },
+                "signingProviderId": {
+                    "type": "string",
+                    "description": "Reference id in the provider registry for the healthcare provider who signed the message"
+                }
+            },
+            "required": [
+                "providerId",
+                "signingProviderId"
+            ],
+            "additionalProperties": false
+        },
+        "no.nav.helsemelding.jsonschema.core.model.ConversationReference": {
+            "type": "object",
+            "description": "Information about the conversation",
+            "properties": {
+                "parentMessageId": {
+                    "type": "string",
+                    "description": "Reference to previous dialog message in conversation"
+                },
+                "conversationId": {
+                    "type": "string",
+                    "description": "Reference to conversation (typically the same id as initial dialog message)"
+                }
+            },
+            "required": [
+                "parentMessageId",
+                "conversationId"
+            ],
+            "additionalProperties": false
+        }
+    }
+}

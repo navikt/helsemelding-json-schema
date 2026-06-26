@@ -1,0 +1,104 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "no.nav.helsemelding.jsonschema.core.model.OutgoingDialogMessage",
+    "description": "An outgoing dialog message",
+    "type": "object",
+    "properties": {
+        "version": {
+            "type": "integer",
+            "description": "The current schema version"
+        },
+        "id": {
+            "type": "string",
+            "description": "Unique identifier of the dialog message"
+        },
+        "patientIdent": {
+            "type": "string",
+            "description": "National identity number (11 digits) of the patient"
+        },
+        "providerId": {
+            "type": "string",
+            "description": "Reference id to a healthcare provider or provider office in the provider registry"
+        },
+        "conversationReference": {
+            "oneOf": [
+                {
+                    "type": "null"
+                },
+                {
+                    "$ref": "#/$defs/no.nav.helsemelding.jsonschema.core.model.ConversationReference"
+                }
+            ],
+            "description": "Conversation this message belongs to"
+        },
+        "type": {
+            "$ref": "#/$defs/no.nav.helsemelding.jsonschema.core.model.OutgoingDialogMessageType",
+            "description": "Type of dialog message"
+        },
+        "message": {
+            "type": [
+                "string",
+                "null"
+            ],
+            "description": "Message text"
+        },
+        "attachment": {
+            "type": [
+                "string",
+                "null"
+            ],
+            "description": "Attachment encoded as a Base64 string"
+        }
+    },
+    "additionalProperties": false,
+    "required": [
+        "version",
+        "id",
+        "patientIdent",
+        "providerId",
+        "conversationReference",
+        "type",
+        "message",
+        "attachment"
+    ],
+    "$defs": {
+        "no.nav.helsemelding.jsonschema.core.model.ConversationReference": {
+            "type": "object",
+            "description": "Information about the conversation",
+            "properties": {
+                "parentMessageId": {
+                    "type": "string",
+                    "description": "Reference to previous dialog message in conversation"
+                },
+                "conversationId": {
+                    "type": "string",
+                    "description": "Reference to conversation (typically the same id as initial dialog message)"
+                }
+            },
+            "required": [
+                "parentMessageId",
+                "conversationId"
+            ],
+            "additionalProperties": false
+        },
+        "no.nav.helsemelding.jsonschema.core.model.OutgoingDialogMessageType": {
+            "type": "string",
+            "enum": [
+                "MEETING_INVITATION_2",
+                "MEETING_RESCHEDULE_2",
+                "MEETING_INVITATION_3",
+                "MEETING_RESCHEDULE_3",
+                "PATIENT_REQUEST",
+                "PATIENT_REQUEST_REMINDER",
+                "FOLLOW_UP_PLAN",
+                "RETURN_TO_WORK_NOTIFICATION",
+                "MEDICAL_CERTIFICATE_RETURN",
+                "MEETING_CANCELLATION",
+                "MEETING_EXEMPTION",
+                "NAV_FEEDBACK",
+                "NAV_MESSAGE",
+                "NAV_INFORMATION"
+            ]
+        }
+    }
+}

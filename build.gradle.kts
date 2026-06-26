@@ -17,6 +17,7 @@ subprojects {
         configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
             filter {
                 exclude { it.file.path.contains("/ksp/") }
+                exclude { it.file.path.contains("\\ksp\\") }
             }
         }
 
