@@ -2,10 +2,12 @@ package no.nav.helsemelding.jsonschema.core.model
 
 import kotlinx.schema.Description
 import kotlinx.schema.Schema
+import kotlinx.serialization.Serializable
 
 @Description("An incoming dialog message")
 @Schema
 @SchemaVersion(1)
+@Serializable
 data class IncomingDialogMessage(
     @Description("The current schema version") val version: Int,
     @Description("Unique identifier of the dialog message") val id: String,
@@ -20,6 +22,7 @@ data class IncomingDialogMessage(
 
 @Description("Information about the sender")
 @Schema
+@Serializable
 data class Sender(
     @Description("Reference id in the provider registry for the healthcare provider") val providerId: String,
     @Description("Reference id in the provider registry for the healthcare provider who signed the message") val signingProviderId: String
