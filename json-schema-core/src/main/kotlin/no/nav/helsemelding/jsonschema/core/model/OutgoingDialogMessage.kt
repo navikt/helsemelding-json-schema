@@ -2,6 +2,7 @@ package no.nav.helsemelding.jsonschema.core.model
 
 import kotlinx.schema.Description
 import kotlinx.schema.Schema
+import kotlinx.serialization.Serializable
 import kotlin.annotation.AnnotationRetention.RUNTIME
 import kotlin.annotation.AnnotationTarget.CLASS
 
@@ -14,6 +15,7 @@ annotation class SchemaVersion(
 @Description("An outgoing dialog message")
 @Schema
 @SchemaVersion(1)
+@Serializable
 data class OutgoingDialogMessage(
     @Description("The current schema version") val version: Int,
     @Description("Unique identifier of the dialog message") val id: String,

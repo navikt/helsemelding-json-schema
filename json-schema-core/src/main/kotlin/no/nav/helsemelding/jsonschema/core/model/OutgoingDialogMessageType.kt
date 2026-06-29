@@ -1,5 +1,8 @@
 package no.nav.helsemelding.jsonschema.core.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 enum class OutgoingDialogMessageType(
     val process: String,
     val messageType: String,
