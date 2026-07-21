@@ -28,6 +28,7 @@ class JsonSchemaDocumentRepository : SchemaDocumentRepository {
     private val documents: List<SchemaDocument> by lazy {
         schemaResourcePaths()
             .map(::toSchemaDocument)
+            .sortedWith(compareBy({ it.schemaType.name }, { it.version }))
     }
 
     private val schemas: Map<Pair<SchemaType, Int>, SchemaDocument> by lazy {
