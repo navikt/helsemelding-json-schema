@@ -19,7 +19,7 @@ class SchemaDocumentRepositorySpec : StringSpec(
             documents shouldHaveSize 2
 
             documents shouldContain SchemaDocument(
-                schemaType = SchemaType.INCOMING_DIALOG_MESSAGE,
+                schemaType = SchemaType.OUTGOING_DIALOG_MESSAGE,
                 version = 1,
                 schema = documents.first().schema
             )
