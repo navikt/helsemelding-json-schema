@@ -1,8 +1,8 @@
 package no.nav.helsemelding.jsonschema.core.model
 
 import kotlinx.serialization.Serializable
-import no.nav.helsemelding.jsonschema.core.model.IncomingType.DIALOG_NOTAT
-import no.nav.helsemelding.jsonschema.core.model.IncomingType.DIALOG_SVAR
+import no.nav.helsemelding.jsonschema.core.model.IncomingType.DIALOG_NOTE
+import no.nav.helsemelding.jsonschema.core.model.IncomingType.DIALOG_RESPONSE
 
 @Serializable
 enum class IncomingDialogMessageType(
@@ -14,7 +14,7 @@ enum class IncomingDialogMessageType(
 ) {
     ACCEPTS_MEETING_INVITATION(
         "Innkalling dialogmøte",
-        DIALOG_SVAR,
+        DIALOG_RESPONSE,
         8126,
         1,
         "Ja, jeg kommer"
@@ -22,7 +22,7 @@ enum class IncomingDialogMessageType(
 
     REQUESTS_NEW_MEETING_TIME(
         "Innkalling dialogmøte",
-        DIALOG_SVAR,
+        DIALOG_RESPONSE,
         8126,
         2,
         "Jeg ønsker nytt møtetidspunkt"
@@ -30,7 +30,7 @@ enum class IncomingDialogMessageType(
 
     DECLINES_MEETING_WITH_REASON(
         "Innkalling dialogmøte",
-        DIALOG_SVAR,
+        DIALOG_RESPONSE,
         8126,
         3,
         "Jeg kan ikke komme / begrunnelse for manglende oppmøte"
@@ -38,7 +38,7 @@ enum class IncomingDialogMessageType(
 
     PATIENT_REQUEST_RESPONSE(
         "Forespørsel om pasient",
-        DIALOG_SVAR,
+        DIALOG_RESPONSE,
         9069,
         5,
         "Svar på forespørsel"
@@ -46,7 +46,7 @@ enum class IncomingDialogMessageType(
 
     SICK_LEAVE_FOLLOW_UP_INQUIRY(
         "Henvendelse fra lege til NAV",
-        DIALOG_NOTAT,
+        DIALOG_NOTE,
         8128,
         1,
         "Henvendelse om sykefraværsoppfølging"
@@ -54,7 +54,7 @@ enum class IncomingDialogMessageType(
 
     PATIENT_INQUIRY(
         "Henvendelse fra lege til NAV",
-        DIALOG_NOTAT,
+        DIALOG_NOTE,
         8128,
         2,
         "Henvendelse om pasient"
