@@ -5,6 +5,7 @@ import kotlinx.schema.Schema
 import kotlinx.serialization.Serializable
 import kotlin.annotation.AnnotationRetention.RUNTIME
 import kotlin.annotation.AnnotationTarget.CLASS
+import kotlin.uuid.Uuid
 
 @Target(CLASS)
 @Retention(RUNTIME)
@@ -18,7 +19,7 @@ annotation class SchemaVersion(
 @Serializable
 data class OutgoingDialogMessage(
     @Description("The current schema version") val version: Int,
-    @Description("Unique identifier of the dialog message") val id: String,
+    @Description("Unique identifier of the dialog message") val id: Uuid,
     @Description("National identity number (11 digits) of the patient") val patientIdent: String,
     @Description("Reference id to a healthcare provider or provider office in the provider registry") val providerId: String,
     @Description("Conversation this message belongs to") val conversationReference: ConversationReference?,
