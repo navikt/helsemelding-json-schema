@@ -1,8 +1,10 @@
 package no.nav.helsemelding.jsonschema.core.model
 
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import kotlinx.serialization.json.Json
+import kotlin.uuid.Uuid
 
 class OutgoingDialogMessageSpec : StringSpec(
     {
@@ -15,7 +17,7 @@ class OutgoingDialogMessageSpec : StringSpec(
                 """
                 {
                     "version": 1,
-                    "id": "outgoing-dialog-message-id",
+                    "id": "86c61f31-44d4-47e8-a787-376297279505",
                     "patientIdent": "12345678910",
                     "providerId": "provider-id",
                     "conversationReference": {
@@ -35,7 +37,7 @@ class OutgoingDialogMessageSpec : StringSpec(
                 """
                 {
                     "version": 1,
-                    "id": "outgoing-dialog-message-id",
+                    "id": "86c61f31-44d4-47e8-a787-376297279505",
                     "patientIdent": "12345678910",
                     "providerId": "provider-id",
                     "conversationReference": {
@@ -65,7 +67,7 @@ class OutgoingDialogMessageSpec : StringSpec(
                 """
                 {
                     "version": 1,
-                    "id": "outgoing-dialog-message-id",
+                    "id": "86c61f31-44d4-47e8-a787-376297279505",
                     "patientIdent": "12345678910",
                     "providerId": "provider-id",
                     "conversationReference": null,
@@ -75,6 +77,26 @@ class OutgoingDialogMessageSpec : StringSpec(
                 }
                 """.trimIndent()
             )
+        }
+
+        "should reject outgoing dialog message with invalid UUID id" {
+            val invalidId = "dialog-1"
+            val message = """
+                {
+                    "version": 1,
+                    "id": "$invalidId",
+                    "patientIdent": "12345678910",
+                    "providerId": "provider-id",
+                    "conversationReference": null,
+                    "type": "NAV_MESSAGE",
+                    "message": null,
+                    "attachment": null
+                }
+            """.trimIndent()
+
+            shouldThrow<IllegalArgumentException> {
+                Json.decodeFromString<OutgoingDialogMessage>(message)
+            }
         }
     }
 )
@@ -88,7 +110,7 @@ private fun outgoingDialogMessage(
     attachment: String? = "base64-attachment"
 ) = OutgoingDialogMessage(
     version = 1,
-    id = "outgoing-dialog-message-id",
+    id = Uuid.parse("86c61f31-44d4-47e8-a787-376297279505"),
     patientIdent = "12345678910",
     providerId = "provider-id",
     conversationReference = conversationReference,

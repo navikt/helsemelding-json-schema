@@ -9,7 +9,7 @@
             "description": "The current schema version"
         },
         "id": {
-            "type": "string",
+            "$ref": "#/$defs/kotlin.uuid.Uuid",
             "description": "Unique identifier of the dialog message"
         },
         "patientIdent": {
@@ -62,6 +62,11 @@
         "attachment"
     ],
     "$defs": {
+        "kotlin.uuid.Uuid": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+        },
         "no.nav.helsemelding.jsonschema.core.model.ConversationReference": {
             "type": "object",
             "description": "Information about the conversation",

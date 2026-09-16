@@ -15,7 +15,7 @@ class SchemaValidatorSpec : StringSpec(
             val json = """
             {
                 "version": 1,
-                "id": "uuid",
+                "id": "86c61f31-44d4-47e8-a787-376297279505",
                 "patientIdent": "12345678910",
                 "providerId": "uuid2",
                 "conversationReference": {
@@ -67,11 +67,31 @@ class SchemaValidatorSpec : StringSpec(
             error.errors.any { it.contains("id") } shouldBe true
         }
 
+        "should reject outgoing-dialog-message with invalid UUID id" {
+            val json = """
+            {
+                "version": 1,
+                "id": "dialog-1",
+                "patientIdent": "12345678910",
+                "providerId": "uuid2",
+                "conversationReference": null,
+                "type": "NAV_MESSAGE",
+                "message": null,
+                "attachment": null
+            }
+            """.trimIndent()
+
+            val error = validator.validate(SchemaType.OUTGOING_DIALOG_MESSAGE, json).shouldBeLeft()
+
+            error.version shouldBe 1
+            error.errors.any { it.contains("pattern") } shouldBe true
+        }
+
         "should reject additional properties for outgoing-dialog-message" {
             val json = """
             {
                 "version": 1,
-                "id": "uuid",
+                "id": "86c61f31-44d4-47e8-a787-376297279505",
                 "patientIdent": "12345678910",
                 "providerId": "uuid2",
                 "conversationReference": {
