@@ -80,10 +80,22 @@ class OutgoingDialogMessageSpec : StringSpec(
         }
 
         "should reject outgoing dialog message with invalid UUID id" {
+            val invalidId = "dialog-1"
+            val message = """
+                {
+                    "version": 1,
+                    "id": "$invalidId",
+                    "patientIdent": "12345678910",
+                    "providerId": "provider-id",
+                    "conversationReference": null,
+                    "type": "NAV_MESSAGE",
+                    "message": null,
+                    "attachment": null
+                }
+            """.trimIndent()
+
             shouldThrow<IllegalArgumentException> {
-                Json.decodeFromString<OutgoingDialogMessage>(
-                    """{"version":1,"id":"dialog-1","patientIdent":"12345678910","providerId":"provider-id","conversationReference":null,"type":"NAV_MESSAGE","message":null,"attachment":null}"""
-                )
+                Json.decodeFromString<OutgoingDialogMessage>(message)
             }
         }
     }
