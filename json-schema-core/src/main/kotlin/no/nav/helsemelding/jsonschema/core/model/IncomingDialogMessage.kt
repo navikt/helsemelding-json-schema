@@ -9,21 +9,52 @@ import kotlinx.serialization.Serializable
 @SchemaVersion(1)
 @Serializable
 data class IncomingDialogMessage(
-    @Description("The current schema version") val version: Int,
-    @Description("Unique identifier of the dialog message") val id: String,
-    @Description("Type of dialog message") val type: IncomingDialogMessageType,
-    @Description("Date and time the dialog message was received (UTC)") val receivedAt: String,
-    @Description("National identity number (11 digits) of the patient") val patientIdent: String,
-    @Description("Sender of the dialog message") val sender: Sender,
-    @Description("Conversation this message belongs to") val conversationReference: ConversationReference?,
-    @Description("Message text") val message: String?,
-    @Description("Number of attachments") val numberOfAttachments: Int
-)
+    @Description("The current schema version")
+    val version: Int,
 
-@Description("Information about the sender")
-@Schema
-@Serializable
-data class Sender(
-    @Description("Reference id in the provider registry for the healthcare provider") val providerId: String,
-    @Description("Reference id in the provider registry for the healthcare provider who signed the message") val signingProviderId: String
+    @Description("Unique identifier of the dialog message")
+    val id: String,
+
+    @Description("Type of dialog message")
+    val type: IncomingDialogMessageType,
+
+    @Description("Date and time the dialog message was received (UTC)")
+    val receivedAt: String,
+
+    @Description("National identity number (11 digits) of the patient")
+    val patientIdent: String,
+
+    @Description("Conversation this message belongs to")
+    val conversationReference: ConversationReference?,
+
+    @Description("Message text")
+    val message: String?,
+
+    @Description("Number of attachments")
+    val numberOfAttachments: Int,
+
+    @Description("National identity number (11 digits) of the doctor specified in the message")
+    val behandlerPersonIdent: String,
+
+    @Description("HPR-id of the doctor specified in the message")
+    val behandlerHpr: String?,
+
+    @Description("Organisation number of the doctor's office")
+    val behandlerkontorOrgNr: String?,
+
+    @Description("HER-id of the doctor's office")
+    val behandlerkontorHerId: String?,
+
+    @Description("Name of the doctor's office")
+    val behandlerkontorOrgName: String,
+
+    @Description("National identity number (11 digits) of the doctor who signed the message")
+    val signerendeBehandlerPersonIdent: String,
+
+    @Description("Date and time the message was signed")
+    val signertAt: String,
+
+    @Description("Document ID of the message in the document archive")
+    val dokIdNotat: String
+
 )

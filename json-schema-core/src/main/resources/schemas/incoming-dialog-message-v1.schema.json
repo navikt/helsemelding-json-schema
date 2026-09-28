@@ -24,10 +24,6 @@
             "type": "string",
             "description": "National identity number (11 digits) of the patient"
         },
-        "sender": {
-            "$ref": "#/$defs/no.nav.helsemelding.jsonschema.core.model.Sender",
-            "description": "Sender of the dialog message"
-        },
         "conversationReference": {
             "oneOf": [
                 {
@@ -49,6 +45,47 @@
         "numberOfAttachments": {
             "type": "integer",
             "description": "Number of attachments"
+        },
+        "behandlerPersonIdent": {
+            "type": "string",
+            "description": "National identity number (11 digits) of the doctor specified in the message"
+        },
+        "behandlerHpr": {
+            "type": [
+                "string",
+                "null"
+            ],
+            "description": "HPR-id of the doctor specified in the message"
+        },
+        "behandlerkontorOrgNr": {
+            "type": [
+                "string",
+                "null"
+            ],
+            "description": "Organisation number of the doctor's office"
+        },
+        "behandlerkontorHerId": {
+            "type": [
+                "string",
+                "null"
+            ],
+            "description": "HER-id of the doctor's office"
+        },
+        "behandlerkontorOrgName": {
+            "type": "string",
+            "description": "Name of the doctor's office"
+        },
+        "signerendeBehandlerPersonIdent": {
+            "type": "string",
+            "description": "National identity number (11 digits) of the doctor who signed the message"
+        },
+        "signertAt": {
+            "type": "string",
+            "description": "Date and time the message was signed"
+        },
+        "dokIdNotat": {
+            "type": "string",
+            "description": "Document ID of the message in the document archive"
         }
     },
     "additionalProperties": false,
@@ -58,10 +95,17 @@
         "type",
         "receivedAt",
         "patientIdent",
-        "sender",
         "conversationReference",
         "message",
-        "numberOfAttachments"
+        "numberOfAttachments",
+        "behandlerPersonIdent",
+        "behandlerHpr",
+        "behandlerkontorOrgNr",
+        "behandlerkontorHerId",
+        "behandlerkontorOrgName",
+        "signerendeBehandlerPersonIdent",
+        "signertAt",
+        "dokIdNotat"
     ],
     "$defs": {
         "no.nav.helsemelding.jsonschema.core.model.IncomingDialogMessageType": {
@@ -74,25 +118,6 @@
                 "SICK_LEAVE_FOLLOW_UP_INQUIRY",
                 "PATIENT_INQUIRY"
             ]
-        },
-        "no.nav.helsemelding.jsonschema.core.model.Sender": {
-            "type": "object",
-            "description": "Information about the sender",
-            "properties": {
-                "providerId": {
-                    "type": "string",
-                    "description": "Reference id in the provider registry for the healthcare provider"
-                },
-                "signingProviderId": {
-                    "type": "string",
-                    "description": "Reference id in the provider registry for the healthcare provider who signed the message"
-                }
-            },
-            "required": [
-                "providerId",
-                "signingProviderId"
-            ],
-            "additionalProperties": false
         },
         "no.nav.helsemelding.jsonschema.core.model.ConversationReference": {
             "type": "object",
