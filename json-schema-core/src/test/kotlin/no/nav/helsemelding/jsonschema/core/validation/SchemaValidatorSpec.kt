@@ -154,7 +154,7 @@ class SchemaValidatorSpec : StringSpec(
                 "id": "uuid",
                 "type": "PATIENT_REQUEST_RESPONSE",
                 "receivedAt": "2026-06-03T12:00:00Z",
-                "patientPersonalId": "12345678910",
+                "patientIdent": "12345678910",
                 "conversationReference": {
                     "parentMessageId": "uuid4",
                     "conversationId": "uuid5"
@@ -162,17 +162,19 @@ class SchemaValidatorSpec : StringSpec(
                 "message": "Hei",
                 "numberOfAttachments": 1,
                 "provider": {
-                    "providerPersonalId": "12345678910",
-                    "providerHprId": "987654321",
-                    "providerOfficeOrgNr": "12345",
-                    "providerOfficeHerId": "1234567",
-                    "providerOfficeOrgName": "Testedal Legesenter"
+                    "ident": "12345678910",
+                    "hprNumber": "987654321",
+                    "office": {
+                        "orgNumber": "12345",
+                        "orgName": "Testedal Legesenter",
+                        "herId": "1234567"
+                    }
                 },
                 "signature": {
-                    "signingProviderPersonalId": "10987654321",
+                    "signingProviderIdent": "10987654321",
                     "signedAt": "2026-06-03T11:59:00Z"
                 },
-                "documentIdNote": "OD2503016631907"
+                "documentId": "OD2503016631907"
             }
             """.trimIndent()
 
@@ -185,7 +187,7 @@ class SchemaValidatorSpec : StringSpec(
                 "version": 1,
                 "type": "PATIENT_REQUEST_RESPONSE",
                 "receivedAt": "2026-06-03T12:00:00Z",
-                "patientPersonalId": "12345678910",
+                "patientIdent": "12345678910",
                 "conversationReference": {
                     "parentMessageId": "uuid3",
                     "conversationId": "uuid4"
@@ -193,17 +195,19 @@ class SchemaValidatorSpec : StringSpec(
                 "message": "Hei",
                 "numberOfAttachments": 1,
                 "provider": {
-                    "providerPersonalId": "12345678910",
-                    "providerHprId": "987654321",
-                    "providerOfficeOrgNr": "12345",
-                    "providerOfficeHerId": "1234567",
-                    "providerOfficeOrgName": "Testedal Legesenter"
+                    "ident": "12345678910",
+                    "hprNumber": "987654321",
+                    "office": {
+                        "orgNumber": "12345",
+                        "orgName": "Testedal Legesenter",
+                        "herId": "1234567"
+                    }
                 },
                 "signature": {
-                    "signingProviderPersonalId": "10987654321",
+                    "signingProviderIdent": "10987654321",
                     "signedAt": "2026-06-03T11:59:00Z"
                 },
-                "documentIdNote": "OD2503016631907"
+                "documentId": "OD2503016631907"
             }
             """.trimIndent()
 
@@ -219,7 +223,7 @@ class SchemaValidatorSpec : StringSpec(
                 "version": 1,
                 "type": "PATIENT_REQUEST_RESPONSE",
                 "receivedAt": "2026-06-03T12:00:00Z",
-                "patientPersonalId": "12345678910",
+                "patientIdent": "12345678910",
                 "conversationReference": {
                     "parentMessageId": "uuid3",
                     "conversationId": "uuid4"
@@ -228,17 +232,19 @@ class SchemaValidatorSpec : StringSpec(
                 "unexpected": "not allowed",
                 "numberOfAttachments": 1,
                 "provider": {
-                    "providerPersonalId": "12345678910",
-                    "providerHprId": "987654321",
-                    "providerOfficeOrgNr": "12345",
-                    "providerOfficeHerId": "1234567",
-                    "providerOfficeOrgName": "Testedal Legesenter"
+                    "ident": "12345678910",
+                    "hprNumber": "987654321",
+                    "office": {
+                        "orgNumber": "12345",
+                        "orgName": "Testedal Legesenter",
+                        "herId": "1234567"
+                    }
                 },
                 "signature": {
-                    "signingProviderPersonalId": "10987654321",
+                    "signingProviderIdent": "10987654321",
                     "signedAt": "2026-06-03T11:59:00Z"
                 },
-                "documentIdNote": "OD2503016631907"
+                "documentId": "OD2503016631907"
             }
             """.trimIndent()
 
@@ -252,7 +258,7 @@ class SchemaValidatorSpec : StringSpec(
             {
                 "type": "PATIENT_REQUEST_RESPONSE",
                 "receivedAt": "2026-06-03T12:00:00Z",
-                "patientPersonalId": "12345678910",
+                "patientIdent": "12345678910",
                 "conversationReference": {
                     "parentMessageId": "uuid3",
                     "conversationId": "uuid4"
@@ -260,17 +266,19 @@ class SchemaValidatorSpec : StringSpec(
                 "message": "Hei",
                 "numberOfAttachments": 1,
                 "provider": {
-                    "providerPersonalId": "12345678910",
-                    "providerHprId": "987654321",
-                    "providerOfficeOrgNr": "12345",
-                    "providerOfficeHerId": "1234567",
-                    "providerOfficeOrgName": "Testedal Legesenter"
+                    "ident": "12345678910",
+                    "hprNumber": "987654321",
+                    "office": {
+                        "orgNumber": "12345",
+                        "orgName": "Testedal Legesenter",
+                        "herId": "1234567"
+                    }
                 },
                 "signature": {
-                    "signingProviderPersonalId": "10987654321",
+                    "signingProviderIdent": "10987654321",
                     "signedAt": "2026-06-03T11:59:00Z"
                 },
-                "documentIdNote": "OD2503016631907"
+                "documentId": "OD2503016631907"
             }
             """.trimIndent()
 

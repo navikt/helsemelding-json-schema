@@ -22,7 +22,7 @@ data class IncomingDialogMessage(
     val receivedAt: String,
 
     @Description("National identity number (11 digits) of the patient")
-    val patientPersonalId: String,
+    val patientIdent: String,
 
     @Description("Conversation this message belongs to")
     val conversationReference: ConversationReference?,
@@ -40,7 +40,7 @@ data class IncomingDialogMessage(
     val signature: Signature,
 
     @Description("Document ID of the message in the document archive")
-    val documentIdNote: String
+    val documentId: String
 )
 
 @Description("Information about the doctor specified in the message")
@@ -48,19 +48,27 @@ data class IncomingDialogMessage(
 @Serializable
 data class Provider(
     @Description("National identity number (11 digits) of the doctor specified in the message")
-    val providerPersonalId: String,
+    val ident: String,
 
-    @Description("HPR-id of the doctor specified in the message")
-    val providerHprId: String?,
+    @Description("HPR-number of the doctor specified in the message in the Helsepersonellregisteret")
+    val hprNumber: String?,
 
-    @Description("Organisation number of the doctor's office")
-    val providerOfficeOrgNr: String?,
+    @Description("Information about the provider office specified in the message")
+    val office: ProviderOffice
+)
 
-    @Description("HER-id of the doctor's office")
-    val providerOfficeHerId: String?,
+@Description("Information about the doctor's office specified in the message")
+@Schema
+@Serializable
+data class ProviderOffice(
+    @Description("Organisation number of the doctor's office in the Enhetsregisteret")
+    val orgNumber: String?,
 
     @Description("Name of the doctor's office")
-    val providerOfficeOrgName: String
+    val orgName: String,
+
+    @Description("HER-id of the doctor's office in the Adresseregisteret")
+    val herId: String?
 )
 
 @Description("Information about the signature")
@@ -68,7 +76,7 @@ data class Provider(
 @Serializable
 data class Signature(
     @Description("National identity number (11 digits) of the doctor who signed the message")
-    val signingProviderPersonalId: String,
+    val signingProviderIdent: String,
 
     @Description("Date and time the message was signed")
     val signedAt: String

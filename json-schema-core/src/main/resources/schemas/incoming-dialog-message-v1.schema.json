@@ -20,7 +20,7 @@
             "type": "string",
             "description": "Date and time the dialog message was received (UTC)"
         },
-        "patientPersonalId": {
+        "patientIdent": {
             "type": "string",
             "description": "National identity number (11 digits) of the patient"
         },
@@ -54,7 +54,7 @@
             "$ref": "#/$defs/no.nav.helsemelding.jsonschema.core.model.Signature",
             "description": "Information about the signature"
         },
-        "documentIdNote": {
+        "documentId": {
             "type": "string",
             "description": "Document ID of the message in the document archive"
         }
@@ -65,13 +65,13 @@
         "id",
         "type",
         "receivedAt",
-        "patientPersonalId",
+        "patientIdent",
         "conversationReference",
         "message",
         "numberOfAttachments",
         "provider",
         "signature",
-        "documentIdNote"
+        "documentId"
     ],
     "$defs": {
         "no.nav.helsemelding.jsonschema.core.model.IncomingDialogMessageType": {
@@ -108,42 +108,56 @@
             "type": "object",
             "description": "Information about the doctor specified in the message",
             "properties": {
-                "providerPersonalId": {
+                "ident": {
                     "type": "string",
                     "description": "National identity number (11 digits) of the doctor specified in the message"
                 },
-                "providerHprId": {
+                "hprNumber": {
                     "type": [
                         "string",
                         "null"
                     ],
-                    "description": "HPR-id of the doctor specified in the message"
+                    "description": "HPR-number of the doctor specified in the message in the Helsepersonellregisteret"
                 },
-                "providerOfficeOrgNr": {
-                    "type": [
-                        "string",
-                        "null"
-                    ],
-                    "description": "Organisation number of the doctor's office"
-                },
-                "providerOfficeHerId": {
-                    "type": [
-                        "string",
-                        "null"
-                    ],
-                    "description": "HER-id of the doctor's office"
-                },
-                "providerOfficeOrgName": {
-                    "type": "string",
-                    "description": "Name of the doctor's office"
+                "office": {
+                    "$ref": "#/$defs/no.nav.helsemelding.jsonschema.core.model.ProviderOffice",
+                    "description": "Information about the provider office specified in the message"
                 }
             },
             "required": [
-                "providerPersonalId",
-                "providerHprId",
-                "providerOfficeOrgNr",
-                "providerOfficeHerId",
-                "providerOfficeOrgName"
+                "ident",
+                "hprNumber",
+                "office"
+            ],
+            "additionalProperties": false
+        },
+        "no.nav.helsemelding.jsonschema.core.model.ProviderOffice": {
+            "type": "object",
+            "description": "Information about the doctor's office specified in the message",
+            "properties": {
+                "orgNumber": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "description": "Organisation number of the doctor's office in the Enhetsregisteret"
+                },
+                "orgName": {
+                    "type": "string",
+                    "description": "Name of the doctor's office"
+                },
+                "herId": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "description": "HER-id of the doctor's office in the Adresseregisteret"
+                }
+            },
+            "required": [
+                "orgNumber",
+                "orgName",
+                "herId"
             ],
             "additionalProperties": false
         },
@@ -151,7 +165,7 @@
             "type": "object",
             "description": "Information about the signature",
             "properties": {
-                "signingProviderPersonalId": {
+                "signingProviderIdent": {
                     "type": "string",
                     "description": "National identity number (11 digits) of the doctor who signed the message"
                 },
@@ -161,7 +175,7 @@
                 }
             },
             "required": [
-                "signingProviderPersonalId",
+                "signingProviderIdent",
                 "signedAt"
             ],
             "additionalProperties": false
