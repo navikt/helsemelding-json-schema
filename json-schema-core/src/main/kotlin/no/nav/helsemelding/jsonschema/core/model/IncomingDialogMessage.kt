@@ -22,7 +22,7 @@ data class IncomingDialogMessage(
     val receivedAt: String,
 
     @Description("National identity number (11 digits) of the patient")
-    val patientIdent: String,
+    val patientPersonalId: String,
 
     @Description("Conversation this message belongs to")
     val conversationReference: ConversationReference?,
@@ -34,27 +34,27 @@ data class IncomingDialogMessage(
     val numberOfAttachments: Int,
 
     @Description("National identity number (11 digits) of the doctor specified in the message")
-    val behandlerPersonIdent: String,
+    val providerPersonalId: String,
 
     @Description("HPR-id of the doctor specified in the message")
-    val behandlerHpr: String?,
+    val providerHprId: String?,
 
     @Description("Organisation number of the doctor's office")
-    val behandlerkontorOrgNr: String?,
+    val providerOfficeOrgNr: String?,
 
     @Description("HER-id of the doctor's office")
-    val behandlerkontorHerId: String?,
+    val providerOfficeHerId: String?,
 
     @Description("Name of the doctor's office")
-    val behandlerkontorOrgName: String,
+    val providerOfficeOrgName: String,
 
     @Description("National identity number (11 digits) of the doctor who signed the message")
-    val signerendeBehandlerPersonIdent: String,
+    val signingProviderPersonalId: String,
 
     @Description("Date and time the message was signed")
-    val signertAt: String,
+    val signedAt: String,
 
     @Description("Document ID of the message in the document archive")
-    val dokIdNotat: String
+    val documentIdNote: String
 
 )

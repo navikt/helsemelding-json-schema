@@ -20,7 +20,7 @@
             "type": "string",
             "description": "Date and time the dialog message was received (UTC)"
         },
-        "patientIdent": {
+        "patientPersonalId": {
             "type": "string",
             "description": "National identity number (11 digits) of the patient"
         },
@@ -46,44 +46,44 @@
             "type": "integer",
             "description": "Number of attachments"
         },
-        "behandlerPersonIdent": {
+        "providerPersonalId": {
             "type": "string",
             "description": "National identity number (11 digits) of the doctor specified in the message"
         },
-        "behandlerHpr": {
+        "providerHprId": {
             "type": [
                 "string",
                 "null"
             ],
             "description": "HPR-id of the doctor specified in the message"
         },
-        "behandlerkontorOrgNr": {
+        "providerOfficeOrgNr": {
             "type": [
                 "string",
                 "null"
             ],
             "description": "Organisation number of the doctor's office"
         },
-        "behandlerkontorHerId": {
+        "providerOfficeHerId": {
             "type": [
                 "string",
                 "null"
             ],
             "description": "HER-id of the doctor's office"
         },
-        "behandlerkontorOrgName": {
+        "providerOfficeOrgName": {
             "type": "string",
             "description": "Name of the doctor's office"
         },
-        "signerendeBehandlerPersonIdent": {
+        "signingProviderPersonalId": {
             "type": "string",
             "description": "National identity number (11 digits) of the doctor who signed the message"
         },
-        "signertAt": {
+        "signedAt": {
             "type": "string",
             "description": "Date and time the message was signed"
         },
-        "dokIdNotat": {
+        "documentIdNote": {
             "type": "string",
             "description": "Document ID of the message in the document archive"
         }
@@ -94,18 +94,18 @@
         "id",
         "type",
         "receivedAt",
-        "patientIdent",
+        "patientPersonalId",
         "conversationReference",
         "message",
         "numberOfAttachments",
-        "behandlerPersonIdent",
-        "behandlerHpr",
-        "behandlerkontorOrgNr",
-        "behandlerkontorHerId",
-        "behandlerkontorOrgName",
-        "signerendeBehandlerPersonIdent",
-        "signertAt",
-        "dokIdNotat"
+        "providerPersonalId",
+        "providerHprId",
+        "providerOfficeOrgNr",
+        "providerOfficeHerId",
+        "providerOfficeOrgName",
+        "signingProviderPersonalId",
+        "signedAt",
+        "documentIdNote"
     ],
     "$defs": {
         "no.nav.helsemelding.jsonschema.core.model.IncomingDialogMessageType": {
