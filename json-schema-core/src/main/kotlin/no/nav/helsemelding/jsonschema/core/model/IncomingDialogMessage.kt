@@ -33,6 +33,20 @@ data class IncomingDialogMessage(
     @Description("Number of attachments")
     val numberOfAttachments: Int,
 
+    @Description("Information about the doctor specified in the message")
+    val provider: Provider,
+
+    @Description("Information about the signature")
+    val signature: Signature,
+
+    @Description("Document ID of the message in the document archive")
+    val documentIdNote: String
+)
+
+@Description("Information about the doctor specified in the message")
+@Schema
+@Serializable
+data class Provider(
     @Description("National identity number (11 digits) of the doctor specified in the message")
     val providerPersonalId: String,
 
@@ -46,15 +60,16 @@ data class IncomingDialogMessage(
     val providerOfficeHerId: String?,
 
     @Description("Name of the doctor's office")
-    val providerOfficeOrgName: String,
+    val providerOfficeOrgName: String
+)
 
+@Description("Information about the signature")
+@Schema
+@Serializable
+data class Signature(
     @Description("National identity number (11 digits) of the doctor who signed the message")
     val signingProviderPersonalId: String,
 
     @Description("Date and time the message was signed")
-    val signedAt: String,
-
-    @Description("Document ID of the message in the document archive")
-    val documentIdNote: String
-
+    val signedAt: String
 )

@@ -46,42 +46,13 @@
             "type": "integer",
             "description": "Number of attachments"
         },
-        "providerPersonalId": {
-            "type": "string",
-            "description": "National identity number (11 digits) of the doctor specified in the message"
+        "provider": {
+            "$ref": "#/$defs/no.nav.helsemelding.jsonschema.core.model.Provider",
+            "description": "Information about the doctor specified in the message"
         },
-        "providerHprId": {
-            "type": [
-                "string",
-                "null"
-            ],
-            "description": "HPR-id of the doctor specified in the message"
-        },
-        "providerOfficeOrgNr": {
-            "type": [
-                "string",
-                "null"
-            ],
-            "description": "Organisation number of the doctor's office"
-        },
-        "providerOfficeHerId": {
-            "type": [
-                "string",
-                "null"
-            ],
-            "description": "HER-id of the doctor's office"
-        },
-        "providerOfficeOrgName": {
-            "type": "string",
-            "description": "Name of the doctor's office"
-        },
-        "signingProviderPersonalId": {
-            "type": "string",
-            "description": "National identity number (11 digits) of the doctor who signed the message"
-        },
-        "signedAt": {
-            "type": "string",
-            "description": "Date and time the message was signed"
+        "signature": {
+            "$ref": "#/$defs/no.nav.helsemelding.jsonschema.core.model.Signature",
+            "description": "Information about the signature"
         },
         "documentIdNote": {
             "type": "string",
@@ -98,13 +69,8 @@
         "conversationReference",
         "message",
         "numberOfAttachments",
-        "providerPersonalId",
-        "providerHprId",
-        "providerOfficeOrgNr",
-        "providerOfficeHerId",
-        "providerOfficeOrgName",
-        "signingProviderPersonalId",
-        "signedAt",
+        "provider",
+        "signature",
         "documentIdNote"
     ],
     "$defs": {
@@ -135,6 +101,68 @@
             "required": [
                 "parentMessageId",
                 "conversationId"
+            ],
+            "additionalProperties": false
+        },
+        "no.nav.helsemelding.jsonschema.core.model.Provider": {
+            "type": "object",
+            "description": "Information about the doctor specified in the message",
+            "properties": {
+                "providerPersonalId": {
+                    "type": "string",
+                    "description": "National identity number (11 digits) of the doctor specified in the message"
+                },
+                "providerHprId": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "description": "HPR-id of the doctor specified in the message"
+                },
+                "providerOfficeOrgNr": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "description": "Organisation number of the doctor's office"
+                },
+                "providerOfficeHerId": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "description": "HER-id of the doctor's office"
+                },
+                "providerOfficeOrgName": {
+                    "type": "string",
+                    "description": "Name of the doctor's office"
+                }
+            },
+            "required": [
+                "providerPersonalId",
+                "providerHprId",
+                "providerOfficeOrgNr",
+                "providerOfficeHerId",
+                "providerOfficeOrgName"
+            ],
+            "additionalProperties": false
+        },
+        "no.nav.helsemelding.jsonschema.core.model.Signature": {
+            "type": "object",
+            "description": "Information about the signature",
+            "properties": {
+                "signingProviderPersonalId": {
+                    "type": "string",
+                    "description": "National identity number (11 digits) of the doctor who signed the message"
+                },
+                "signedAt": {
+                    "type": "string",
+                    "description": "Date and time the message was signed"
+                }
+            },
+            "required": [
+                "signingProviderPersonalId",
+                "signedAt"
             ],
             "additionalProperties": false
         }

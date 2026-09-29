@@ -161,13 +161,17 @@ class SchemaValidatorSpec : StringSpec(
                 },
                 "message": "Hei",
                 "numberOfAttachments": 1,
-                "providerPersonalId": "12345678910",
-                "providerHprId": "987654321",
-                "providerOfficeOrgNr": "12345",
-                "providerOfficeHerId": "1234567",
-                "providerOfficeOrgName": "Testedal Legesenter",
-                "signingProviderPersonalId": "10987654321",
-                "signedAt": "2026-06-03T11:59:00Z",
+                "provider": {
+                    "providerPersonalId": "12345678910",
+                    "providerHprId": "987654321",
+                    "providerOfficeOrgNr": "12345",
+                    "providerOfficeHerId": "1234567",
+                    "providerOfficeOrgName": "Testedal Legesenter"
+                },
+                "signature": {
+                    "signingProviderPersonalId": "10987654321",
+                    "signedAt": "2026-06-03T11:59:00Z"
+                },
                 "documentIdNote": "OD2503016631907"
             }
             """.trimIndent()
@@ -188,13 +192,17 @@ class SchemaValidatorSpec : StringSpec(
                 },
                 "message": "Hei",
                 "numberOfAttachments": 1,
-                "providerPersonalId": "12345678910",
-                "providerHprId": "987654321",
-                "providerOfficeOrgNr": "12345",
-                "providerOfficeHerId": "1234567",
-                "providerOfficeOrgName": "Testedal Legesenter",
-                "signingProviderPersonalId": "10987654321",
-                "signedAt": "2026-06-03T11:59:00Z",
+                "provider": {
+                    "providerPersonalId": "12345678910",
+                    "providerHprId": "987654321",
+                    "providerOfficeOrgNr": "12345",
+                    "providerOfficeHerId": "1234567",
+                    "providerOfficeOrgName": "Testedal Legesenter"
+                },
+                "signature": {
+                    "signingProviderPersonalId": "10987654321",
+                    "signedAt": "2026-06-03T11:59:00Z"
+                },
                 "documentIdNote": "OD2503016631907"
             }
             """.trimIndent()
@@ -219,13 +227,17 @@ class SchemaValidatorSpec : StringSpec(
                 "message": "Hei",
                 "unexpected": "not allowed",
                 "numberOfAttachments": 1,
-                "providerPersonalId": "12345678910",
-                "providerHprId": "987654321",
-                "providerOfficeOrgNr": "12345",
-                "providerOfficeHerId": "1234567",
-                "providerOfficeOrgName": "Testedal Legesenter",
-                "signingProviderPersonalId": "10987654321",
-                "signedAt": "2026-06-03T11:59:00Z",
+                "provider": {
+                    "providerPersonalId": "12345678910",
+                    "providerHprId": "987654321",
+                    "providerOfficeOrgNr": "12345",
+                    "providerOfficeHerId": "1234567",
+                    "providerOfficeOrgName": "Testedal Legesenter"
+                },
+                "signature": {
+                    "signingProviderPersonalId": "10987654321",
+                    "signedAt": "2026-06-03T11:59:00Z"
+                },
                 "documentIdNote": "OD2503016631907"
             }
             """.trimIndent()
@@ -247,13 +259,17 @@ class SchemaValidatorSpec : StringSpec(
                 },
                 "message": "Hei",
                 "numberOfAttachments": 1,
-                "providerPersonalId": "12345678910",
-                "providerHprId": "987654321",
-                "providerOfficeOrgNr": "12345",
-                "providerOfficeHerId": "1234567",
-                "providerOfficeOrgName": "Testedal Legesenter",
-                "signingProviderPersonalId": "10987654321",
-                "signedAt": "2026-06-03T11:59:00Z",
+                "provider": {
+                    "providerPersonalId": "12345678910",
+                    "providerHprId": "987654321",
+                    "providerOfficeOrgNr": "12345",
+                    "providerOfficeHerId": "1234567",
+                    "providerOfficeOrgName": "Testedal Legesenter"
+                },
+                "signature": {
+                    "signingProviderPersonalId": "10987654321",
+                    "signedAt": "2026-06-03T11:59:00Z"
+                },
                 "documentIdNote": "OD2503016631907"
             }
             """.trimIndent()
