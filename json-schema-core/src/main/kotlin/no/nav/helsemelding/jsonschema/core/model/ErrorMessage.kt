@@ -20,7 +20,7 @@ data class ErrorMessage(
 
 @Serializable
 data class OriginalMessage(
-    val publishedAt: String, // Serializer?
+    val publishedAt: String,
     val payload: String
 )
 
