@@ -33,7 +33,7 @@ data class IncomingDialogMessage(
     @Description("Number of attachments")
     val numberOfAttachments: Int,
 
-    @Description("Information about the doctor specified in the message")
+    @Description("Information about the healthcare provider specified in the message")
     val provider: Provider,
 
     @Description("Information about the signature")
@@ -43,31 +43,31 @@ data class IncomingDialogMessage(
     val documentId: String
 )
 
-@Description("Information about the doctor specified in the message")
+@Description("Information about the healthcare provider specified in the message")
 @Schema
 @Serializable
 data class Provider(
-    @Description("National identity number (11 digits) of the doctor specified in the message")
+    @Description("National identity number (11 digits) of the healthcare provider specified in the message")
     val ident: String,
 
-    @Description("HPR-number of the doctor specified in the message in the Helsepersonellregisteret")
+    @Description("HPR-number in the Helsepersonellregisteret of the healthcare provider specified in the message")
     val hprNumber: String?,
 
-    @Description("Information about the provider office specified in the message")
+    @Description("Information about the healthcare provider's office specified in the message")
     val office: ProviderOffice
 )
 
-@Description("Information about the doctor's office specified in the message")
+@Description("Information about the healthcare provider's office specified in the message")
 @Schema
 @Serializable
 data class ProviderOffice(
-    @Description("Organisation number of the doctor's office in the Enhetsregisteret")
+    @Description("Organisation number in the Enhetsregisteret of the healthcare provider's office")
     val orgNumber: String?,
 
-    @Description("Name of the doctor's office")
+    @Description("Name of the healthcare provider's office")
     val orgName: String,
 
-    @Description("HER-id of the doctor's office in the Adresseregisteret")
+    @Description("HER-id in the Adresseregisteret of the healthcare provider's office")
     val herId: String?
 )
 
@@ -75,7 +75,7 @@ data class ProviderOffice(
 @Schema
 @Serializable
 data class Signature(
-    @Description("National identity number (11 digits) of the doctor who signed the message")
+    @Description("National identity number (11 digits) of the healthcare provider who signed the message")
     val signingProviderIdent: String,
 
     @Description("Date and time the message was signed")
