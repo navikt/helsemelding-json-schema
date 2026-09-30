@@ -288,5 +288,116 @@ class SchemaValidatorSpec : StringSpec(
             error.version shouldBe null
             error.errors shouldContain "Missing or invalid version field"
         }
+
+        "should accept valid error-message json" {
+            val json = """
+            {
+                "version": 1,
+                "processedAt": "2026-06-03T12:00:00Z",
+                "sourceSystem": "some-system",
+                "messageId": "86c61f31-44d4-47e8-a787-376297279505",
+                "errors": [
+                    {
+                        "category": "VALIDATION",
+                        "code": "INVALID_MESSAGE",
+                        "message": "Invalid message"
+                    }
+                ],
+                "originalMessage": {
+                    "publishedAt": "2026-06-03T11:00:00Z",
+                    "payload": "{\"message\":\"valid\"}"
+                }
+            }
+            """.trimIndent()
+
+            validator.validate(SchemaType.ERROR_MESSAGE, json).shouldBeRight(json)
+        }
+
+        "should reject missing required field for error-message" {
+            val json = """
+            {
+                "version": 1,
+                "processedAt": "2026-06-03T12:00:00Z",
+                "messageId": null,
+                "errors": [],
+                "originalMessage": null
+            }
+            """.trimIndent()
+
+            val error = validator.validate(SchemaType.ERROR_MESSAGE, json).shouldBeLeft()
+
+            error.schemaType shouldBe SchemaType.ERROR_MESSAGE
+            error.version shouldBe 1
+            error.errors.any { it.contains("sourceSystem") } shouldBe true
+        }
+
+        "should reject error-message with invalid UUID messageId" {
+            val json = """
+            {
+                "version": 1,
+                "processedAt": "2026-06-03T12:00:00Z",
+                "sourceSystem": "some-system",
+                "messageId": "invalid-message-id",
+                "errors": [],
+                "originalMessage": null
+            }
+            """.trimIndent()
+
+            val error = validator.validate(SchemaType.ERROR_MESSAGE, json).shouldBeLeft()
+
+            error.version shouldBe 1
+            error.errors.any { it.contains("pattern") } shouldBe true
+        }
+
+        "should reject additional properties for error-message" {
+            val json = """
+            {
+                "version": 1,
+                "processedAt": "2026-06-03T12:00:00Z",
+                "sourceSystem": "some-system",
+                "messageId": null,
+                "errors": [],
+                "originalMessage": null,
+                "unexpected": "not allowed"
+            }
+            """.trimIndent()
+
+            val error = validator.validate(SchemaType.ERROR_MESSAGE, json).shouldBeLeft()
+
+            error.schemaType shouldBe SchemaType.ERROR_MESSAGE
+            error.version shouldBe 1
+        }
+
+        "should reject unknown schema version for error-message" {
+            val json = """
+            {
+                "version": 999
+            }
+            """.trimIndent()
+
+            val error = validator.validate(SchemaType.ERROR_MESSAGE, json).shouldBeLeft()
+
+            error.schemaType shouldBe SchemaType.ERROR_MESSAGE
+            error.version shouldBe 999
+            error.errors shouldContain "Schema resource not found: error-message v999"
+        }
+
+        "should reject missing version field for error-message" {
+            val json = """
+            {
+                "processedAt": "2026-06-03T12:00:00Z",
+                "sourceSystem": "some-system",
+                "messageId": null,
+                "errors": [],
+                "originalMessage": null
+            }
+            """.trimIndent()
+
+            val error = validator.validate(SchemaType.ERROR_MESSAGE, json).shouldBeLeft()
+
+            error.schemaType shouldBe SchemaType.ERROR_MESSAGE
+            error.version shouldBe null
+            error.errors shouldContain "Missing or invalid version field"
+        }
     }
 )

@@ -16,10 +16,10 @@ class SchemaDocumentRepositorySpec : StringSpec(
         "should load schemas from resources" {
             val documents = JsonSchemaDocumentRepository().getAll()
 
-            documents shouldHaveSize 2
+            documents shouldHaveSize 3
 
             documents shouldContain SchemaDocument(
-                schemaType = SchemaType.INCOMING_DIALOG_MESSAGE,
+                schemaType = SchemaType.ERROR_MESSAGE,
                 version = 1,
                 schema = documents.first().schema
             )
@@ -46,6 +46,18 @@ class SchemaDocumentRepositorySpec : StringSpec(
             document.version shouldBe 1
             document.schema.contains("\"${'$'}schema\"") shouldBe true
             document.schema.contains("IncomingDialogMessage") shouldBe true
+            document.schema.contains("\"type\": \"object\"") shouldBe true
+        }
+
+        "should get error-message v1 schema" {
+            val document = JsonSchemaDocumentRepository()
+                .get(SchemaType.ERROR_MESSAGE, 1)
+                .shouldBeRight()
+
+            document.schemaType shouldBe SchemaType.ERROR_MESSAGE
+            document.version shouldBe 1
+            document.schema.contains("\"${'$'}schema\"") shouldBe true
+            document.schema.contains("ErrorMessage") shouldBe true
             document.schema.contains("\"type\": \"object\"") shouldBe true
         }
 

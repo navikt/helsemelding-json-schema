@@ -6,6 +6,7 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.put
+import no.nav.helsemelding.jsonschema.core.model.ErrorMessage
 import no.nav.helsemelding.jsonschema.core.model.IncomingDialogMessage
 import no.nav.helsemelding.jsonschema.core.model.OutgoingDialogMessage
 import no.nav.helsemelding.jsonschema.core.model.SchemaDefinition
@@ -28,7 +29,8 @@ fun main(args: Array<String>) {
 
     val schemas = listOf(
         outgoingDialogMessageSchemaDefinition(),
-        incomingDialogMessageSchemaDefinition()
+        incomingDialogMessageSchemaDefinition(),
+        errorMessageSchemaDefinition()
     )
 
     schemas.forEach { schema ->
@@ -72,4 +74,11 @@ private fun incomingDialogMessageSchemaDefinition(): SchemaDefinition = SchemaDe
     version = IncomingDialogMessage::class.findAnnotation<SchemaVersion>()?.value
         ?: error("Missing @SchemaVersion on ${IncomingDialogMessage::class.qualifiedName}"),
     schema = IncomingDialogMessage::class.jsonSchemaString
+)
+
+private fun errorMessageSchemaDefinition(): SchemaDefinition = SchemaDefinition(
+    fileName = "error-message",
+    version = ErrorMessage::class.findAnnotation<SchemaVersion>()?.value
+        ?: error("Missing @SchemaVersion on ${ErrorMessage::class.qualifiedName}"),
+    schema = ErrorMessage::class.jsonSchemaString.withUuidDefinition()
 )
