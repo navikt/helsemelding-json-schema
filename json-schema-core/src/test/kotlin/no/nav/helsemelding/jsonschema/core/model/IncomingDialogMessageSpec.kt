@@ -19,16 +19,26 @@ class IncomingDialogMessageSpec : StringSpec(
                     "type": "PATIENT_REQUEST_RESPONSE",
                     "receivedAt": "2026-06-03T12:00:00Z",
                     "patientIdent": "12345678910",
-                    "sender": {
-                        "providerId": "provider-id",
-                        "signingProviderId": "signing-provider-id"
-                    },
                     "conversationReference": {
                         "parentMessageId": "parent-message-id",
                         "conversationId": "conversation-id"
                     },
                     "message": "Svar paa forespoersel",
-                    "numberOfAttachments": 1
+                    "numberOfAttachments": 1,
+                    "provider": {
+                        "ident": "12345678910",
+                        "hprNumber": "987654321",
+                        "office": {
+                            "orgNumber": "12345",
+                            "orgName": "Testedal Legesenter",
+                            "herId": "1234567"
+                        }
+                    },
+                    "signature": {
+                        "signingProviderIdent": "10987654321",
+                        "signedAt": "2026-06-03T11:59:00Z"
+                    },
+                    "documentId": "OD2503016631907"
                 }
                 """.trimIndent()
             )
@@ -43,16 +53,26 @@ class IncomingDialogMessageSpec : StringSpec(
                     "type": "PATIENT_REQUEST_RESPONSE",
                     "receivedAt": "2026-06-03T12:00:00Z",
                     "patientIdent": "12345678910",
-                    "sender": {
-                        "providerId": "provider-id",
-                        "signingProviderId": "signing-provider-id"
-                    },
                     "conversationReference": {
                         "parentMessageId": "parent-message-id",
                         "conversationId": "conversation-id"
                     },
                     "message": "Svar paa forespoersel",
-                    "numberOfAttachments": 1
+                    "numberOfAttachments": 1,
+                    "provider": {
+                        "ident": "12345678910",
+                        "hprNumber": "987654321",
+                        "office": {
+                            "orgNumber": "12345",
+                            "orgName": "Testedal Legesenter",
+                            "herId": "1234567"
+                        }
+                    },
+                    "signature": {
+                        "signingProviderIdent": "10987654321",
+                        "signedAt": "2026-06-03T11:59:00Z"
+                    },
+                    "documentId": "OD2503016631907"
                 }
                 """.trimIndent()
             )
@@ -76,13 +96,23 @@ class IncomingDialogMessageSpec : StringSpec(
                     "type": "PATIENT_REQUEST_RESPONSE",
                     "receivedAt": "2026-06-03T12:00:00Z",
                     "patientIdent": "12345678910",
-                    "sender": {
-                        "providerId": "provider-id",
-                        "signingProviderId": "signing-provider-id"
-                    },
                     "conversationReference": null,
                     "message": null,
-                    "numberOfAttachments": 1
+                    "numberOfAttachments": 1,
+                    "provider": {
+                        "ident": "12345678910",
+                        "hprNumber": "987654321",
+                        "office": {
+                            "orgNumber": "12345",
+                            "orgName": "Testedal Legesenter",
+                            "herId": "1234567"
+                        }
+                    },
+                    "signature": {
+                        "signingProviderIdent": "10987654321",
+                        "signedAt": "2026-06-03T11:59:00Z"
+                    },
+                    "documentId": "OD2503016631907"
                 }
                 """.trimIndent()
             )
@@ -102,11 +132,21 @@ private fun incomingDialogMessage(
     type = IncomingDialogMessageType.PATIENT_REQUEST_RESPONSE,
     receivedAt = "2026-06-03T12:00:00Z",
     patientIdent = "12345678910",
-    sender = Sender(
-        providerId = "provider-id",
-        signingProviderId = "signing-provider-id"
-    ),
     conversationReference = conversationReference,
     message = message,
-    numberOfAttachments = 1
+    numberOfAttachments = 1,
+    provider = Provider(
+        ident = "12345678910",
+        hprNumber = "987654321",
+        office = ProviderOffice(
+            orgNumber = "12345",
+            orgName = "Testedal Legesenter",
+            herId = "1234567"
+        )
+    ),
+    signature = Signature(
+        signingProviderIdent = "10987654321",
+        signedAt = "2026-06-03T11:59:00Z"
+    ),
+    documentId = "OD2503016631907"
 )

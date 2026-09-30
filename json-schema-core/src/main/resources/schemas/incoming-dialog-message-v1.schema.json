@@ -24,10 +24,6 @@
             "type": "string",
             "description": "National identity number (11 digits) of the patient"
         },
-        "sender": {
-            "$ref": "#/$defs/no.nav.helsemelding.jsonschema.core.model.Sender",
-            "description": "Sender of the dialog message"
-        },
         "conversationReference": {
             "oneOf": [
                 {
@@ -49,6 +45,18 @@
         "numberOfAttachments": {
             "type": "integer",
             "description": "Number of attachments"
+        },
+        "provider": {
+            "$ref": "#/$defs/no.nav.helsemelding.jsonschema.core.model.Provider",
+            "description": "Information about the healthcare provider specified in the message"
+        },
+        "signature": {
+            "$ref": "#/$defs/no.nav.helsemelding.jsonschema.core.model.Signature",
+            "description": "Information about the signature"
+        },
+        "documentId": {
+            "type": "string",
+            "description": "Document ID of the message in the document archive"
         }
     },
     "additionalProperties": false,
@@ -58,10 +66,12 @@
         "type",
         "receivedAt",
         "patientIdent",
-        "sender",
         "conversationReference",
         "message",
-        "numberOfAttachments"
+        "numberOfAttachments",
+        "provider",
+        "signature",
+        "documentId"
     ],
     "$defs": {
         "no.nav.helsemelding.jsonschema.core.model.IncomingDialogMessageType": {
@@ -74,25 +84,6 @@
                 "SICK_LEAVE_FOLLOW_UP_INQUIRY",
                 "PATIENT_INQUIRY"
             ]
-        },
-        "no.nav.helsemelding.jsonschema.core.model.Sender": {
-            "type": "object",
-            "description": "Information about the sender",
-            "properties": {
-                "providerId": {
-                    "type": "string",
-                    "description": "Reference id in the provider registry for the healthcare provider"
-                },
-                "signingProviderId": {
-                    "type": "string",
-                    "description": "Reference id in the provider registry for the healthcare provider who signed the message"
-                }
-            },
-            "required": [
-                "providerId",
-                "signingProviderId"
-            ],
-            "additionalProperties": false
         },
         "no.nav.helsemelding.jsonschema.core.model.ConversationReference": {
             "type": "object",
@@ -110,6 +101,82 @@
             "required": [
                 "parentMessageId",
                 "conversationId"
+            ],
+            "additionalProperties": false
+        },
+        "no.nav.helsemelding.jsonschema.core.model.Provider": {
+            "type": "object",
+            "description": "Information about the healthcare provider specified in the message",
+            "properties": {
+                "ident": {
+                    "type": "string",
+                    "description": "National identity number (11 digits) of the healthcare provider specified in the message"
+                },
+                "hprNumber": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "description": "HPR-number in the Helsepersonellregisteret of the healthcare provider specified in the message"
+                },
+                "office": {
+                    "$ref": "#/$defs/no.nav.helsemelding.jsonschema.core.model.ProviderOffice",
+                    "description": "Information about the healthcare provider's office specified in the message"
+                }
+            },
+            "required": [
+                "ident",
+                "hprNumber",
+                "office"
+            ],
+            "additionalProperties": false
+        },
+        "no.nav.helsemelding.jsonschema.core.model.ProviderOffice": {
+            "type": "object",
+            "description": "Information about the healthcare provider's office specified in the message",
+            "properties": {
+                "orgNumber": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "description": "Organisation number in the Enhetsregisteret of the healthcare provider's office"
+                },
+                "orgName": {
+                    "type": "string",
+                    "description": "Name of the healthcare provider's office"
+                },
+                "herId": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "description": "HER-id in the Adresseregisteret of the healthcare provider's office"
+                }
+            },
+            "required": [
+                "orgNumber",
+                "orgName",
+                "herId"
+            ],
+            "additionalProperties": false
+        },
+        "no.nav.helsemelding.jsonschema.core.model.Signature": {
+            "type": "object",
+            "description": "Information about the signature",
+            "properties": {
+                "signingProviderIdent": {
+                    "type": "string",
+                    "description": "National identity number (11 digits) of the healthcare provider who signed the message"
+                },
+                "signedAt": {
+                    "type": "string",
+                    "description": "Date and time the message was signed"
+                }
+            },
+            "required": [
+                "signingProviderIdent",
+                "signedAt"
             ],
             "additionalProperties": false
         }
