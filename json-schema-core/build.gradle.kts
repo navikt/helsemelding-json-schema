@@ -45,12 +45,16 @@ tasks.register<JavaExec>("publishJsonSchemas") {
     )
 }
 
+java {
+    withSourcesJar()
+}
+
 publishing {
     publications {
         create<MavenPublication>("mavenJava") {
             groupId = "no.nav.helsemelding"
             artifactId = "json-schema-core"
-            version = "0.0.6"
+            version = "0.0.7"
             from(components["java"])
         }
     }
