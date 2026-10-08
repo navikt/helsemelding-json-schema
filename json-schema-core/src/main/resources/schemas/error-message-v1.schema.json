@@ -1,0 +1,116 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "no.nav.helsemelding.jsonschema.core.model.ErrorMessage",
+    "description": "An error message",
+    "type": "object",
+    "properties": {
+        "version": {
+            "description": "The current schema version",
+            "type": "integer"
+        },
+        "processedAt": {
+            "type": "string"
+        },
+        "sourceSystem": {
+            "type": "string"
+        },
+        "messageId": {
+            "oneOf": [
+                {
+                    "type": "null"
+                },
+                {
+                    "$ref": "#/$defs/kotlin.uuid.Uuid"
+                }
+            ]
+        },
+        "errors": {
+            "type": "array",
+            "items": {
+                "$ref": "#/$defs/no.nav.helsemelding.jsonschema.core.model.ProcessingError"
+            }
+        },
+        "originalMessage": {
+            "oneOf": [
+                {
+                    "type": "null"
+                },
+                {
+                    "$ref": "#/$defs/no.nav.helsemelding.jsonschema.core.model.OriginalMessage"
+                }
+            ]
+        }
+    },
+    "additionalProperties": false,
+    "required": [
+        "version",
+        "processedAt",
+        "sourceSystem",
+        "messageId",
+        "errors",
+        "originalMessage"
+    ],
+    "$defs": {
+        "kotlin.uuid.Uuid": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+        },
+        "no.nav.helsemelding.jsonschema.core.model.ProcessingError": {
+            "type": "object",
+            "properties": {
+                "category": {
+                    "$ref": "#/$defs/no.nav.helsemelding.jsonschema.core.model.ErrorCategory"
+                },
+                "code": {
+                    "$ref": "#/$defs/no.nav.helsemelding.jsonschema.core.model.ErrorCode"
+                },
+                "message": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "category",
+                "code",
+                "message"
+            ],
+            "additionalProperties": false
+        },
+        "no.nav.helsemelding.jsonschema.core.model.ErrorCategory": {
+            "type": "string",
+            "enum": [
+                "VALIDATION",
+                "CONVERSION",
+                "SIGNING"
+            ]
+        },
+        "no.nav.helsemelding.jsonschema.core.model.ErrorCode": {
+            "type": "string",
+            "enum": [
+                "INVALID_KAFKA_VALUE",
+                "MISSING_SOURCE_SYSTEM_HEADER",
+                "INVALID_MESSAGE",
+                "CONVERSION_ERROR",
+                "PDL_ERROR",
+                "PROVIDER_REGISTRY_ERROR",
+                "SIGNING_ERROR"
+            ]
+        },
+        "no.nav.helsemelding.jsonschema.core.model.OriginalMessage": {
+            "type": "object",
+            "properties": {
+                "publishedAt": {
+                    "type": "string"
+                },
+                "payload": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "publishedAt",
+                "payload"
+            ],
+            "additionalProperties": false
+        }
+    }
+}
