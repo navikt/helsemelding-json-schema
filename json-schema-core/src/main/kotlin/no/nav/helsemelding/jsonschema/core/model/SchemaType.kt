@@ -2,7 +2,8 @@ package no.nav.helsemelding.jsonschema.core.model
 
 enum class SchemaType {
     OUTGOING_DIALOG_MESSAGE,
-    INCOMING_DIALOG_MESSAGE;
+    INCOMING_DIALOG_MESSAGE,
+    ERROR_MESSAGE;
 
     override fun toString(): String = name.lowercase().replace('_', '-')
 
