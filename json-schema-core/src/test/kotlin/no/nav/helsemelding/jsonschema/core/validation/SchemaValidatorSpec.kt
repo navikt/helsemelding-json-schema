@@ -3,6 +3,7 @@ package no.nav.helsemelding.jsonschema.core.validation
 import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.core.spec.style.StringSpec
+import io.kotest.datatest.withData
 import io.kotest.matchers.collections.shouldContain
 import io.kotest.matchers.shouldBe
 import no.nav.helsemelding.jsonschema.core.model.SchemaType
@@ -311,6 +312,33 @@ class SchemaValidatorSpec : StringSpec(
             """.trimIndent()
 
             validator.validate(SchemaType.ERROR_MESSAGE, json).shouldBeRight(json)
+        }
+
+        withData(
+            nameFn = { "should reject error-message with invalid publishedAt ${it.first}" },
+            "date-time" to "not-a-date",
+            "missing time zone" to "2026-06-03T11:00:00"
+        ) {
+            val dateString = it.second
+            val json = """
+            {
+                "version": 1,
+                "processedAt": "2026-06-03T12:00:00Z",
+                "sourceSystem": "some-system",
+                "messageId": "86c61f31-44d4-47e8-a787-376297279505",
+                "errors": [],
+                "originalMessage": {
+                    "publishedAt": "$dateString",
+                    "payload": "{\"message\":\"valid\"}"
+                }
+            }
+            """.trimIndent()
+
+            val error = validator.validate(SchemaType.ERROR_MESSAGE, json).shouldBeLeft()
+
+            error.schemaType shouldBe SchemaType.ERROR_MESSAGE
+            error.version shouldBe 1
+            error.errors.any { it.contains("date-time") } shouldBe true
         }
 
         "should reject missing required field for error-message" {

@@ -1,18 +1,21 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "$id": "no.nav.helsemelding.jsonschema.core.model.ErrorMessage",
-    "description": "An error message",
+    "description": "An error when message couldn't be delivered",
     "type": "object",
     "properties": {
         "version": {
-            "description": "The current schema version",
-            "type": "integer"
+            "type": "integer",
+            "description": "The current schema version"
         },
         "processedAt": {
-            "type": "string"
+            "description": "Date and time the dialog message was processed (UTC)",
+            "type": "string",
+            "format": "date-time"
         },
         "sourceSystem": {
-            "type": "string"
+            "type": "string",
+            "description": "Value of the sourceSystem header from the rejected record"
         },
         "messageId": {
             "oneOf": [
@@ -22,10 +25,12 @@
                 {
                     "$ref": "#/$defs/kotlin.uuid.Uuid"
                 }
-            ]
+            ],
+            "description": "Unique identifier of the dialog message"
         },
         "errors": {
             "type": "array",
+            "description": "List of possible errors when processing the message",
             "items": {
                 "$ref": "#/$defs/no.nav.helsemelding.jsonschema.core.model.ProcessingError"
             }
@@ -38,7 +43,8 @@
                 {
                     "$ref": "#/$defs/no.nav.helsemelding.jsonschema.core.model.OriginalMessage"
                 }
-            ]
+            ],
+            "description": "Information about the original message"
         }
     },
     "additionalProperties": false,
@@ -58,15 +64,19 @@
         },
         "no.nav.helsemelding.jsonschema.core.model.ProcessingError": {
             "type": "object",
+            "description": "Error when processing a message",
             "properties": {
                 "category": {
-                    "$ref": "#/$defs/no.nav.helsemelding.jsonschema.core.model.ErrorCategory"
+                    "$ref": "#/$defs/no.nav.helsemelding.jsonschema.core.model.ErrorCategory",
+                    "description": "Error category"
                 },
                 "code": {
-                    "$ref": "#/$defs/no.nav.helsemelding.jsonschema.core.model.ErrorCode"
+                    "$ref": "#/$defs/no.nav.helsemelding.jsonschema.core.model.ErrorCode",
+                    "description": "Machine-readable error code"
                 },
                 "message": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Human-readable error description"
                 }
             },
             "required": [
@@ -91,6 +101,7 @@
                 "MISSING_SOURCE_SYSTEM_HEADER",
                 "INVALID_MESSAGE",
                 "CONVERSION_ERROR",
+                "MESSAGE_ID_EXTRACTION_ERROR",
                 "PDL_ERROR",
                 "PROVIDER_REGISTRY_ERROR",
                 "SIGNING_ERROR"
@@ -98,12 +109,16 @@
         },
         "no.nav.helsemelding.jsonschema.core.model.OriginalMessage": {
             "type": "object",
+            "description": "Information about the original message",
             "properties": {
                 "publishedAt": {
-                    "type": "string"
+                    "description": "Date and time the dialog message was published (UTC)",
+                    "type": "string",
+                    "format": "date-time"
                 },
                 "payload": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Original record (JSON) published to helsemelding.dialog.out"
                 }
             },
             "required": [
