@@ -25,6 +25,14 @@ Published schema (*.schema.json)
 
 Published schemas are committed to source control and represent the official contract.
 
+## Available Schema Types
+
+The module currently provides these schema types:
+
+* `outgoing-dialog-message`
+* `incoming-dialog-message`
+* `error-message`
+
 ## Publishing a New Schema Version
 
 1. Update the schema model

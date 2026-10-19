@@ -2,10 +2,14 @@ package no.nav.helsemelding.jsonschema.core
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.put
+import no.nav.helsemelding.jsonschema.core.model.ErrorMessage
 import no.nav.helsemelding.jsonschema.core.model.IncomingDialogMessage
 import no.nav.helsemelding.jsonschema.core.model.OutgoingDialogMessage
 import no.nav.helsemelding.jsonschema.core.model.SchemaDefinition
@@ -19,6 +23,8 @@ import kotlin.reflect.full.findAnnotation
 
 private val log = KotlinLogging.logger {}
 private val prettyJson = Json { prettyPrint = true }
+private const val KOTLIN_INSTANT_DEFINITION = "kotlin.time.Instant"
+private const val KOTLIN_INSTANT_REF = "#/\$defs/$KOTLIN_INSTANT_DEFINITION"
 
 fun main(args: Array<String>) {
     require(args.size == 1) { "Expected output directory as first argument" }
@@ -28,7 +34,8 @@ fun main(args: Array<String>) {
 
     val schemas = listOf(
         outgoingDialogMessageSchemaDefinition(),
-        incomingDialogMessageSchemaDefinition()
+        incomingDialogMessageSchemaDefinition(),
+        errorMessageSchemaDefinition()
     )
 
     schemas.forEach { schema ->
@@ -73,3 +80,39 @@ private fun incomingDialogMessageSchemaDefinition(): SchemaDefinition = SchemaDe
         ?: error("Missing @SchemaVersion on ${IncomingDialogMessage::class.qualifiedName}"),
     schema = IncomingDialogMessage::class.jsonSchemaString
 )
+
+private fun errorMessageSchemaDefinition(): SchemaDefinition = SchemaDefinition(
+    fileName = "error-message",
+    version = ErrorMessage::class.findAnnotation<SchemaVersion>()?.value
+        ?: error("Missing @SchemaVersion on ${ErrorMessage::class.qualifiedName}"),
+    schema = ErrorMessage::class.jsonSchemaString
+        .withUuidDefinition()
+        .withDateTimeFormat()
+)
+
+private fun String.withDateTimeFormat(): String {
+    val schema = Json.parseToJsonElement(this).normalizeInstantReferences().jsonObject
+    val definitions = schema.getValue("\$defs").jsonObject
+    val normalizedSchema = JsonObject(
+        schema + ("\$defs" to JsonObject(definitions - KOTLIN_INSTANT_DEFINITION))
+    )
+
+    return prettyJson.encodeToString(normalizedSchema)
+}
+
+private fun JsonElement.normalizeInstantReferences(): JsonElement = when (this) {
+    is JsonObject -> {
+        if (get("\$ref") == JsonPrimitive(KOTLIN_INSTANT_REF)) {
+            JsonObject(
+                this - "\$ref" +
+                    ("type" to JsonPrimitive("string")) +
+                    ("format" to JsonPrimitive("date-time"))
+            )
+        } else {
+            JsonObject(mapValues { (_, value) -> value.normalizeInstantReferences() })
+        }
+    }
+
+    is JsonArray -> JsonArray(map { it.normalizeInstantReferences() })
+    else -> this
+}
