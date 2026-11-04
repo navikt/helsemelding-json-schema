@@ -91,7 +91,8 @@
             "enum": [
                 "VALIDATION",
                 "CONVERSION",
-                "SIGNING"
+                "SIGNING",
+                "DELIVERY"
             ]
         },
         "no.nav.helsemelding.jsonschema.core.model.ErrorCode": {
@@ -104,7 +105,9 @@
                 "MESSAGE_ID_EXTRACTION_ERROR",
                 "PDL_ERROR",
                 "PROVIDER_REGISTRY_ERROR",
-                "SIGNING_ERROR"
+                "SIGNING_ERROR",
+                "METADATA_EXTRACTION_ERROR",
+                "NHN_SEND_ERROR"
             ]
         },
         "no.nav.helsemelding.jsonschema.core.model.OriginalMessage": {

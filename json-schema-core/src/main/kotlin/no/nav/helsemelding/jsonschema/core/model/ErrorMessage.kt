@@ -59,7 +59,8 @@ data class ProcessingError(
 enum class ErrorCategory {
     VALIDATION,
     CONVERSION,
-    SIGNING
+    SIGNING,
+    DELIVERY
 }
 
 @Serializable
@@ -71,5 +72,7 @@ enum class ErrorCode {
     MESSAGE_ID_EXTRACTION_ERROR,
     PDL_ERROR,
     PROVIDER_REGISTRY_ERROR,
-    SIGNING_ERROR
+    SIGNING_ERROR,
+    METADATA_EXTRACTION_ERROR,
+    NHN_SEND_ERROR
 }
