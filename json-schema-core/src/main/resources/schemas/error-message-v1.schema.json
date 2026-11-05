@@ -107,7 +107,7 @@
                 "PROVIDER_REGISTRY_ERROR",
                 "SIGNING_ERROR",
                 "METADATA_EXTRACTION_ERROR",
-                "NHN_SEND_ERROR"
+                "SEND_ERROR"
             ]
         },
         "no.nav.helsemelding.jsonschema.core.model.OriginalMessage": {
