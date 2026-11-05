@@ -4,10 +4,23 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import kotlinx.serialization.json.Json
+import no.nav.helsemelding.jsonschema.core.outgoingDialogMessageSchemaDefinition
 import kotlin.uuid.Uuid
 
 class OutgoingDialogMessageSpec : StringSpec(
     {
+        "should keep the published JSON-schema in sync with OutgoingDialogMessage model" {
+            val definition = outgoingDialogMessageSchemaDefinition()
+            val publishedSchema = Json.parseToJsonElement(
+                checkNotNull(
+                    javaClass.getResource("/schemas/${definition.fileName}-v${definition.version}.schema.json")
+                )
+                    .readText()
+            )
+
+            publishedSchema shouldBe Json.parseToJsonElement(definition.schema)
+        }
+
         "should serialize outgoing dialog message" {
             val message = outgoingDialogMessage()
 
