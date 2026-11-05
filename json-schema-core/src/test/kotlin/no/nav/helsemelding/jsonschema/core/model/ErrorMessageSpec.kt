@@ -5,6 +5,7 @@ import io.kotest.matchers.shouldBe
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
+import no.nav.helsemelding.jsonschema.core.errorMessageSchemaDefinition
 import kotlin.time.Instant
 import kotlin.uuid.Uuid
 
@@ -103,6 +104,18 @@ class ErrorMessageSpec : StringSpec(
                 .getValue("processedAt").jsonObject
                 .getValue("description").jsonPrimitive.content shouldBe
                 "Date and time the dialog message was processed (UTC)"
+        }
+
+        "should keep the published JSON-schema in sync with ErrorMessage model" {
+            val definition = errorMessageSchemaDefinition()
+            val publishedSchema = Json.parseToJsonElement(
+                checkNotNull(
+                    javaClass.getResource("/schemas/${definition.fileName}-v${definition.version}.schema.json")
+                )
+                    .readText()
+            )
+
+            publishedSchema shouldBe Json.parseToJsonElement(definition.schema)
         }
     }
 )

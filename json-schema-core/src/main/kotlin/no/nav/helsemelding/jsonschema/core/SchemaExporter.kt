@@ -49,7 +49,7 @@ fun main(args: Array<String>) {
     }
 }
 
-private fun outgoingDialogMessageSchemaDefinition(): SchemaDefinition = SchemaDefinition(
+internal fun outgoingDialogMessageSchemaDefinition(): SchemaDefinition = SchemaDefinition(
     fileName = "outgoing-dialog-message",
     version = OutgoingDialogMessage::class.findAnnotation<SchemaVersion>()?.value
         ?: error("Missing @SchemaVersion on ${OutgoingDialogMessage::class.qualifiedName}"),
@@ -74,14 +74,14 @@ private fun String.withUuidDefinition(): String {
     return prettyJson.encodeToString(normalizedSchema)
 }
 
-private fun incomingDialogMessageSchemaDefinition(): SchemaDefinition = SchemaDefinition(
+internal fun incomingDialogMessageSchemaDefinition(): SchemaDefinition = SchemaDefinition(
     fileName = "incoming-dialog-message",
     version = IncomingDialogMessage::class.findAnnotation<SchemaVersion>()?.value
         ?: error("Missing @SchemaVersion on ${IncomingDialogMessage::class.qualifiedName}"),
     schema = IncomingDialogMessage::class.jsonSchemaString
 )
 
-private fun errorMessageSchemaDefinition(): SchemaDefinition = SchemaDefinition(
+internal fun errorMessageSchemaDefinition(): SchemaDefinition = SchemaDefinition(
     fileName = "error-message",
     version = ErrorMessage::class.findAnnotation<SchemaVersion>()?.value
         ?: error("Missing @SchemaVersion on ${ErrorMessage::class.qualifiedName}"),

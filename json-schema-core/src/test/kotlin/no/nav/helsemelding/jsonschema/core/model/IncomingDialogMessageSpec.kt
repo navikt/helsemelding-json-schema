@@ -3,9 +3,22 @@ package no.nav.helsemelding.jsonschema.core.model
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import kotlinx.serialization.json.Json
+import no.nav.helsemelding.jsonschema.core.incomingDialogMessageSchemaDefinition
 
 class IncomingDialogMessageSpec : StringSpec(
     {
+        "should keep the published JSON-schema in sync with IncomingDialogMessage model" {
+            val definition = incomingDialogMessageSchemaDefinition()
+            val publishedSchema = Json.parseToJsonElement(
+                checkNotNull(
+                    javaClass.getResource("/schemas/${definition.fileName}-v${definition.version}.schema.json")
+                )
+                    .readText()
+            )
+
+            publishedSchema shouldBe Json.parseToJsonElement(definition.schema)
+        }
+
         "should serialize incoming dialog message" {
             val message = incomingDialogMessage()
 
